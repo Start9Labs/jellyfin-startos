@@ -64,12 +64,15 @@ ENV HEALTHCHECK_URL=http://localhost:8096/health
 COPY --from=builder /jellyfin /jellyfin
 COPY --from=web-builder /dist /jellyfin/jellyfin-web
 
+ADD docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
+RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+
 EXPOSE 8096
 VOLUME /cache /config
-ENTRYPOINT ["./jellyfin/jellyfin", \
-    "--datadir", "/config", \
-    "--cachedir", "/cache", \
-    "--ffmpeg", "/usr/bin/ffmpeg"]
+# ENTRYPOINT ["./jellyfin/jellyfin", \
+#     "--datadir", "/config", \
+#     "--cachedir", "/cache", \
+#     "--ffmpeg", "/usr/bin/ffmpeg"]
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
      CMD curl -Lk "${HEALTHCHECK_URL}" || exit 1

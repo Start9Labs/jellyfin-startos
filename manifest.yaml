@@ -85,12 +85,12 @@ interfaces:
     tor-config:
     # Port mappings are from the external port to the internal container port
       port-mapping:
-        80: "80"
+        80: "8096"
     # Port mappings are from the external port to the internal container port
     lan-config:
       443:
         ssl: true
-        internal: 80
+        internal: 8096
     # Denotes if the service has a user interface to display
     ui: true
     # Denotes the protocol specifications used by this interface
@@ -134,7 +134,7 @@ backup:
       - /root/data
     mounts:
       BACKUP: "/mnt/backup"
-      main: "/root/data"
+      main: "/jellyfin/main"
 migrations:
   from:
     "*":
