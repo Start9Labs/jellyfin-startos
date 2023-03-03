@@ -66,8 +66,8 @@ main:
     main: /root
     filebrowser: /mnt/filebrowser
     # nextcloud: /mnt/nextcloud
-    db: /var/lib/postgresql/14
-    dbconfig: /etc/postgresql/14
+    cache: /cache
+    config: /config
 # This is where health checks would be defined - see a more advanced example in https://github.com/Start9Labs/embassy-pages-wrapper
 health-checks: {}
   # interface:
@@ -94,9 +94,13 @@ volumes:
   #   volume-id: main
   #   path: /data
   #   readonly: false
-  db:
+  # db:
+  #   type: data
+  # dbconfig:
+  #   type: data
+  cache: 
     type: data
-  dbconfig:
+  config:
     type: data
   # compat:
   #   type: assets

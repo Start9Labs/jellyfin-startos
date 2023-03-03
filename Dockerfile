@@ -15,12 +15,6 @@ RUN apk add curl git zlib zlib-dev autoconf g++ make libpng-dev gifsicle alpine-
  && npm ci --no-audit --unsafe-perm \
  && mv dist /dist
 
-ENV POSTGRES_DATADIR "/var/lib/postgresql/14"
-ENV POSTGRES_CONFIG="/etc/postgresql/14"
-
-VOLUME $POSTGRES_DATADIR
-VOLUME $POSTGRES_CONFIG
-
 FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
 FROM arm64v8/debian:stable-slim as app
 
