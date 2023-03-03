@@ -10,8 +10,16 @@ ARG JELLYFIN_WEB_VERSION=master
 RUN apk add curl git zlib zlib-dev autoconf g++ make libpng-dev gifsicle alpine-sdk automake libtool make gcc musl-dev nasm python3 \
  && curl -L https://github.com/jellyfin/jellyfin-web/archive/${JELLYFIN_WEB_VERSION}.tar.gz | tar zxf - \
  && cd jellyfin-web-* \
+ && npm config set fetch-retry-mintimeout 20000 \
+ && npm config set fetch-retry-maxtimeout 120000 \
  && npm ci --no-audit --unsafe-perm \
  && mv dist /dist
+
+ENV POSTGRES_DATADIR "/var/lib/postgresql/14"
+ENV POSTGRES_CONFIG="/etc/postgresql/14"
+
+VOLUME $POSTGRES_DATADIR
+VOLUME $POSTGRES_CONFIG
 
 FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
 FROM arm64v8/debian:stable-slim as app

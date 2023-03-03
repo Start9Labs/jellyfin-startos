@@ -64,8 +64,16 @@ main:
   mounts:
     # Specifies where on the service's file system its persistence directory should be mounted prior to service startup
     main: /root
+    filebrowser: /mnt/filebrowser
+    # nextcloud: /mnt/nextcloud
+    db: /var/lib/postgresql/14
+    dbconfig: /etc/postgresql/14
 # This is where health checks would be defined - see a more advanced example in https://github.com/Start9Labs/embassy-pages-wrapper
 health-checks: {}
+  # interface:
+  # name: Web UI
+  # success-message: Ready to be visited in a web browser
+  # type: script
 config: ~
 properties: ~
 #  type: script
@@ -74,6 +82,24 @@ volumes:
   # This is the image where files from the project asset directory will go
   main:
     type: data
+  filebrowser:
+    type: pointer
+    package-id: filebrowser
+    volume-id: main
+    path: /data
+    readonly: false
+  # nextcloud:
+  #   type: pointer
+  #   package-id: nextcloud
+  #   volume-id: main
+  #   path: /data
+  #   readonly: false
+  db:
+    type: data
+  dbconfig:
+    type: data
+  # compat:
+  #   type: assets
 # This specifies how to configure the port mapping for exposing the service over TOR and LAN (if applicable). Many interfaces can be specified depending on the needs of the service. If it can be launched over a Local Area Network connection, specify a `lan-config`. Otherwise, at minimum, a `tor-config` must be specified.
 interfaces:
   # This key is the internal name that the OS will use to configure the interface
@@ -97,7 +123,20 @@ interfaces:
     protocols:
       - tcp
       - http
-dependencies: {}
+dependencies:
+  filebrowser:
+    version: "^2.14.1.1"
+    description: Used to get media from File Browser
+    requirement:
+      type: required
+      # how: Can alternatively use Nextcloud for file storage
+  # nextcloud:
+  #   version: "^25.0.2"
+  #   description: Used to get media from Nextcloud
+  #   requirement:
+  #     type: opt-in
+  #     how: Can alternatively use Filebrowser for file storage
+
 # Specifies how backups should be run for this service. The default EmbassyOS provided option is to use the duplicity backup library on a system image (compat)
 backup:
   create:
