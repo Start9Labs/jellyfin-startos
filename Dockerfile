@@ -38,6 +38,8 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
  libomxil-bellagio-bin \
  locales \
  curl \
+ wget \
+ jq \
  && apt-get clean autoclean -y \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/* \
@@ -61,6 +63,9 @@ RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" 
 
 FROM app
 
+ARG PLATFORM
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} && chmod +x /usr/local/bin/yq
+
 ENV HEALTHCHECK_URL=http://localhost:8096/health
 
 COPY --from=builder /jellyfin /jellyfin
@@ -78,3 +83,7 @@ VOLUME /cache /config
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
      CMD curl -Lk "${HEALTHCHECK_URL}" || exit 1
+
+# health check
+ADD ./check-web.sh /usr/local/bin/check-web.sh
+RUN chmod a+x /usr/local/bin/check-web.sh

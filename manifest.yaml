@@ -63,18 +63,28 @@ main:
   # Specifies where to mount the data volume(s), if there are any. Mounts for pointer dependency volumes are also denoted here. These are necessary if data needs to be read from / written to these volumes. 
   mounts:
     # Specifies where on the service's file system its persistence directory should be mounted prior to service startup
-    main: /root
+    main: /jellyfin/main
     filebrowser: /mnt/filebrowser
     # nextcloud: /mnt/nextcloud
     cache: /cache
     config: /config
+    data: /jellyfin/data
 # This is where health checks would be defined - see a more advanced example in https://github.com/Start9Labs/embassy-pages-wrapper
-health-checks: {}
-  # interface:
-  # name: Web UI
-  # success-message: Ready to be visited in a web browser
-  # type: script
-config: ~
+health-checks:
+  main:
+    name: Web Interface
+    success-message: Jellyfin is ready to be visited in your browser.
+    type: docker
+    image: main
+    entrypoint: check-web.sh
+    args: []
+    io-format: json
+    inject: true
+config:
+  get:
+    type: script
+  set:
+    type: script
 properties: ~
 #  type: script
 # This denotes any data, asset, or pointer volumes that should be connected when the "docker run" command is invoked
@@ -101,6 +111,8 @@ volumes:
   cache: 
     type: data
   config:
+    type: data
+  data:
     type: data
   # compat:
   #   type: assets
