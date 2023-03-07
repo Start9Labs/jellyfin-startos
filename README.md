@@ -1,6 +1,6 @@
 # Wrapper for jellyfin
 
-Jellyfin is a simple, minimal project that serves as a template for creating a service that runs on embassyOS. This repository creates the `s9pk` package that is installed to run `jellyfin` on [embassyOS](https://github.com/Start9Labs/embassy-os/). Learn more about service packaging in the [Developer Docs](https://start9.com/latest/developer-docs/).
+Jellyfin is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. Jellyfin is descended from Emby's 3.5.2 release and ported to the .NET Core framework to enable full cross-platform support. There are no strings attached, no premium licenses or features, and no hidden agendas: just a team who want to build something better and work together to achieve it. We welcome anyone who is interested in joining us in our quest!
 
 ## Dependencies
 
@@ -73,18 +73,6 @@ To build the `jellyfin` package for all platforms using embassy-sdk version >=0.
 
 ```
 make
-```
-
-To build the `jellyfin` package for a single platform using embassy-sdk version <=0.3.2, run:
-
-```
-# for amd64
-make ARCH=x86_64
-```
-or
-```
-# for arm64
-make ARCH=aarch64
 ```
 
 ## Installing (on embassyOS)
