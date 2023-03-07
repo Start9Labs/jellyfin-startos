@@ -65,7 +65,7 @@ main:
     # Specifies where on the service's file system its persistence directory should be mounted prior to service startup
     main: /jellyfin/main
     filebrowser: /mnt/filebrowser
-    # nextcloud: /mnt/nextcloud
+    nextcloud: /mnt/nextcloud
     cache: /cache
     config: /config
     data: /jellyfin/data
@@ -98,16 +98,12 @@ volumes:
     volume-id: main
     path: /data
     readonly: false
-  # nextcloud:
-  #   type: pointer
-  #   package-id: nextcloud
-  #   volume-id: main
-  #   path: /data
-  #   readonly: false
-  # db:
-  #   type: data
-  # dbconfig:
-  #   type: data
+  nextcloud:
+    type: pointer
+    package-id: nextcloud
+    volume-id: nextcloud
+    path: /data
+    readonly: false
   cache: 
     type: data
   config:
@@ -144,14 +140,14 @@ dependencies:
     version: "^2.14.1.1"
     description: Used to get media from File Browser
     requirement:
-      type: required
-      # how: Can alternatively use Nextcloud for file storage
-  # nextcloud:
-  #   version: "^25.0.2"
-  #   description: Used to get media from Nextcloud
-  #   requirement:
-  #     type: opt-in
-  #     how: Can alternatively use Filebrowser for file storage
+      type: opt-in
+      how: Can alternatively use Nextcloud for file storage
+  nextcloud:
+    version: "^25.0.2"
+    description: Used to get media from Nextcloud
+    requirement:
+      type: opt-in
+      how: Can alternatively use Filebrowser for file storage
 
 # Specifies how backups should be run for this service. The default EmbassyOS provided option is to use the duplicity backup library on a system image (compat)
 backup:
@@ -169,6 +165,7 @@ backup:
       - duplicity
       - create
       - /mnt/backup
+      - /jellyfin
       # For duplicity, the backup mount point needs to be something other than `/root`, so we default to `/root/data`
       - /root/data
     mounts:
