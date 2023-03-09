@@ -3,6 +3,31 @@
 import { compat, types as T } from "../deps.ts";
 
 export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
+  // "mediastorage": {
+  //   "type": "list",
+  //   "subtype": "union",
+  //   "name": "Media Storage",
+  //   "description": "List of Media servers to use",
+  //   "range": "[1,*)",
+  //   "default": [
+  //     "nextcloud"
+  //   ],
+  //   "spec": {
+  //     "type": "string",
+  //     "display-as": "{{name}}",
+  //     "unique-by": "name",
+  //     "name": "Media Storage",
+  //     "tag": {
+  //       "id": "type",
+  //       "name": "Type",
+  //       "description": "-Nextcloud\n-Filebrowser\n",
+  //       "variant-names": {
+  //         "nextcloud": "Nextcloud",
+  //         "filebrowser": "Filebrowser",
+  //       }
+  //     }
+  //   }
+  // },
   "chromecast": {
     "name": "Chromecast",
     "description": "Chromecast plugin to allow casting to other devices.",

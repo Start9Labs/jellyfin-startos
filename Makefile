@@ -9,16 +9,10 @@ JELLYFIN_SRC := $(shell find ./jellyfin -name \*.cs)
 all: verify
 
 verify: $(PKG_ID).s9pk
-	@embassy-sdk verify s9pk $(PKG_ID).s9pk
-	@echo " Done!"
-	@echo "   Filesize: $(shell du -h $(PKG_ID).s9pk) is ready"
+	embassy-sdk verify s9pk $(PKG_ID).s9pk
 
-install:
-ifeq (,$(wildcard ~/.embassy/config.yaml))
-	@echo; echo "You must define \"host: http://embassy-server-name.local\" in ~/.embassy/config.yaml config file first"; echo
-else
+install: $(PKG_ID).s9pk
 	embassy-cli package install $(PKG_ID).s9pk
-endif
 
 clean:
 	rm -rf docker-images
@@ -30,15 +24,16 @@ scripts/embassy.js: $(TS_FILES)
 	deno bundle scripts/embassy.ts scripts/embassy.js
 
 docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh $(JELLYFIN_SRC)
-ifeq ($(ARCH),aarch64)
+# ifeq ($(ARCH),aarch64)
 	mkdir -p docker-images
-	docker buildx build --no-cache --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=aarch64 --build-arg PLATFORM=arm64 --platform=linux/arm64 -o type=docker,dest=docker-images/aarch64.tar .
-endif
+	docker buildx build --no-cache --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=aarch64 --build-arg PLATFORM=arm64 --build-arg ARCHVERSION=arm64v8 --platform=linux/arm64 -o type=docker,dest=docker-images/aarch64.tar .
+# endif
 
-$(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar # docker-images/x86_64.tar
-ifeq ($(ARCH),aarch64)
-	@echo "embassy-sdk: Preparing aarch64 package ..."
-else
-	@echo "embassy-sdk: Preparing Universal Package ..."
-endif
-	@embassy-sdk pack
+docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh $(JELLYFIN_SRC)
+# # ifeq ($(ARCH),aarch64)
+	mkdir -p docker-images
+	docker buildx build --no-cache --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=amd64 --build-arg PLATFORM=amd64 --build-arg ARCHVERSION=amd64 --platform=linux/amd64 -o type=docker,dest=docker-images/x86_64.tar .
+# endif
+
+$(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar #docker-images/x86_64.tar
+	embassy-sdk pack

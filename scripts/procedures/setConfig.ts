@@ -11,5 +11,12 @@ export const setConfig: T.ExpectedExports.setConfig = async (
   effects: T.Effects,
   newConfig: T.Config,
 ) => {
-  return compat.setConfig(effects, newConfig);
+  // deno-lint-ignore no-explicit-any
+  const dependsOnCln: { [key: string]: string[] } = (newConfig as any) ?.mediastorage?.find((x: any) => x?.type ===  'nextcloud') ? { "nextcloud": [] } : {};
+  // deno-lint-ignore no-explicit-any
+  const dependsOnLnd: { [key: string]: string[] } = (newConfig as any) ?.mediastorage?.find((x: any) => x?.type ===  'filebrowser') ? { "filebrowser": [] } : {};
+  return compat.setConfig(effects, newConfig, {
+    ...dependsOnCln,
+    ...dependsOnLnd,
+  });
 };
