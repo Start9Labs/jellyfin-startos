@@ -23,6 +23,14 @@ clean:
 scripts/embassy.js: $(TS_FILES)
 	deno bundle scripts/embassy.ts scripts/embassy.js
 
+# for rebuilding just the arm image. will include docker-images/x86_64.tar into the s9pk if it exists
+arm: docker-images/aarch64.tar scripts/embassy.js
+	embassy-sdk pack
+
+# for rebuilding just the x86 image. will include docker-images/aarch64.tar into the s9pk if it exists
+x86: docker-images/x86_64.tar scripts/embassy.js
+	embassy-sdk pack
+
 docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh $(JELLYFIN_SRC)
 # ifeq ($(ARCH),aarch64)
 	mkdir -p docker-images
@@ -32,8 +40,8 @@ docker-images/aarch64.tar: Dockerfile docker_entrypoint.sh $(JELLYFIN_SRC)
 docker-images/x86_64.tar: Dockerfile docker_entrypoint.sh $(JELLYFIN_SRC)
 # # ifeq ($(ARCH),aarch64)
 	mkdir -p docker-images
-	docker buildx build --no-cache --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=amd64 --build-arg PLATFORM=amd64 --build-arg ARCHVERSION=amd64 --platform=linux/amd64 -o type=docker,dest=docker-images/x86_64.tar .
+	docker buildx build --no-cache --tag start9/$(PKG_ID)/main:$(PKG_VERSION) --build-arg ARCH=amd64 --build-arg PLATFORM=amd64 --build-arg ARCHVERSION=amd64 --platform=linux/amd64 -o type=docker,dest=docker-images/x86_64.tar -f Dockerfile.amd64 .
 # endif
 
-$(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar #docker-images/x86_64.tar
+$(PKG_ID).s9pk: manifest.yaml instructions.md icon.png LICENSE scripts/embassy.js docker-images/aarch64.tar docker-images/x86_64.tar
 	embassy-sdk pack
