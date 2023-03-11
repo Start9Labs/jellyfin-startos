@@ -3,31 +3,64 @@
 import { compat, types as T } from "../deps.ts";
 
 export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
-  // "mediastorage": {
+  // "mediasource": {
   //   "type": "list",
   //   "subtype": "union",
-  //   "name": "Media Storage",
-  //   "description": "List of Media servers to use",
+  //   "name": "Media Sources",
+  //   "description": "List of Media Sources to use with Jellyfin",
   //   "range": "[1,*)",
   //   "default": [
   //     "nextcloud"
   //   ],
   //   "spec": {
   //     "type": "string",
-  //     "display-as": "{{name}}",
-  //     "unique-by": "name",
-  //     "name": "Media Storage",
+  //     // "display-as": "{{name}}",
+  //     // "unique-by": "name",
+  //     "name": "Media Implementation",
   //     "tag": {
   //       "id": "type",
   //       "name": "Type",
-  //       "description": "-Nextcloud\n-Filebrowser\n",
+  //       "description": "- Nextcloud\n- Filebrowser\n",
   //       "variant-names": {
   //         "nextcloud": "Nextcloud",
-  //         "filebrowser": "Filebrowser",
+  //         "filebrowser": "Filebrowser"
+  //       }
+  //     },
+  //     "default": "nextcloud",
+  //     "variants": {
+  //       "nextcloud": {
+  //         "name": {
+  //           "type": "string",
+  //           "name": "Node Name",
+  //           "description": "Name of this node in the list",
+  //           "default": "Embassy LND",
+  //           "nullable": false
+  //         }
+  //       },
+  //       "filebrowser": {
+  //         "name": {
+  //           "type": "string",
+  //           "name": "Filebrowser",
+  //           "description": "Name of this node in the list",
+  //           "default": "Embassy CLN",
+  //           "nullable": false
+  //         }
   //       }
   //     }
   //   }
   // },
+  "nextcloud": {
+    "name": "Nextcloud",
+    "description": "Access Nextcloud media within Jellyfin.",
+    "type": "boolean",
+    "default": true,
+  },
+  "filebrowser": {
+    "name": "Filebrowser",
+    "description": "Access Filebrowser media within Jellyfin.",
+    "type": "boolean",
+    "default": false,
+  },
   "chromecast": {
     "name": "Chromecast",
     "description": "Chromecast plugin to allow casting to other devices.",
@@ -40,4 +73,4 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
     "type": "boolean",
     "default": false,
   },
-});
+} as T.ConfigSpec);
