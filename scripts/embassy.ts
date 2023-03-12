@@ -4,3 +4,4 @@ export { properties } from "./procedures/properties.ts";
 export { migration } from "./procedures/migrations.ts";
 export { main } from "./procedures/main.ts";
 export { health } from "./procedures/health.ts";
+export { createBackup, restoreBackup } from "./procedures/backups.ts";
