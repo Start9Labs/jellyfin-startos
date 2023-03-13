@@ -13,7 +13,7 @@ export const setConfig: T.ExpectedExports.setConfig = async (
   const dependsOnFB: { [key: string]: string[] } = (newConfig as any) ?.filebrowser ===  true ? { "filebrowser": [] } : {};
 
   if (Object.keys(dependsOnNC).length === 0 && Object.keys(dependsOnFB).length === 0) {
-    return { error: "Nextcloud for Filebrowser must be enabled"}
+    return { error: "Nextcloud or Filebrowser must be enabled"}
   }
   
   return compat.setConfig(effects, newConfig, {
