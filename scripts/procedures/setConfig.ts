@@ -8,15 +8,9 @@ export const setConfig: T.ExpectedExports.setConfig = async (
   newConfig: T.Config,
 ) => {
   // deno-lint-ignore no-explicit-any
-  const dependsOnNC: { [key: string]: string[] } = (newConfig as any) ?.mediasource?.find((x: any) => x?.type ===  'nextcloud') ? { "nextcloud": [] } : {};
-  // const dependsOnNC: { [key: string]: string[] } = (newConfig as any) ?.nextcloud ===  true ? { "nextcloud": [] } : {};
+  const dependsOnNC: { [key: string]: string[] } = (newConfig as any) ?.mediasources?.find((x: any) => x ===  'nextcloud') ? { "nextcloud": [] } : {};
   // deno-lint-ignore no-explicit-any
-  const dependsOnFB: { [key: string]: string[] } = (newConfig as any) ?.mediasource?.find((x: any) => x?.type ===  'filebrowser') ? { "filebrowser": [] } : {};
-  // const dependsOnFB: { [key: string]: string[] } = (newConfig as any) ?.filebrowser ===  true ? { "filebrowser": [] } : {};
-
-  // if (Object.keys(dependsOnNC).length === 0 && Object.keys(dependsOnFB).length === 0) {
-  //   return { error: "Nextcloud or Filebrowser must be enabled"}
-  // }
+  const dependsOnFB: { [key: string]: string[] } = (newConfig as any) ?.mediasources?.find((x: any) => x ===  'filebrowser') ? { "filebrowser": [] } : {};
   
   return compat.setConfig(effects, newConfig, {
     ...dependsOnNC,

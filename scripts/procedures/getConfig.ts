@@ -3,9 +3,9 @@
 import { compat, types as T } from "../deps.ts";
 
 export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
-  "mediasource": {
+  "mediasources": {
     "type": "list",
-    "subtype": "union",
+    "subtype": "enum",
     "name": "Media Sources",
     "description": "List of Media Sources to use with Jellyfin",
     "range": "[1,*)",
@@ -13,42 +13,60 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
       "nextcloud"
     ],
     "spec": {
-      "type": "string",
-      "display-as": "{{name}}",
-      "unique-by": "name",
-      "name": "Media Implementation",
-      "tag": {
-        "id": "type",
-        "name": "Type",
-        "description": "- Nextcloud\n- Filebrowser\n",
-        "variant-names": {
-          "nextcloud": "Nextcloud",
-          "filebrowser": "Filebrowser"
-        }
-      },
-      "default": "nextcloud",
-      "variants": {
-        "nextcloud": {
-          "name": {
-            "type": "string",
-            "name": "Nextcloud",
-            "description": "The name of the dependency media source",
-            "default": "Embassy Nextcloud",
-            "nullable": false
-          }
-        },
-        "filebrowser": {
-          "name": {
-            "type": "string",
-            "name": "Filebrowser",
-            "description": "The name of the dependency media source",
-            "default": "Embassy Filebrowser",
-            "nullable": false
-          }
-        }
+      values: ["nextcloud", "filebrowser"],
+      "value-names": {
+        "nextcloud": "NextCloud",
+        "filebrowser": "File Browser"
       }
     }
   },
+
+  // "mediasource": {
+  //   "type": "list",
+  //   "subtype": "union",
+  //   "name": "Media Sources",
+  //   "description": "List of Media Sources to use with Jellyfin",
+  //   "range": "[1,*)",
+  //   "default": [
+  //     "nextcloud"
+  //   ],
+  //   "spec": {
+  //     "type": "string",
+  //     "display-as": "{{name}}",
+  //     "unique-by": "name",
+  //     "name": "Media Implementation",
+  //     "tag": {
+  //       "id": "type",
+  //       "name": "Type",
+  //       "description": "- Nextcloud\n- Filebrowser\n",
+  //       "variant-names": {
+  //         "nextcloud": "Nextcloud",
+  //         "filebrowser": "Filebrowser"
+  //       }
+  //     },
+  //     "default": "nextcloud",
+  //     "variants": {
+  //       "nextcloud": {
+  //         "name": {
+  //           "type": "string",
+  //           "name": "Nextcloud",
+  //           "description": "The name of the dependency media source",
+  //           "default": "Embassy Nextcloud",
+  //           "nullable": false
+  //         }
+  //       },
+  //       "filebrowser": {
+  //         "name": {
+  //           "type": "string",
+  //           "name": "Filebrowser",
+  //           "description": "The name of the dependency media source",
+  //           "default": "Embassy Filebrowser",
+  //           "nullable": false
+  //         }
+  //       }
+  //     }
+  //   }
+  // },
   "chromecast": {
     "name": "Chromecast",
     "description": "Chromecast plugin to allow casting to other devices.",
