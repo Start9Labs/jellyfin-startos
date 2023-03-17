@@ -34,9 +34,6 @@ else
   fi
 fi
 
-# exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
-
-
 # Run Jellyfin with appropriate options based on the architecture
 if [ "$ARCH" = "aarch64" ]; then
   exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
@@ -46,6 +43,3 @@ else
   echo "Unsupported architecture: $ARCH"
   exit 1
 fi
-# chmod -R 755 /mnt/filebrowser /mnt/nextcloud
-
-# exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg

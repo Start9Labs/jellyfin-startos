@@ -67,12 +67,8 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 RUN find . -type d -name obj | xargs -r rm -r
 # Build
 RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${PLATFORM} -p:DebugSymbols=false -p:DebugType=none
-# RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${PLATFORM} -p:DebugSymbols=false -p:DebugType=none
 
 FROM app
-
-# ARG PLATFORM
-# RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} && chmod +x /usr/local/bin/yq
 
 ENV HEALTHCHECK_URL=http://localhost:8096/health
 
@@ -84,10 +80,6 @@ RUN chmod +x /usr/local/bin/docker_entrypoint.sh
 
 EXPOSE 8096
 VOLUME /cache /config
-# ENTRYPOINT ["./jellyfin/jellyfin", \
-#     "--datadir", "/config", \
-#     "--cachedir", "/cache", \
-#     "--ffmpeg", "/usr/bin/ffmpeg"]
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
      CMD curl -Lk "${HEALTHCHECK_URL}" || exit 1

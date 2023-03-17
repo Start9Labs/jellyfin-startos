@@ -49,18 +49,6 @@ export const getConfig: T.ExpectedExports.getConfig = compat.getConfig({
       }
     }
   },
-  // "nextcloud": {
-  //   "name": "Nextcloud",
-  //   "description": "Access Nextcloud media within Jellyfin.",
-  //   "type": "boolean",
-  //   "default": true,
-  // },
-  // "filebrowser": {
-  //   "name": "Filebrowser",
-  //   "description": "Access Filebrowser media within Jellyfin.",
-  //   "type": "boolean",
-  //   "default": false,
-  // },
   "chromecast": {
     "name": "Chromecast",
     "description": "Chromecast plugin to allow casting to other devices.",

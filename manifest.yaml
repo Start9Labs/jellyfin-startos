@@ -1,7 +1,7 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.9
-release-notes: "Initial Release"
+version: 10.8.9.1
+release-notes: "Minor fixes"
 license: gpl
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-wrapper"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
@@ -30,13 +30,8 @@ main:
     config: /config
 health-checks:
   main:
-    # web-ui:
-    #   name: Web Interface
-    #   success-message: Jellyfin is ready to be visited in your browser.
-    #   type: script
     name: Web Interface
     success-message: Jellyfin is ready to be visited in your browser.
-    # type: script
     type: docker
     image: main
     entrypoint: check-web.sh
