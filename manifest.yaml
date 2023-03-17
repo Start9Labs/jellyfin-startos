@@ -29,16 +29,20 @@ main:
     cache: /cache
     config: /config
 health-checks:
-  alive:
+  main:
+    # web-ui:
+    #   name: Web Interface
+    #   success-message: Jellyfin is ready to be visited in your browser.
+    #   type: script
     name: Web Interface
     success-message: Jellyfin is ready to be visited in your browser.
-    type: script
-    # type: docker
-    # image: main
-    # entrypoint: check-web.sh
-    # args: []
-    # io-format: json
-    # inject: true
+    # type: script
+    type: docker
+    image: main
+    entrypoint: check-web.sh
+    args: []
+    io-format: json
+    inject: true
 config:
   get:
     type: script

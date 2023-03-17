@@ -1,7 +1,7 @@
 #!/bin/bash
 
 DURATION=$(</dev/stdin)
-if (($DURATION <= 30000)); then
+if (($DURATION <= 10000)); then
     exit 60
 else
     if ! curl --silent --fail jellyfin.embassy:8096 &>/dev/null; then

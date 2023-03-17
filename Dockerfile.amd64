@@ -92,3 +92,7 @@ VOLUME /cache /config
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
      CMD curl -Lk "${HEALTHCHECK_URL}" || exit 1
+
+# health check
+ADD ./check-web.sh /usr/local/bin/check-web.sh
+RUN chmod a+x /usr/local/bin/check-web.sh

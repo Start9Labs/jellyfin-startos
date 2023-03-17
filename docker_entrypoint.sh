@@ -46,3 +46,6 @@ else
   echo "Unsupported architecture: $ARCH"
   exit 1
 fi
+# chmod -R 755 /mnt/filebrowser /mnt/nextcloud
+
+# exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
