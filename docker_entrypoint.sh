@@ -11,6 +11,26 @@ done
 
 echo "File /jellyfin/main/start9/config.yaml has been created."
 
+grep -q "filebrowser" /jellyfin/main/start9/config.yaml && FILEBROWSER=true || FILEBROWSER=false
+grep -q "nextcloud" /jellyfin/main/start9/config.yaml && NEXTCLOUD=true || NEXTCLOUD=false
+
+if [ "$FILEBROWSER" = true ] && [ "$NEXTCLOUD" = true ]; then
+  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
+  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
+  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
+  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+elif [ "$FILEBROWSER" = true ]; then
+  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
+  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
+  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main","/mnt/nextcloud"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
+  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+else
+  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
+  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
+  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main","/mnt/filebrowser"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
+  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+fi
+
 CHROMECAST=$(grep -i 'chromecast' /jellyfin/main/start9/config.yaml | awk '{print $2}')
 TRAILERS=$(grep -i 'trailers' /jellyfin/main/start9/config.yaml | awk '{print $2}')
 
