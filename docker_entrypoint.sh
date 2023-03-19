@@ -14,6 +14,7 @@ echo "File /jellyfin/main/start9/config.yaml has been created."
 grep -q "filebrowser" /jellyfin/main/start9/config.yaml && FILEBROWSER=true || FILEBROWSER=false
 grep -q "nextcloud" /jellyfin/main/start9/config.yaml && NEXTCLOUD=true || NEXTCLOUD=false
 
+# Hide media folders not in use
 if [ "$FILEBROWSER" = true ] && [ "$NEXTCLOUD" = true ]; then
   FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
   SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
