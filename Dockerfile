@@ -4,9 +4,6 @@
 # https://github.com/multiarch/qemu-user-static#binfmt_misc-register
 ARG DOTNET_VERSION=6.0
 ARG PLATFORM
-ARG ARCH
-ARG ARCHVERSION
-
 
 FROM node:lts-alpine as web-builder
 ARG JELLYFIN_WEB_VERSION=v10.8.9

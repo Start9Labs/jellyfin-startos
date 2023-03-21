@@ -67,11 +67,11 @@ else
 fi
 
 # Run Jellyfin with appropriate options based on the architecture
-if [ "$ARCH" = "aarch64" ]; then
-  exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
-elif [ "$ARCH" = "x86_64" ]; then
-  exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg
-else
-  echo "Unsupported architecture: $ARCH"
-  exit 1
-fi
+# if [ "$ARCH" = "aarch64" ]; then
+exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
+# elif [ "$ARCH" = "x86_64" ]; then
+#   exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg
+# else
+#   echo "Unsupported architecture: $ARCH"
+#   exit 1
+# fi
