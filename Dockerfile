@@ -5,8 +5,6 @@
 ARG DOTNET_VERSION=6.0
 ARG PLATFORM
 ARG ARCH
-ARG ARCHVERSION
-
 
 FROM node:lts-alpine as web-builder
 ARG JELLYFIN_WEB_VERSION=v10.8.9
@@ -19,10 +17,7 @@ RUN apk add curl git zlib zlib-dev autoconf g++ make libpng-dev gifsicle alpine-
  && mv dist /dist
 
 
-
-FROM multiarch/qemu-user-static:${ARCH} as qemu
-
-FROM ${ARCHVERSION}/debian:stable-slim as app
+FROM debian:stable-slim as app
 
 # https://askubuntu.com/questions/972516/debian-frontend-environment-variable
 ARG DEBIAN_FRONTEND="noninteractive"
@@ -30,8 +25,6 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ARG APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 # https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(Native-GPU-Support)
 ENV NVIDIA_DRIVER_CAPABILITIES="compute,video,utility"
-
-COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
 
 # curl: healcheck
 RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
@@ -44,7 +37,7 @@ RUN apt-get update && apt-get install --no-install-recommends --no-install-sugge
  libomxil-bellagio-bin \
  locales \
  curl \
-#  wget \
+ wget \
  jq \
  && apt-get clean autoclean -y \
  && apt-get autoremove -y \
@@ -60,19 +53,19 @@ ENV LANGUAGE en_US:en
 
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION} as builder
 ARG PLATFORM
+ARG ARCH
+
 WORKDIR /repo
 COPY ./jellyfin/. .
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Discard objs - may cause failures if exists
 RUN find . -type d -name obj | xargs -r rm -r
 # Build
-RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${PLATFORM} -p:DebugSymbols=false -p:DebugType=none
-# RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${PLATFORM} -p:DebugSymbols=false -p:DebugType=none
+RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${ARCH} -p:DebugSymbols=false -p:DebugType=none
 
 FROM app
-
-# ARG PLATFORM
-# RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} && chmod +x /usr/local/bin/yq
+ARG PLATFORM
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} && chmod +x /usr/local/bin/yq
 
 ENV HEALTHCHECK_URL=http://localhost:8096/health
 
@@ -84,10 +77,6 @@ RUN chmod +x /usr/local/bin/docker_entrypoint.sh
 
 EXPOSE 8096
 VOLUME /cache /config
-# ENTRYPOINT ["./jellyfin/jellyfin", \
-#     "--datadir", "/config", \
-#     "--cachedir", "/cache", \
-#     "--ffmpeg", "/usr/bin/ffmpeg"]
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=10s --retries=3 \
      CMD curl -Lk "${HEALTHCHECK_URL}" || exit 1
