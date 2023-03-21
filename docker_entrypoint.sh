@@ -4,6 +4,7 @@ set -e
 
 # Get the architecture of the host
 ARCH=$(uname -m)
+MEDIA=$(yq -e '.mediasources' /jellyfin/main/start9/config.yaml)
 
 while [ ! -f /jellyfin/main/start9/config.yaml ]; do
     sleep 1
@@ -11,8 +12,18 @@ done
 
 echo "File /jellyfin/main/start9/config.yaml has been created."
 
-grep -q "filebrowser" /jellyfin/main/start9/config.yaml && FILEBROWSER=true || FILEBROWSER=false
-grep -q "nextcloud" /jellyfin/main/start9/config.yaml && NEXTCLOUD=true || NEXTCLOUD=false
+# Set environment variables depending on config
+if [[ $MEDIA == *"filebrowser"* ]]; then 
+  FILEBROWSER=true
+else
+  FILEBROWSER=false
+fi
+
+if [[ $MEDIA == *"nextcloud"* ]]; then 
+  NEXTCLOUD=true
+else
+  NEXTCLOUD=false
+fi
 
 # Hide media folders not in use
 if [ "$FILEBROWSER" = true ] && [ "$NEXTCLOUD" = true ]; then
