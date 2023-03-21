@@ -8,7 +8,7 @@
 
 3. Add a Media Library:
 
-* Select 'Add Media Library' followed by the 'Content Type' and 'Display Name' for the library being added. Click the `+` button to the right of 'Folders' and choose the corresponding directory where your media is stored. Jellyfin can support both filebrowser `mnt/filebrowser` as well as nextcloud `mnt/nextcloud`.
+* Select 'Add Media Library' followed by the 'Content Type' and 'Display Name' for the library being added. Click the `+` button to the right of 'Folders' and choose the corresponding directory where your media is stored. Jellyfin can support both filebrowser `/mnt/filebrowser` as well as nextcloud `/mnt/nextcloud`.
 
     **Note** *Jellyfin is particular about the file structure of media volumes, especially with naming conventions of directories/files. We suggest storing your media in a dedicated subdirectory within filebrowser and/or nextcloud, and selecting the full media path i.e. `/mnt/nextcloud/embassy/files/Movies`. After entering the full media file path, select 'Ok'. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows)
 
