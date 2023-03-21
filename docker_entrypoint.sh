@@ -1,28 +1,24 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
 # Get the architecture of the host
-ARCH=$(uname -m)
-MEDIA=$(yq -e '.mediasources' /jellyfin/main/start9/config.yaml)
-
-while [ ! -f /jellyfin/main/start9/config.yaml ]; do
-    sleep 1
-done
-
-echo "File /jellyfin/main/start9/config.yaml has been created."
+# ARCH=$(uname -m)
 
 # Set environment variables depending on config
-if [[ $MEDIA == *"filebrowser"* ]]; then 
+MEDIA=$(yq -e '.mediasources' /jellyfin/main/start9/config.yaml)
+FILEBROWSER=false
+NEXTCLOUD=false
+CHROMECAST=$(grep -i 'chromecast' /jellyfin/main/start9/config.yaml | awk '{print $2}')
+TRAILERS=$(grep -i 'trailers' /jellyfin/main/start9/config.yaml | awk '{print $2}')
+
+
+if [[ "$MEDIA" = *"filebrowser"* ]]; then 
   FILEBROWSER=true
-else
-  FILEBROWSER=false
 fi
 
-if [[ $MEDIA == *"nextcloud"* ]]; then 
+if [[ "$MEDIA" = *"nextcloud"* ]]; then 
   NEXTCLOUD=true
-else
-  NEXTCLOUD=false
 fi
 
 # Hide media folders not in use
@@ -42,9 +38,6 @@ else
   MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main","/mnt/filebrowser"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
   sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
 fi
-
-CHROMECAST=$(grep -i 'chromecast' /jellyfin/main/start9/config.yaml | awk '{print $2}')
-TRAILERS=$(grep -i 'trailers' /jellyfin/main/start9/config.yaml | awk '{print $2}')
 
 if [ "$CHROMECAST" = "true" ]; then
   if ! grep -q '"chromecastPlayer/plugin"' /jellyfin/jellyfin-web/config.json; then

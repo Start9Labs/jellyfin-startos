@@ -4,6 +4,7 @@
 # https://github.com/multiarch/qemu-user-static#binfmt_misc-register
 ARG DOTNET_VERSION=6.0
 ARG PLATFORM
+ARG ARCH
 
 FROM node:lts-alpine as web-builder
 ARG JELLYFIN_WEB_VERSION=v10.8.9
@@ -52,6 +53,7 @@ ENV LANGUAGE en_US:en
 
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION} as builder
 ARG PLATFORM
+ARG ARCH
 
 WORKDIR /repo
 COPY ./jellyfin/. .
@@ -59,7 +61,7 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 # Discard objs - may cause failures if exists
 RUN find . -type d -name obj | xargs -r rm -r
 # Build
-RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${PLATFORM} -p:DebugSymbols=false -p:DebugType=none
+RUN dotnet publish Jellyfin.Server --configuration Release --output="/jellyfin" --self-contained --runtime linux-${ARCH} -p:DebugSymbols=false -p:DebugType=none
 
 FROM app
 ARG PLATFORM
