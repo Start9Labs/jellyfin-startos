@@ -2,7 +2,7 @@ import { compat, matches, types as T } from "../deps.ts";
 
 export const migration: T.ExpectedExports.migration = compat.migrations
     .fromMapping({
-        "10.9.8.1": {
+        "10.8.9.1": {
             up: compat.migrations.updateConfig(
                 (config) => {
                     if (
@@ -19,10 +19,10 @@ export const migration: T.ExpectedExports.migration = compat.migrations
                         return config;
                     },
                 false,
-                { version: "10.9.8.1", type: "up" },
+                { version: "10.8.9.1", type: "up" },
               ),
-              down: () => { throw new Error('Downgrades are prohibited below 10.9.8.1 due to service instabilities below 10.9.8.1') },
+              down: () => { throw new Error('Downgrades are prohibited below 10.8.9.1 due to service instabilities below 10.9.8.1') },
             },
         },
-    "10.9.8.1",
+    "10.8.9.2",
 );
