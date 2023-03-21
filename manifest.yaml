@@ -1,7 +1,7 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.9.1
-release-notes: "Minor fixes"
+version: 10.8.9.2
+release-notes: "Minor fixes and refactoring"
 license: gpl
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-wrapper"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
