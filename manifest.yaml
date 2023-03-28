@@ -1,7 +1,8 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.9.2
-release-notes: "Initial release"
+version: 10.8.9.3
+release-notes: |
+  * Added SSL support
 license: gpl
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-wrapper"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
@@ -24,6 +25,7 @@ main:
   args: []
   mounts:
     main: /jellyfin/main
+    cert: /mnt/cert
     filebrowser: /mnt/filebrowser
     nextcloud: /mnt/nextcloud
     cache: /cache
@@ -47,6 +49,9 @@ properties: ~
 volumes:
   main:
     type: data
+  cert:
+    type: certificate
+    interface-id: main
   filebrowser:
     type: pointer
     package-id: filebrowser
@@ -70,14 +75,20 @@ interfaces:
     tor-config:
       port-mapping:
         80: "8096"
+        8096: "8096"
+        8920: "8920"
     lan-config:
       443:
         ssl: true
         internal: 8096
+      8920:
+        ssl: true
+        internal: 8920
     ui: true
     protocols:
       - tcp
       - http
+      - https
 dependencies:
   filebrowser:
     version: "^2.14.1.1"
