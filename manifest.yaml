@@ -1,7 +1,7 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.9.2
-release-notes: "Initial release"
+version: 10.8.10
+release-notes: "Update upstream to 10.8.10 [Release Notes](https://github.com/jellyfin/jellyfin/releases/tag/v10.8.10)"
 license: gpl
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-wrapper"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
