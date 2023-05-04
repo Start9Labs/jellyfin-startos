@@ -1,8 +1,9 @@
 import { ConfigSpec } from './spec'
 import { WrapperData } from '../../wrapperData'
-import { Save } from 'start-sdk/lib/config/setupConfig'
+import { Save } from '@start9labs/start-sdk/lib/config/setupConfig'
 import { Manifest } from '../../manifest'
 import { jellyfinConfig } from './file-models/config.json'
+import { Dependency } from '@start9labs/start-sdk/lib/types'
 
 /**
  * This function executes on config save
@@ -91,15 +92,14 @@ export const save: Save<WrapperData, ConfigSpec, Manifest> = async ({
   )
 
   // set dependencies
-  if (input.mediasources.includes("filebrowser") && input.mediasources.includes("nextcloud")) {
-    return effects.setDependencies(
-      [
-        dependencies.running('filebrowser'),
-        dependencies.running('nextcloud')
-      ])
-  } else if (input.mediasources.includes("filebrowser")) {
-    return effects.setDependencies([dependencies.running('filebrowser')])
-  } else {
-    return effects.setDependencies([dependencies.running('nextcloud')])
+  let currentDependencies: Dependency[] = [];
+  if (input.mediasources.includes("filebrowser")) currentDependencies.push(dependencies.running("filebrowser"))
+  if (input.mediasources.includes("nextcloud")) currentDependencies.push(dependencies.running("nextcloud"))
+
+  const dependenciesReceipt = await effects.setDependencies(currentDependencies)
+
+  return {
+    dependenciesReceipt,
+    restart: true,
   }
 }

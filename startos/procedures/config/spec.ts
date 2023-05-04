@@ -3,9 +3,12 @@
  *
  * Most form controls are available, including text, textarea, number, toggle, select, multiselect, list, color, datetime, object (a subform), and union (a conditional subform)
  */
-import { Config, Value, List, Variants } from "start-sdk/lib/config/builder"
+import { Config } from '@start9labs/start-sdk/lib/config/builder/config'
+import { List } from '@start9labs/start-sdk/lib/config/builder/list'
+import { Value } from '@start9labs/start-sdk/lib/config/builder/value'
+import { Variants } from '@start9labs/start-sdk/lib/config/builder/variants'
 
-export const ConfigSpec = Config.of({
+export const configSpec = Config.of({
   mediasources: Value.multiselect({
     name: "Media Sources",
     values: {
@@ -29,6 +32,6 @@ export const ConfigSpec = Config.of({
   }),
 })
 
-export const matchConfigSpec = ConfigSpec.validator()
-export type ConfigSpec = typeof matchConfigSpec._TYPE
+export const matchconfigSpec = configSpec.validator
+export type ConfigSpec = typeof matchconfigSpec._TYPE
 

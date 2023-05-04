@@ -1,5 +1,7 @@
-import { PropertyString, setupProperties } from 'start-sdk/lib/properties'
+import { PropertyString } from '@start9labs/start-sdk/lib/properties/PropertyString'
+import { setupProperties } from '@start9labs/start-sdk/lib/properties'
 import { WrapperData } from '../wrapperData'
+import { PropertyGroup } from '@start9labs/start-sdk/lib/properties/PropertyGroup'
 
 /**
  * With access to WrapperData, in this function you determine what to include in the Properties section of the UI

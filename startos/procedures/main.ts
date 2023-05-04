@@ -1,12 +1,10 @@
-import { HealthReceipt } from 'start-sdk/lib/health'
-import { checkPortListening } from 'start-sdk/lib/health/checkFns'
-import {
-  Daemons,
-  NetworkInterfaceBuilder,
-  setupMain,
-} from 'start-sdk/lib/mainFn'
-import exportInterfaces from 'start-sdk/lib/mainFn/exportInterfaces'
-import { ExpectedExports } from 'start-sdk/lib/types'
+import { HealthReceipt } from '@start9labs/start-sdk/lib/health/HealthReceipt'
+import { checkPortListening } from '@start9labs/start-sdk/lib/health/checkFns'
+import { Daemons } from '@start9labs/start-sdk/lib/mainFn/Daemons'
+import { NetworkInterfaceBuilder } from '@start9labs/start-sdk/lib/mainFn/NetworkInterfaceBuilder'
+import { setupMain } from '@start9labs/start-sdk/lib/mainFn'
+import exportInterfaces from '@start9labs/start-sdk/lib/mainFn/exportInterfaces'
+import { ExpectedExports } from '@start9labs/start-sdk/lib/types'
 import { WrapperData } from '../wrapperData'
 import { spawn } from 'child_process';
 
@@ -113,7 +111,7 @@ export const main: ExpectedExports.main = setupMain<WrapperData>(
     })
 
     // Choose which origins to attach to this interface. The resulting addresses will share the attributes of the interface (name, path, search, etc)
-    const addressReceipt1 = await iFace.exportAddresses([
+    const addressReceipt1 = await iFace.export([
       torOrigin1,
       ...lanOrigins1.ip,
       lanOrigins1.local,
@@ -142,7 +140,7 @@ export const main: ExpectedExports.main = setupMain<WrapperData>(
       interfaceReceipt, // Provide the interfaceReceipt to prove it was completed
       healthReceipts, // Provide the healthReceipts or [] to prove they were at least considered
     }).addDaemon('main', {
-      command: './jellyfin', // The command to start the daemon
+      command: './jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg', // The command to start the daemon
       ready: {
         display: 'Web Interface',
         // The function to run to determine the health status of the daemon

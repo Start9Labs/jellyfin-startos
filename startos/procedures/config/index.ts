@@ -2,7 +2,7 @@ import { WrapperData } from '../../wrapperData'
 import { configSpec } from './spec'
 import { read } from './read'
 import { save } from './save'
-import { setupConfig } from 'start-sdk/lib/config'
+import { setupConfig } from '@start9labs/start-sdk/lib/config/setupConfig'
 import { Manifest } from '../../manifest'
 
 /**
