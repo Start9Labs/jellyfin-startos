@@ -57,7 +57,7 @@ volumes:
     type: pointer
     package-id: nextcloud
     volume-id: nextcloud
-    path: /data
+    path: /
     readonly: false
   cache: 
     type: data
