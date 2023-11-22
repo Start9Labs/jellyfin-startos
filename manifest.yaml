@@ -1,9 +1,11 @@
 id: jellyfin
 title: "Jellyfin"
 version: 10.8.10
-release-notes: "Update upstream to 10.8.10 [Release Notes](https://github.com/jellyfin/jellyfin/releases/tag/v10.8.10)"
-license: gpl
-wrapper-repo: "https://github.com/Start9Labs/jellyfin-wrapper"
+release-notes: |
+  * New standardized and optimized icon
+  * "Update upstream to 10.8.10 [Release Notes](https://github.com/jellyfin/jellyfin/releases/tag/v10.8.12)"
+license: GPL-2.0
+wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
 support-site: "https://jellyfin.org/docs/"
 marketing-site: https://jellyfin.org
@@ -28,6 +30,7 @@ main:
     nextcloud: /mnt/nextcloud
     cache: /cache
     config: /config
+  gpu-acceleration: true
 health-checks:
   main:
     name: Web Interface
