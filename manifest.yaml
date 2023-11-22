@@ -28,6 +28,7 @@ main:
     nextcloud: /mnt/nextcloud
     cache: /cache
     config: /config
+  gpu-acceleration: true
 health-checks:
   main:
     name: Web Interface
