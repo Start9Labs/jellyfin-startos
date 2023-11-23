@@ -8,7 +8,7 @@
 
 * Plugins - Jellyfin supports plugins for Chromecast, which requires downloading files from Google servers to support this functionality, as well as YoutubePlayer, which autoloads youtube movie trailers matching media metadata. These plugins have been disabled by default. If you would like to use these features, toggle the corresponding switch to 'on'. Save any Config changes.
 
-2. Launch the Jellyfin UI, select 'Next', and choose a username and password. We recommend saving this password in a password manager, such as Vaultwarden on your Embassy. Press 'Next'.
+2. Launch the Jellyfin UI, select 'Next', and choose a username and password. We recommend saving this password in a password manager, such as Vaultwarden on your Start9 server. Press 'Next'.
 
 3. Add a Media Library:
 
@@ -27,3 +27,13 @@
 6. Set up Remote Access - Both of these boxes can be left unchanged from the defaults as remote access from outside the Server's LAN is not supported by the OS at this time. Click 'Next', and then click 'Finish'.
 
 7. After clicking 'Finish' in step 6, log in with your credentials from step 2.
+
+## GPU Acceleration for Video Transcoding
+
+Starting from version 10.8.12 and up, GPU acceleration is now available for users to utilize on compatible hardware. Feel free to enable this feature if you wish to enhance your video transcoding experience.
+
+* Navigate to the Administration Dashboard.
+* Go to the Playback section.
+* Look for the option to enable GPU Acceleration and toggle it on.
+
+Enjoy the improved performance with GPU acceleration!
