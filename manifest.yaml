@@ -1,9 +1,13 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.10
+version: 10.8.12
 release-notes: |
+  * Upstream code update
+  * Added support for GPU acceleration in video transcoding
   * New standardized and optimized icon
-  * "Update upstream to 10.8.10 [Release Notes](https://github.com/jellyfin/jellyfin/releases/tag/v10.8.12)"
+  * Code cleanup and bug fixes
+  * Minor instructions update
+  * Full list of upstream changes available [here](https://github.com/jellyfin/jellyfin/compare/v10.8.10...v10.8.12)"
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
@@ -62,7 +66,7 @@ volumes:
     volume-id: nextcloud
     path: /
     readonly: false
-  cache: 
+  cache:
     type: data
   config:
     type: data
@@ -94,7 +98,6 @@ dependencies:
     requirement:
       type: opt-in
       how: Can alternatively use Filebrowser for file storage
-
 backup:
   create:
     type: script
