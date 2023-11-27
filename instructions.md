@@ -6,13 +6,13 @@
 
    - **Media Sources:** Nextcloud is the default media storage Jellyfin will use as a dependency for media. If you use Filebrowser to store media, you need to add this as a Media Source.
 
-   - **Plugins:** Jellyfin supports plugins for Chromecast, requiring files from Google servers for functionality. Also, there's YoutubePlayer, which autoloads YouTube movie trailers matching media metadata. These plugins are disabled by default. To use these features, toggle the corresponding switch to **on**. Save any Config changes.
+   - **Plugins:** Jellyfin accommodates extensions for both Chromecast and YouTubePlayer. Chromecast enables streaming, while YouTubePlayer automatically loads YouTube movie trailers that match media metadata. These extensions are deactivated by default. To activate these features, flip the corresponding switch to the **on** position and save configuration.
 
 2. Launch the Jellyfin UI, select **Next**, and choose a username and password. We recommend saving this password in a password manager, such as Vaultwarden on your Start9 server. Press **Next**.
 
 3. **Add a Media Library:**
 
-   - Select **Add Media Library**, followed by the **Content Type** and **Display Name** for the library. Click the `+` button to the right of **Folders** and choose the corresponding directory where your media is stored. Jellyfin supports both Filebrowser `/mnt/filebrowser` and Nextcloud `/mnt/nextcloud`.
+   - Choose **Add Media Library** and specify the **Content Type** and **Display Name** for the new library. Click the `+` button next to **Folders** and select the directory where your media is stored. Jellyfin supports both Filebrowser at `/mnt/filebrowser` and Nextcloud at `/mnt/nextcloud`.
 
    **Note:** Jellyfin is particular about the file structure of media volumes, especially with naming conventions of directories/files. We suggest storing your media in a dedicated subdirectory within Filebrowser and/or Nextcloud, and selecting the full media path, i.e., `/mnt/nextcloud/embassy/files/Movies`. After entering the full media file path, select **Ok**. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows).
 
