@@ -6,7 +6,7 @@ release-notes: |
   * Added support for GPU acceleration in video transcoding
   * New standardized and optimized icon
   * Code cleanup and bug fixes
-  * Minor instructions update
+  * Instructions update
   * Full list of upstream changes available [here](https://github.com/jellyfin/jellyfin/compare/v10.8.10...v10.8.12)"
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
