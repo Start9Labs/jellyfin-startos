@@ -4,7 +4,7 @@
 
 # Jellyfin for StartOS
 
-[Jellyfin](https://github.com/jellyfin/jellyfin) is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. This repository creates the `s9pk` package that is installed to run `Webtop` on [StartOS](https://github.com/Start9Labs/start-os/). Learn more about service packaging in the [Developer Docs](https://start9.com/latest/developer-docs/).
+[Jellyfin](https://github.com/jellyfin/jellyfin) is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. This repository creates the `s9pk` package that is installed to run `Jellyfin` on [StartOS](https://github.com/Start9Labs/start-os/). Learn more about service packaging in the [Developer Docs](https://start9.com/latest/developer-docs/).
 
 ## Dependencies
 
@@ -19,7 +19,7 @@ Install the system dependencies below to build this project by following the ins
 
 ## Cloning
 
-Clone the Webtop package repository locally.
+Clone the Jellyfin package repository locally.
 
 ```
 git clone git@github.com:Start9Labs/jellyfin-startos.git
@@ -28,7 +28,7 @@ cd jellyfin-startos
 
 ## Building
 
-To build the **Webtop** service as a universal package, run the following command:
+To build the **Jellyfin** service as a universal package, run the following command:
 
 ```
 make
@@ -62,6 +62,6 @@ make install
 
 ## Verify Install
 
-Go to your StartOS Services page, select **Webtop**, configure and start the service.
+Go to your StartOS Services page, select **Jellyfin**, configure and start the service.
 
 **Done!**
