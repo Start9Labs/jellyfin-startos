@@ -2,15 +2,12 @@
 
 set -e
 
-# Get the architecture of the host
-# ARCH=$(uname -m)
-
 # Set environment variables depending on config
-MEDIA=$(yq -e '.mediasources' /jellyfin/main/start9/config.yaml)
+MEDIA=$(yq '.mediasources' /jellyfin/main/start9/config.yaml)
 FILEBROWSER=false
 NEXTCLOUD=false
-CHROMECAST=$(grep -i 'chromecast' /jellyfin/main/start9/config.yaml | awk '{print $2}')
-TRAILERS=$(grep -i 'trailers' /jellyfin/main/start9/config.yaml | awk '{print $2}')
+CHROMECAST=$(yq '.chromecast' /jellyfin/main/start9/config.yaml)
+TRAILERS=$(yq '.trailers' /jellyfin/main/start9/config.yaml)
 
 
 if [[ "$MEDIA" = *"filebrowser"* ]]; then 
@@ -59,4 +56,4 @@ else
   fi
 fi
 
-exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/bin/ffmpeg
+exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg
