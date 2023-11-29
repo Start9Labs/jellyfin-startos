@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:10.8.12
+FROM jellyfin/jellyfin:10.8.13
 
 ARG DEBIAN_FRONTEND="noninteractive"
 

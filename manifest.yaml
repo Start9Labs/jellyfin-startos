@@ -1,13 +1,13 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.12
+version: 10.8.13
 release-notes: |
   * Upstream code update
   * Added support for GPU acceleration in video transcoding
   * New standardized and optimized icon
   * Code cleanup and bug fixes
   * Instructions update
-  * Full list of upstream changes available [here](https://github.com/jellyfin/jellyfin/compare/v10.8.10...v10.8.12)"
+  * Full list of upstream changes available [here](https://github.com/jellyfin/jellyfin/compare/v10.8.10...v10.8.13)"
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
