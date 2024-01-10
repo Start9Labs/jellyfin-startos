@@ -1,13 +1,8 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.13
+version: 10.8.13.1
 release-notes: |
-  * Upstream code update
-  * Added support for GPU acceleration in video transcoding
-  * New standardized and optimized icon
-  * Code cleanup and bug fixes
-  * Instructions update
-  * Full list of upstream changes available [here](https://github.com/jellyfin/jellyfin/compare/v10.8.10...v10.8.13)
+  * Minor Nextcloud dependency update
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
@@ -93,7 +88,7 @@ dependencies:
       type: opt-in
       how: Can alternatively use Nextcloud for file storage
   nextcloud:
-    version: "^25.0.2"
+    version: ">=25.0.2 <28.1"
     description: Used to get media from Nextcloud
     requirement:
       type: opt-in
