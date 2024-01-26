@@ -25,13 +25,13 @@
 
    - By default, Jellyfin scans your files for metadata using The Movie Database (TMDb) and Open Media Database (OMDb). This metadata is then used to fetch media images and information (such as a summary, cast, etc.) displayed within the Jellyfin web app or other [client](https://jellyfin.org/downloads/clients). While these features make for a great interface and user experience, they can be disabled by unchecking the corresponding boxes. Once your selections are complete for the media library being added, click **Ok**. Repeat the bullets under step 3 for as many media libraries as needed.
 
-5. When you have added all the desired media libraries, click **next**.
+4. When you have added all the desired media libraries, click **next**.
 
-6. **Preferred Metadata Language:** Select your desired Language and Country (The Country selected is used to provide additional information about media). Click **Next**.
+5. **Preferred Metadata Language:** Select your desired Language and Country (The Country selected is used to provide additional information about media). Click **Next**.
 
-7. **Set up Remote Access:** Both of these boxes can be left unchanged from the defaults as remote access from outside the Server's LAN is not supported by the OS at this time. Click **Next**, and then click **Finish**.
+6. **Set up Remote Access:** Both of these boxes can be left unchanged from the defaults as remote access from outside the Server's LAN is not supported by the OS at this time. Click **Next**, and then click **Finish**.
 
-8. After clicking **Finish** in step 6, log in with your credentials from step 2.
+7. After clicking **Finish** in step 6, log in with your credentials from step 2.
 
 ## GPU Acceleration for Video Transcoding
 
