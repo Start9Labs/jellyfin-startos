@@ -14,7 +14,12 @@
 
    - Choose **Add Media Library** and specify the **Content Type** and **Display Name** for the new library. Click the `+` button next to **Folders** and select the directory where your media is stored. Jellyfin supports both Filebrowser at `/mnt/filebrowser` and Nextcloud at `/mnt/nextcloud`.
 
-   **Note:** Jellyfin is particular about the file structure of media volumes, especially with naming conventions of directories/files. We suggest storing your media in a dedicated subdirectory within Filebrowser and/or Nextcloud, and selecting the full media path, i.e., `/mnt/nextcloud/embassy/files/Movies`. After entering the full media file path, select **Ok**. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows).
+   **Note:** Jellyfin is particular about the file structure of media volumes, especially with naming conventions of directories/files. We suggest storing your media in a dedicated subdirectory within Filebrowser and/or Nextcloud, and selecting the full media path. What that is depends on your media storage solution:
+
+   - If you are using NextCloud for your media storage, and you want to pull from the Movies folder, your path would be `/mnt/nextcloud/data/[username]/files/Movies`. Please note that for NextCloud v26 and up, `admin` is the default user. For older versions 25, `embassy` is the default user.
+   - For Filebrowser, the path would simply be `/mnt/filebrowser/Movies` for a folder called Movies.
+
+   After entering the full media file path, select **Ok**. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows).
 
    **IMPORTANT:** IF FILES ARE NOT SHOWING UP IN ONE OF YOUR LIBRARIES, DOUBLE CHECK THAT YOU DON'T HAVE ANY LIBRARIES WHOSE PATHS OVERLAP WITH OTHER NESTED LIBRARIES, i.e., `/mnt/filebrowser` and `/mnt/filebrowser/videos`.
 
