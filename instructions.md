@@ -16,8 +16,8 @@
 
    **Note:** Jellyfin is particular about the file structure of media volumes, especially with naming conventions of directories/files. We suggest storing your media in a dedicated subdirectory within Filebrowser and/or Nextcloud, and selecting the full media path. What that is depends on your media storage solution:
 
-   - If you are using NextCloud for your media storage, and you want to pull from the Movies folder of user `embassy`, your path would be `/mnt/nextcloud/embassy/files/Movies`.
-   - For Filebrowser, the path would just be for a folder called Movies `/mnt/filebrowser/Movies`.
+   - If you are using NextCloud for your media storage, and you want to pull from the Movies folder, your path would be `/mnt/nextcloud/data/[username]/files/Movies`. Please note that for NextCloud v26 and up, `admin` is the default user. For older versions 25, `embassy` is the default user.
+   - For Filebrowser, the path would simply be `/mnt/filebrowser/Movies` for a folder called Movies.
 
    After entering the full media file path, select **Ok**. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows).
 
