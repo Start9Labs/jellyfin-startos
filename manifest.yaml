@@ -51,6 +51,8 @@ properties: ~
 volumes:
   main:
     type: data
+  compat:
+    type: assets
   filebrowser:
     type: pointer
     package-id: filebrowser
