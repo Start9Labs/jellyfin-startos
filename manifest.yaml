@@ -1,8 +1,10 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.8.13.1
+version: 10.8.13.2
 release-notes: |
-  * Minor Nextcloud dependency update
+  * Minor instructions update
+  * Use multi target duplicity for backup
+  * Small bugfixes and improvements
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
@@ -95,9 +97,37 @@ dependencies:
       how: Can alternatively use Filebrowser for file storage
 backup:
   create:
-    type: script
+    type: docker
+    image: compat
+    system: true
+    entrypoint: /mnt/assets/backup.sh
+    args:
+      - create
+      - /jellyfin/main
+      - /cache
+      - /config
+    mounts:
+      BACKUP: /mnt/backup
+      compat: /mnt/assets
+      main: /jellyfin/main
+      cache: /cache
+      config: /config
   restore:
-    type: script
+    type: docker
+    image: compat
+    system: true
+    entrypoint: /mnt/assets/backup.sh
+    args:
+      - restore
+      - /jellyfin/main
+      - /cache
+      - /config
+    mounts:
+      BACKUP: /mnt/backup
+      compat: /mnt/assets
+      main: /jellyfin/main
+      cache: /cache
+      config: /config
 migrations:
   from:
     "*":
