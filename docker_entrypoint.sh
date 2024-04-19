@@ -38,22 +38,23 @@ fi
 
 if [ "$CHROMECAST" = "true" ]; then
   if ! grep -q '"chromecastPlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
-    jq '.plugins |= .+ ["chromecastPlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
+    yq '.plugins += ["chromecastPlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
   fi
 else
   if grep -q '"chromecastPlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
-    jq 'del(.plugins[] | select(. == "chromecastPlayer/plugin"))' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
+    yq 'del(.plugins[] | select(. == "chromecastPlayer/plugin"))' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
   fi
 fi
 
 if [ "$TRAILERS" = "true" ]; then
   if ! grep -q '"youtubePlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
-    jq '.plugins |= .+ ["youtubePlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
+    yq '.plugins .+ ["youtubePlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
   fi
 else
   if grep -q '"youtubePlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
-    jq 'del(.plugins[] | select(. == "youtubePlayer/plugin"))' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
+    yq 'del(.plugins[] | select(. == "youtubePlayer/plugin"))' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
   fi
 fi
 
+printf "\n\n [i] Starting Jellyfin ...\n\n"
 exec ./jellyfin/jellyfin --datadir /config --cachedir /cache --ffmpeg /usr/lib/jellyfin-ffmpeg/ffmpeg
