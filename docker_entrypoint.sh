@@ -48,7 +48,7 @@ fi
 
 if [ "$TRAILERS" = "true" ]; then
   if ! grep -q '"youtubePlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
-    yq '.plugins .+ ["youtubePlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
+    yq '.plugins += ["youtubePlayer/plugin"]' /jellyfin/jellyfin-web/config.json > temp.json && mv temp.json /jellyfin/jellyfin-web/config.json
   fi
 else
   if grep -q '"youtubePlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
