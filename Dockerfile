@@ -2,9 +2,7 @@ FROM jellyfin/jellyfin:10.8.13
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
-RUN apt-get update && apt-get install --no-install-recommends --no-install-suggests -y \
- jq \
- && apt-get clean autoclean -y \
+RUN apt-get clean autoclean -y \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 
