@@ -32,6 +32,10 @@ main:
     cache: /cache
     config: /config
   gpu-acceleration: true
+hardware-requirements:
+  arch:
+    - x86_64
+    - aarch64
 health-checks:
   main:
     name: Web Interface
