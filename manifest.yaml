@@ -1,6 +1,6 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.9.6.2
+version: 10.9.6
 release-notes: |
   * Minor instructions update
   * Use multi target duplicity for backup
