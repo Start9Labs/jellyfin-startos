@@ -24,5 +24,5 @@ export const migration: T.ExpectedExports.migration = compat.migrations
               down: () => { throw new Error('Downgrades are prohibited below 10.8.9.1 due to service instabilities below 10.9.8.1') },
             },
         },
-    "10.8.13.2",
+    "10.9.7",
 );
