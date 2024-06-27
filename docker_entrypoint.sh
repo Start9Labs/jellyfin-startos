@@ -19,22 +19,19 @@ if [[ "$MEDIA" = *"nextcloud"* ]]; then
 fi
 
 # Hide media folders not in use
+FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
+SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var u=r\[s\];o+=g("File"===u\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",u\.Type,u.\Path,u\.Name)}'
+MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var u=r[s];if(["/config","/cache","/","/jellyfin/main"'
+
 if [ "$FILEBROWSER" = true ] && [ "$NEXTCLOUD" = true ]; then
-  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
-  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
-  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
-  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+  MODIFIED_SRC_FOLDER_CODE+='].includes(u.Path)){continue;}o+=g("File"===u.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",u.Type,u.Path,u.Name)}'
 elif [ "$FILEBROWSER" = true ]; then
-  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
-  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
-  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main","/mnt/nextcloud"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
-  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+  MODIFIED_SRC_FOLDER_CODE+=',"/mnt/nextcloud"].includes(u.Path)){continue;}o+=g("File"===u.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",u.Type,u.Path,u.Name)}'
 else
-  FILEPATH="/jellyfin/jellyfin-web/main.jellyfin.bundle.js"
-  SRC_FOLDER_CODE='for(var s=0,l=r\.length;s<l;s++){var c=r\[s\];a+=O("File"===c\.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c\.Type,c\.Path,c\.Name)}'
-  MODIFIED_SRC_FOLDER_CODE='for(var s=0,l=r.length;s<l;s++){var c=r[s];if(["/config","/cache","/","/jellyfin/main","/mnt/filebrowser"].includes(c.Path)){continue;}a+=O("File"===c.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",c.Type,c.Path,c.Name)}'
-  sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
+  MODIFIED_SRC_FOLDER_CODE+=',"/mnt/filebrowser"].includes(u.Path)){continue;}o+=g("File"===u.Type?"lnkPath lnkFile":"lnkPath lnkDirectory",u.Type,u.Path,u.Name)}'
 fi
+
+sed -i "s|$SRC_FOLDER_CODE|$MODIFIED_SRC_FOLDER_CODE|g" "$FILEPATH"
 
 if [ "$CHROMECAST" = "true" ]; then
   if ! grep -q '"chromecastPlayer/plugin"' /jellyfin/jellyfin-web/config.json; then
