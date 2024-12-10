@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:10.9.7
+FROM jellyfin/jellyfin:10.10.3
 
 ARG DEBIAN_FRONTEND="noninteractive"
 
@@ -6,9 +6,9 @@ RUN apt-get clean autoclean -y \
  && apt-get autoremove -y \
  && rm -rf /var/lib/apt/lists/*
 
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
 
 ARG PLATFORM
 RUN curl -sLo /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_${PLATFORM} \
