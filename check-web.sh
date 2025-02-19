@@ -1,11 +1,19 @@
-#!/bin/bash
+#!/bin/sh
 
-DURATION=$(</dev/stdin)
-if (($DURATION <= 20000)); then
-    exit 60
-else
-    if ! curl --silent --fail http://jellyfin.embassy:8096/health &>/dev/null; then
-        echo "Web interface is unreachable" >&2
-        exit 1
-    fi
+CHCK='curl -skf http://jellyfin.embassy:8096/health >/dev/null 2>&1'
+
+eval "$CHCK"
+exit_code=$?
+
+while [ "$exit_code" -ne 0 ]; do
+    echo "Initializing..." >&2
+    exit 61
+    sleep 5
+    eval "$CHCK"
+    exit_code=$?
+done
+
+if [ "$exit_code" -ne 0 ]; then
+    echo "Not available..." >&2
+    exit 1
 fi
