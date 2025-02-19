@@ -1,9 +1,8 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.10.3
+version: 10.10.6
 release-notes: |
-  - Updated Jellyfin code to the latest version from upstream - full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.9.7...v10.10.3)
-  - Use Deno emit module for bundling
+  - Updated Jellyfin code to the latest version from upstream - full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.10.3...v10.10.6)
   - Bugfixes and improvements
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
