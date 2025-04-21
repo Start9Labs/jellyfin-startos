@@ -13,18 +13,24 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   const depResult = await sdk.checkDependencies(effects)
   depResult.throwIfNotSatisfied()
 
-  const mounts = sdk.Mounts.of().addVolume('main', null, '/jellyfin', false)
+  let mounts = sdk.Mounts.of().addVolume('main', null, '/jellyfin', false)
 
   const mediaSources = await sdk.store
     .getOwn(effects, sdk.StorePath.mediaSources)
     .const()
 
   if (mediaSources.includes('filebrowser')) {
-    mounts.addDependency('filebrowser', 'main', null, '/filebrowser', true)
+    mounts = mounts.addDependency(
+      'filebrowser',
+      'main',
+      null,
+      '/filebrowser',
+      true,
+    )
   }
 
   if (mediaSources.includes('nextcloud')) {
-    mounts.addDependency('nextcloud', 'main', null, '/nextcloud', true)
+    mounts = mounts.addDependency('nextcloud', 'main', null, '/nextcloud', true)
   }
 
   /**
@@ -45,13 +51,17 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   return sdk.Daemons.of(effects, started, additionalChecks).addDaemon(
     'primary',
     {
-      subcontainer: { imageId: 'jellyfin' },
+      subcontainer: await sdk.SubContainer.of(
+        effects,
+        { imageId: 'jellyfin' },
+        mounts,
+        'jellyfin-sub',
+      ),
       command: [
         'jellyfin/jellyfin',
         '--ffmpeg',
         '/usr/lib/jellyfin-ffmpeg/ffmpeg',
       ],
-      mounts,
       ready: {
         display: 'Web Interface',
         fn: () =>

@@ -6,4 +6,8 @@ export type Store = {
   mediaSources: MediaSource[]
 }
 
+export const intiStore: Store = {
+  mediaSources: [],
+}
+
 export const exposedStore = setupExposeStore<Store>(() => [])
