@@ -1,5 +1,4 @@
 import { sdk } from './sdk'
-import { exposedStore, intiStore } from './store'
 import { setDependencies } from './dependencies'
 import { setInterfaces } from './interfaces'
 import { versions } from './versions'
@@ -30,6 +29,4 @@ export const { packageInit, packageUninit, containerInit } = sdk.setupInit(
   setInterfaces,
   setDependencies,
   actions,
-  intiStore,
-  exposedStore,
 )

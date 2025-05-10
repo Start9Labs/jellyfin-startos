@@ -1,6 +1,7 @@
 import { sdk } from './sdk'
 import { T } from '@start9labs/start-sdk'
 import { uiPort } from './utils'
+import { store } from './file-models/store.json'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -13,24 +14,34 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   const depResult = await sdk.checkDependencies(effects)
   depResult.throwIfNotSatisfied()
 
-  let mounts = sdk.Mounts.of().addVolume('main', null, '/jellyfin', false)
+  let mounts = sdk.Mounts.of().mountVolume({
+    volumeId: 'main',
+    subpath: null,
+    mountpoint: '/jellyfin',
+    readonly: false,
+  })
 
-  const mediaSources = await sdk.store
-    .getOwn(effects, sdk.StorePath.mediaSources)
-    .const()
+  const mediaSources =
+    (await store.read((s) => s.mediaSources).const(effects)) || []
 
   if (mediaSources.includes('filebrowser')) {
-    mounts = mounts.addDependency(
-      'filebrowser',
-      'main',
-      null,
-      '/filebrowser',
-      true,
-    )
+    mounts = mounts.mountDependency({
+      dependencyId: 'filebrowser',
+      volumeId: 'main',
+      subpath: null,
+      mountpoint: '/filebrowser',
+      readonly: true,
+    })
   }
 
   if (mediaSources.includes('nextcloud')) {
-    mounts = mounts.addDependency('nextcloud', 'main', null, '/nextcloud', true)
+    mounts = mounts.mountDependency({
+      dependencyId: 'nextcloud',
+      volumeId: 'main',
+      subpath: null,
+      mountpoint: '/nextcloud',
+      readonly: true,
+    })
   }
 
   /**

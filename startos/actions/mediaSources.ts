@@ -1,3 +1,4 @@
+import { store } from '../file-models/store.json'
 import { sdk } from '../sdk'
 
 const { InputSpec, Value } = sdk
@@ -33,12 +34,11 @@ export const mediaSources = sdk.Action.withInput(
 
   // optionally pre-fill the input form
   async ({ effects }) => ({
-    mediaSources: await sdk.store
-      .getOwn(effects, sdk.StorePath.mediaSources)
-      .const(),
+    mediaSources:
+      (await store.read((s) => s.mediaSources).const(effects)) || [],
   }),
 
   // the execution function
   async ({ effects, input }) =>
-    sdk.store.setOwn(effects, sdk.StorePath.mediaSources, input.mediaSources),
+    store.merge(effects, { mediaSources: input.mediaSources }),
 )
