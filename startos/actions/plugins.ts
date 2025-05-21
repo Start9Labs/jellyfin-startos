@@ -1,4 +1,4 @@
-import { configJson } from '../file-models/config.json'
+import { configJson } from '../fileModels/config.json'
 import { sdk } from '../sdk'
 
 const { InputSpec, Value } = sdk
