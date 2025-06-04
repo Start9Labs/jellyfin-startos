@@ -14,12 +14,20 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   const depResult = await sdk.checkDependencies(effects)
   depResult.throwIfNotSatisfied()
 
-  let mounts = sdk.Mounts.of().mountVolume({
-    volumeId: 'main',
-    subpath: null,
-    mountpoint: '/jellyfin',
-    readonly: false,
-  })
+  let mounts = sdk.Mounts.of()
+    .mountVolume({
+      volumeId: 'main',
+      subpath: null,
+      mountpoint: '/data',
+      readonly: false,
+    })
+    .mountVolume({
+      mountpoint: '/jellyfin/jellyfin-web/config.json',
+      readonly: false,
+      subpath: 'config.json',
+      volumeId: 'main',
+      type: 'file',
+    })
 
   const mediaSources =
     (await store.read((s) => s.mediaSources).const(effects)) || []
@@ -29,7 +37,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       dependencyId: 'filebrowser',
       volumeId: 'main',
       subpath: null,
-      mountpoint: '/filebrowser',
+      mountpoint: '/mnt/filebrowser',
       readonly: true,
     })
   }
@@ -39,7 +47,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       dependencyId: 'nextcloud',
       volumeId: 'main',
       subpath: null,
-      mountpoint: '/nextcloud',
+      mountpoint: '/mnt/nextcloud',
       readonly: true,
     })
   }
@@ -70,6 +78,12 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       ),
       command: [
         'jellyfin/jellyfin',
+        '--datadir',
+        '/data',
+        '--configdir',
+        '/data/config',
+        '--cachedir',
+        '/data/cache',
         '--ffmpeg',
         '/usr/lib/jellyfin-ffmpeg/ffmpeg',
       ],
