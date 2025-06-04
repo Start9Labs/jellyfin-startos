@@ -18,7 +18,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     .mountVolume({
       volumeId: 'main',
       subpath: null,
-      mountpoint: '/data',
+      mountpoint: '/config',
       readonly: false,
     })
     .mountVolume({
@@ -78,12 +78,6 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       ),
       command: [
         'jellyfin/jellyfin',
-        '--datadir',
-        '/data',
-        '--configdir',
-        '/data/config',
-        '--cachedir',
-        '/data/cache',
         '--ffmpeg',
         '/usr/lib/jellyfin-ffmpeg/ffmpeg',
       ],
