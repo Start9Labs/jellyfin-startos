@@ -27,8 +27,7 @@ export const manifest = setupManifest({
     filebrowser: {
       description: 'Used to get media from File Browser',
       optional: true,
-      // TODO update me
-      s9pk: 'https://github.com/Start9Labs/bitcoind-startos/releases/download/v28.1.0.0-alpha/bitcoind.s9pk',
+      s9pk: 'https://github.com/Start9Labs/filebrowser-startos/releases/download/v2.32.0/filebrowser_040_alpha.s9pk',
     },
     nextcloud: {
       description: 'Used to get media from Nextcloud',
