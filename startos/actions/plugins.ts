@@ -38,7 +38,7 @@ export const plugins = sdk.Action.withInput(
     const plugins =
       (await configJson.read((c) => c.plugins).const(effects)) || []
     return {
-      chromecast: plugins.includes('chromecast'),
+      chromecast: plugins.includes('chromecastPlayer/plugin'),
       trailers: plugins.includes('trailers'),
     }
   },
@@ -48,7 +48,9 @@ export const plugins = sdk.Action.withInput(
     const plugins = new Set(
       (await configJson.read((c) => c.plugins).const(effects)) || [],
     )
-    input.chromecast ? plugins.add('chromecast') : plugins.delete('chromecast')
+    input.chromecast
+      ? plugins.add('chromecastPlayer/plugin')
+      : plugins.delete('chromecastPlayer/plugin')
     input.trailers ? plugins.add('trailers') : plugins.delete('trailers')
     await configJson.merge(effects, { plugins: Array.from(plugins) })
   },
