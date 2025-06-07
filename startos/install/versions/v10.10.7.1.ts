@@ -12,7 +12,10 @@ export const v_10_10_7_1 = VersionInfo.of({
     up: async ({ effects }) => {
       // get old config.yaml
       const configYaml = load(
-        await readFile('/main/start9/config.yaml', 'utf-8'),
+        await readFile(
+          '/media/startos/volumes/main/start9/config.yaml',
+          'utf-8',
+        ),
       ) as
         | {
             mediasources: typeof StoreType.mediaSources
@@ -35,7 +38,9 @@ export const v_10_10_7_1 = VersionInfo.of({
       })
 
       // remove old start9 dir
-      await rm('/main/start9', { recursive: true }).catch(console.error)
+      await rm('/media/startos/volumes/main/start9', { recursive: true }).catch(
+        console.error,
+      )
     },
     down: IMPOSSIBLE,
   },

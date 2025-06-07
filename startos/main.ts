@@ -2,6 +2,7 @@ import { sdk } from './sdk'
 import { T } from '@start9labs/start-sdk'
 import { uiPort } from './utils'
 import { store } from './fileModels/store.json'
+import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -33,7 +34,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     (await store.read((s) => s.mediaSources).const(effects)) || []
 
   if (mediaSources.includes('filebrowser')) {
-    mounts = mounts.mountDependency({
+    mounts = mounts.mountDependency<typeof filebrowserManifest>({
       dependencyId: 'filebrowser',
       volumeId: 'main',
       subpath: null,
@@ -42,6 +43,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
     })
   }
 
+  // @TODO import nextcloud-startos for type safety
   if (mediaSources.includes('nextcloud')) {
     mounts = mounts.mountDependency({
       dependencyId: 'nextcloud',
@@ -76,11 +78,13 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
         mounts,
         'jellyfin-sub',
       ),
-      command: [
-        'jellyfin/jellyfin',
-        '--ffmpeg',
-        '/usr/lib/jellyfin-ffmpeg/ffmpeg',
-      ],
+      exec: {
+        command: [
+          'jellyfin/jellyfin',
+          '--ffmpeg',
+          '/usr/lib/jellyfin-ffmpeg/ffmpeg',
+        ],
+      },
       ready: {
         display: 'Web Interface',
         fn: () =>
