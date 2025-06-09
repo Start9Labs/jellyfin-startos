@@ -1,53 +1,23 @@
+<p align="center">
+  <img src="icon.png" alt="Project Logo" width="21%">
+</p>
+
 # Jellyfin for StartOS
 
-[Jellyfin](https://github.com/jellyfin/jellyfin) is a Free Software Media System that puts you in control of managing and streaming your media. It is an alternative to the proprietary Emby and Plex, to provide media from a dedicated server to end-user devices via multiple apps. This repository creates the `s9pk` package that is installed to run `Jellyfin` on [StartOS](https://github.com/Start9Labs/start-os/). Learn more about service packaging in the [Developer Docs](https://start9.com/latest/developer-docs/).
+[Jellyfin](https://github.com/jellyfin/jellyfin) is a free and open source media server that enables you to organize, manage, and stream your personal media collection to any device. It serves as a community-driven alternative to proprietary platforms like Emby and Plex, offering full control over your media without tracking or licensing restrictions. This repository creates the `s9pk` package that is installed to run `Jellyfin` on [StartOS](https://github.com/Start9Labs/start-os/).
 
 ## Dependencies
+
+Prior to building the `jellyfin.s9pk` package, it's essential to configure your build environment for StartOS services. You can find instructions on how to set up the appropriate build environment in the [Packaging Guide](https://staging.docs.start9.com/packaging-guide/).
 
 - [docker](https://docs.docker.com/get-docker)
 - [docker-buildx](https://docs.docker.com/buildx/working-with-buildx/)
 - [make](https://www.gnu.org/software/make/)
-- [start-cli](https://github.com/Start9Labs/start-os/)
-
-## Build enviroment
-
-Prepare your build environment. In this example we are using Ubuntu 20.04.
-
-1. Install docker
-   ```
-   curl -fsSL https://get.docker.com -o- | bash
-   sudo usermod -aG docker "$USER"
-   exec sudo su -l $USER
-   ```
-1. Set buildx as the default builder
-   ```
-   docker buildx install
-   docker buildx create --use
-   ```
-1. Enable cross-arch emulated builds in docker
-   ```
-   docker run --privileged --rm linuxkit/binfmt:v0.8
-   ```
-1. Install essential build packages:
-   ```
-   sudo apt-get install -y build-essential openssl libssl-dev libc6-dev clang libclang-dev ca-certificates
-   ```
-1. Install Rust
-   ```
-   curl https://sh.rustup.rs -sSf | sh
-   # Choose nr 1 (default install)
-   source $HOME/.cargo/env
-   ```
-1. Build and install start-cli
-   ```
-   cd ~/ && git clone --recursive https://github.com/Start9Labs/start-os.git
-   make cli
-   start-cli init
-   ```
+- [start-cli](https://github.com/Start9Labs/start-cli/)
 
 ## Cloning
 
-Clone the project locally.
+Clone the Jellyfin package repository locally.
 
 ```
 git clone https://github.com/Start9Labs/jellyfin-startos.git
@@ -56,39 +26,26 @@ cd jellyfin-startos
 
 ## Building
 
-To build the package, run one of the following commands:
+To build the **Jellyfin** service as a universal package, run the following command:
 
 ```
-# for multi platform
 make
 ```
 
-```
-# for amd64
-make x86
-```
+## Installing (on StartOS)
+
+Before installation, define `host: https://server-name.local` in your `~/.startos/config.yaml` config file then run the following commands to determine successful install:
+
+> :information_source: Change server-name.local to your Start9 server address
 
 ```
-# for arm64
-make arm
+make install
 ```
 
-## Installing on StartOS
+**Tip:** You can also install the jellyfin.s9pk by sideloading it under the **StartOS > Sideload a Service** section.
 
-### CLI
+## Verify Install
 
-> Change _adjective-noun.local_ to your Start9 server address
+Go to your StartOS Services page, select **Jellyfin**, configure and start the service.
 
-```
-start-cli auth login
-# Enter your Start9 server master password
-start-cli --host https://adjective-noun.local package install jellyfin.s9pk
-```
-
-### UI
-
-Select the Sideload Utility from the StartOS UI header and drag-n-drop the s9pk file to upload and install.
-
-### Verify
-
-Go to your StartOS Services page and select this service to view it's dashboard.
+**Done!**
