@@ -88,10 +88,14 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
       ready: {
         display: 'Web Interface',
         fn: () =>
-          sdk.healthCheck.checkPortListening(effects, uiPort, {
-            successMessage: 'The web interface is ready',
-            errorMessage: 'The web interface is not ready',
-          }),
+          sdk.healthCheck.checkWebUrl(
+            effects,
+            `http://localhost:${uiPort}/health`,
+            {
+              successMessage: 'The web interface is ready',
+              errorMessage: 'The web interface is not ready',
+            },
+          ),
       },
       requires: [],
     },
