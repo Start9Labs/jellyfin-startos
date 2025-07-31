@@ -18,7 +18,7 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
   if (mediaSources.includes('nextcloud')) {
     deps['nextcloud'] = {
       kind: 'exists',
-      versionRange: '>=1.0.0', // @TODO
+      versionRange: '^29.0.14:1',
     }
   }
 

@@ -9,7 +9,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('Starting Jellyfin!')
+  console.info('[i] Starting Jellyfin!')
 
   const depResult = await sdk.checkDependencies(effects)
   depResult.throwIfNotSatisfied()
