@@ -32,19 +32,19 @@
 
       - Furthermore, when naming the media files, Jellyfin is also particular about these since they are used to optionally fetch metadata for various online sources. For more information about directory and file naming conventions, please refer to the [Jellyfin docs](https://jellyfin.org/docs/general/server/media/shows). When not fetching meta data file names and structure are still used to present library content.
 
-   - After entering the full media file path, select **Ok**. 
+   - After entering the full media file path, select **OK**. 
 
-1. When you have added all the desired media libraries, click **next**.
+1. Repeat the process to add as many media libraries as needed. When you have added all the desired media libraries, click **next**.
 
 1. **Preferred Metadata Language:** Select your desired Language and Country (The Country selected is used to provide additional information about media). Click **Next**.
 
 1. **Set up Remote Access:** If you expect to make this Jellyfin server accessible from outside you local network you can leave *All remote connections to this server* checked. Click **Next**, and then click **Finish**.
 
-7. After clicking **Finish** in step 6, log in with your credentials from step 2.
+1. After clicking **Finish**, log in with your credentials from the earlier step.
 
-   **IMPORTANT:** IF FILES ARE NOT SHOWING UP IN ONE OF YOUR LIBRARIES, DOUBLE CHECK THAT YOU DON'T HAVE ANY LIBRARIES WHOSE PATHS OVERLAP WITH OTHER NESTED LIBRARIES, i.e., `/mnt/filebrowser` and `/mnt/filebrowser/videos`.
+   **IMPORTANT:** IF FILES ARE NOT SHOWING UP IN ONE OF YOUR LIBRARIES, DOUBLE CHECK THAT YOU DON'T HAVE ANY LIBRARIES WHOSE PATHS OVERLAP WITH OTHER NESTED LIBRARIES, i.e., `/mnt/filebrowser/files` and `/mnt/filebrowser/files/videos`.
 
-   - By default, Jellyfin scans your files for metadata using The Movie Database (TMDb) and Open Media Database (OMDb). This metadata is then used to fetch media images and information (such as a summary, cast, etc.) displayed within the Jellyfin web app or other [client](https://jellyfin.org/downloads/clients). While these features make for a great interface and user experience, they can be disabled by unchecking the corresponding boxes. Once your selections are complete for the media library being added, click **Ok**. Repeat the bullets under step 3 for as many media libraries as needed.
+   - By default, Jellyfin scans your files for metadata using The Movie Database (TMDb) and Open Media Database (OMDb). This metadata is then used to fetch media images and information (such as a summary, cast, etc.) displayed within the Jellyfin web app or other [client](https://jellyfin.org/downloads/clients). While these features make for a great interface and user experience, they can be disabled by unchecking the corresponding boxes. 
 
 ## Accessing Media from client devices
 ### Web Application - Web Browser
