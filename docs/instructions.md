@@ -61,7 +61,7 @@ In a standard web browser, launch Jellyfin from the StartOS UI or access Jellyfi
 
 ## GPU Acceleration for Video Transcoding
 
-Starting from version 10.8.12 and up, GPU acceleration is now available for users to utilize on compatible hardware. Enable this feature to enhance your video transcoding experience.
+GPU acceleration is available for users to utilize on compatible hardware. Enable this feature to enhance your video transcoding experience.
 
 1. Navigate to the **Administration Dashboard**.
 2. Go to the **Playback** section.
