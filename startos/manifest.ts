@@ -25,7 +25,7 @@ export const manifest = setupManifest({
   images: {
     jellyfin: {
       source: {
-        dockerTag: 'jellyfin/jellyfin:10.10.7',
+        dockerTag: 'jellyfin/jellyfin:10.11.1',
       },
       arch: architectures
     } as SDKImageInputSpec,
