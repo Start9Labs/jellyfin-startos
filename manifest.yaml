@@ -1,9 +1,9 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.10.7
+version: 10.11.1
 release-notes: |
-  - Updated Jellyfin code to the latest version from upstream - full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.10.6...v10.10.7)
-  - Bugfixes and security fixes
+  - Updated Jellyfin code to the latest version from upstream - full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.10.7...v10.11.1)
+  - **We strongly recommend running a full library scan** to ensure that all data is correctly populated.
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
