@@ -1,5 +1,6 @@
 import { setupManifest } from '@start9labs/start-sdk'
 import { SDKImageInputSpec } from '@start9labs/start-sdk/base/lib/types/ManifestTypes'
+import { currentContainer } from './install/versions'
 
 const BUILD = process.env.BUILD || ''
 
@@ -25,7 +26,7 @@ export const manifest = setupManifest({
   images: {
     jellyfin: {
       source: {
-        dockerTag: 'jellyfin/jellyfin:10.11.1',
+        dockerTag: currentContainer,
       },
       arch: architectures
     } as SDKImageInputSpec,
