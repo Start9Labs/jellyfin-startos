@@ -7,10 +7,10 @@ export const inputSpec = InputSpec.of({
   mediaSources: Value.multiselect({
     name: 'Media Sources',
     values: {
-      nextcloud: 'Nextcloud',
       filebrowser: 'File Browser',
+      nextcloud: 'Nextcloud',
     },
-    default: ['nextcloud'],
+    default: ['filebrowser'],
     minLength: 1,
   }),
 })

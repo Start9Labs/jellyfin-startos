@@ -22,6 +22,9 @@ const shape = object({
 })
 
 export const configJson = FileHelper.json(
-  '/media/startos/volumes/main/config.json',
+  {
+    volumeId: 'config',
+    subpath: '/config.json',
+  },
   shape,
 )

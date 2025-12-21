@@ -5,8 +5,8 @@ import { configJson } from '../../fileModels/config.json'
 import { configDefaults } from '../../utils'
 import { store, StoreType } from '../../fileModels/store.json'
 
-export const v_10_10_7_1 = VersionInfo.of({
-  version: '10.10.7:1',
+export const v_10_11_2_2_a0 = VersionInfo.of({
+  version: '10.11.2:2-alpha.0',
   releaseNotes: 'Revamped for StartOS 0.4.0',
   migrations: {
     up: async ({ effects }) => {
@@ -24,18 +24,20 @@ export const v_10_10_7_1 = VersionInfo.of({
           }
         | undefined
 
-      await store.write(effects, {
-        mediaSources: configYaml?.mediasources || [],
-      })
+      if (configYaml) {
+        await store.write(effects, {
+          mediaSources: configYaml.mediasources || [],
+        })
 
-      const plugins = configDefaults.plugins
-      if (configYaml?.chromecast) plugins.push('chromecast')
-      if (configYaml?.trailers) plugins.push('trailers')
+        const plugins = configDefaults.plugins
+        if (configYaml.chromecast) plugins.push('chromecast')
+        if (configYaml.trailers) plugins.push('trailers')
 
-      await configJson.write(effects, {
-        ...configDefaults,
-        plugins,
-      })
+        await configJson.write(effects, {
+          ...configDefaults,
+          plugins,
+        })
+      }
 
       // remove old start9 dir
       await rm('/media/startos/volumes/main/start9', { recursive: true }).catch(

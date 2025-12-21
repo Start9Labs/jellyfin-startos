@@ -1,16 +1,14 @@
 import { matches, FileHelper } from '@start9labs/start-sdk'
 
-const { object, arrayOf, anyOf, literal } = matches
+const { object, arrayOf, literals } = matches
 
 const shape = object({
-  mediaSources: arrayOf(
-    anyOf(literal('filebrowser'), literal('nextcloud')),
-  ).onMismatch([]),
+  mediaSources: arrayOf(literals('filebrowser', 'nextcloud')).onMismatch([]),
 })
 
 export const store = FileHelper.json(
   {
-    volumeId: 'main',
+    volumeId: 'startos',
     subpath: '/store.json',
   },
   shape,

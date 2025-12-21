@@ -2,8 +2,9 @@ import { sdk } from './sdk'
 import { uiPort } from './utils'
 import { store } from './fileModels/store.json'
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
+import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
 
-export const main = sdk.setupMain(async ({ effects, started }) => {
+export const main = sdk.setupMain(async ({ effects }) => {
   /**
    * ======================== Setup (optional) ========================
    *
@@ -11,47 +12,52 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    */
   console.info('[i] Starting Jellyfin!')
 
-  const depResult = await sdk.checkDependencies(effects)
-  depResult.throwIfNotSatisfied()
-
   let mounts = sdk.Mounts.of()
     .mountVolume({
-      volumeId: 'main',
+      volumeId: 'config',
       subpath: null,
       mountpoint: '/config',
       readonly: false,
     })
     .mountVolume({
-      mountpoint: '/jellyfin/jellyfin-web/config.json',
+      volumeId: 'cache',
+      subpath: null,
+      mountpoint: '/cache',
       readonly: false,
-      subpath: 'config.json',
-      volumeId: 'main',
-      type: 'file',
     })
 
-  const mediaSources =
-    (await store.read((s) => s.mediaSources).const(effects)) || []
+  const mediaSources = await store.read((s) => s.mediaSources).const(effects)
+
+  if (!mediaSources) {
+    throw new Error('No media sources')
+  }
 
   if (mediaSources.includes('filebrowser')) {
     mounts = mounts.mountDependency<typeof filebrowserManifest>({
       dependencyId: 'filebrowser',
-      volumeId: 'main',
+      volumeId: 'data',
       subpath: null,
       mountpoint: '/mnt/filebrowser',
       readonly: true,
     })
   }
 
-  // @TODO import nextcloud-startos for type safety
   if (mediaSources.includes('nextcloud')) {
-    mounts = mounts.mountDependency({
+    mounts = mounts.mountDependency<typeof nextcloudManifest>({
       dependencyId: 'nextcloud',
-      volumeId: 'main',
+      volumeId: 'nextcloud',
       subpath: null,
       mountpoint: '/mnt/nextcloud',
       readonly: true,
     })
   }
+
+  const subcontainer = await sdk.SubContainer.of(
+    effects,
+    { imageId: 'jellyfin' },
+    mounts,
+    'jellyfin-sub',
+  )
 
   /**
    * ======================== Daemons ========================
@@ -61,23 +67,15 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
 
-  return sdk.Daemons.of(effects, started).addDaemon('primary', {
-    subcontainer: await sdk.SubContainer.of(
-      effects,
-      { imageId: 'jellyfin' },
-      mounts,
-      'jellyfin-sub',
-    ),
+  return sdk.Daemons.of(effects).addDaemon('primary', {
+    subcontainer,
     exec: {
-      command: [
-        'jellyfin/jellyfin',
-        '--ffmpeg',
-        '/usr/lib/jellyfin-ffmpeg/ffmpeg',
-      ],
+      command: sdk.useEntrypoint(),
     },
     ready: {
       display: 'Web Interface',
       fn: () =>
+        // @TODO grep logs for "Main: Startup complete"
         sdk.healthCheck.checkWebUrl(
           effects,
           `http://localhost:${uiPort}/health`,
