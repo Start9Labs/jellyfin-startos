@@ -1,6 +1,5 @@
-import { VersionInfo, IMPOSSIBLE } from '@start9labs/start-sdk'
+import { VersionInfo, IMPOSSIBLE, YAML } from '@start9labs/start-sdk'
 import { readFile, rm } from 'fs/promises'
-import { load } from 'js-yaml'
 import { configJson } from '../../fileModels/config.json'
 import { configDefaults } from '../../utils'
 import { store, StoreType } from '../../fileModels/store.json'
@@ -11,18 +10,16 @@ export const v_10_11_2_2_a0 = VersionInfo.of({
   migrations: {
     up: async ({ effects }) => {
       // get old config.yaml
-      const configYaml = load(
-        await readFile(
-          '/media/startos/volumes/main/start9/config.yaml',
-          'utf-8',
-        ),
-      ) as
+      const configYaml:
         | {
             mediasources: typeof StoreType.mediaSources
             chromecast: boolean
             trailers: boolean
           }
-        | undefined
+        | undefined = await readFile(
+        '/media/startos/volumes/main/start9/config.yaml',
+        'utf-8',
+      ).then(YAML.parse, () => undefined)
 
       if (configYaml) {
         await store.write(effects, {
@@ -37,12 +34,12 @@ export const v_10_11_2_2_a0 = VersionInfo.of({
           ...configDefaults,
           plugins,
         })
-      }
 
-      // remove old start9 dir
-      await rm('/media/startos/volumes/main/start9', { recursive: true }).catch(
-        console.error,
-      )
+        // remove old start9 dir
+        await rm('/media/startos/volumes/main/start9', {
+          recursive: true,
+        }).catch(console.error)
+      }
     },
     down: IMPOSSIBLE,
   },
