@@ -67,23 +67,32 @@ export const main = sdk.setupMain(async ({ effects }) => {
    * Each daemon defines its own health check, which can optionally be exposed to the user.
    */
 
+  let startupComplete = false
+
   return sdk.Daemons.of(effects).addDaemon('primary', {
     subcontainer,
     exec: {
       command: sdk.useEntrypoint(),
+      onStdout: (chunk) => {
+        const text = Buffer.isBuffer(chunk)
+          ? chunk.toString('utf8')
+          : String(chunk)
+
+        console.log(text)
+
+        const search = 'Main: Startup complete'
+        if (text.includes(search)) {
+          startupComplete = true
+        }
+      },
     },
     ready: {
-      display: 'Web Interface',
+      gracePeriod: 42000,
+      display: 'Server and Web UI',
       fn: () =>
-        // @TODO grep logs for "Main: Startup complete"
-        sdk.healthCheck.checkWebUrl(
-          effects,
-          `http://localhost:${uiPort}/health`,
-          {
-            successMessage: 'The web interface is ready',
-            errorMessage: 'The web interface is not ready',
-          },
-        ),
+        startupComplete
+          ? { result: 'success', message: 'Server and web UI are ready' }
+          : { result: 'failure', message: 'Server or web UI unreachable' },
     },
     requires: [],
   })
