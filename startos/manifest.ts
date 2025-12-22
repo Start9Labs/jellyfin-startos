@@ -1,4 +1,5 @@
 import { setupManifest } from '@start9labs/start-sdk'
+import { upstream } from './install/versions'
 
 export const manifest = setupManifest({
   id: 'jellyfin',
@@ -19,7 +20,7 @@ export const manifest = setupManifest({
   images: {
     jellyfin: {
       source: {
-        dockerTag: 'jellyfin/jellyfin:10.11.2',
+        dockerTag: `jellyfin/jellyfin:${upstream}`,
       },
     },
   },
