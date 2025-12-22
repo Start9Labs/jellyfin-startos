@@ -4,10 +4,11 @@ import { configJson } from '../../fileModels/config.json'
 import { configDefaults } from '../../utils'
 import { store, StoreType } from '../../fileModels/store.json'
 
-export const upstream = '10.11.5'
+const version = '10.11.5:0-alpha.0'
+export const upstream = version.split(':')[0]
 
 export const v_10_11_5_0_a0 = VersionInfo.of({
-  version: `${upstream}:0-alpha.0`,
+  version,
   releaseNotes: 'Revamped for StartOS 0.4.0',
   migrations: {
     up: async ({ effects }) => {
