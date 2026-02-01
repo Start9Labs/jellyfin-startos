@@ -1,14 +1,15 @@
 import { store } from '../fileModels/store.json'
 import { sdk } from '../sdk'
+import { i18n } from '../i18n'
 
 const { InputSpec, Value } = sdk
 
 export const inputSpec = InputSpec.of({
   mediaSources: Value.multiselect({
-    name: 'Media Sources',
+    name: i18n('Media Sources'),
     values: {
-      filebrowser: 'File Browser',
-      nextcloud: 'Nextcloud',
+      filebrowser: i18n('File Browser'),
+      nextcloud: i18n('Nextcloud'),
     },
     default: ['filebrowser'],
     minLength: 1,
@@ -21,8 +22,8 @@ export const mediaSources = sdk.Action.withInput(
 
   // metadata
   async ({ effects }) => ({
-    name: 'Select Media Sources',
-    description: 'Service(s) Jellyfin uses to access media',
+    name: i18n('Select Media Sources'),
+    description: i18n('Service(s) Jellyfin uses to access media'),
     warning: null,
     allowedStatuses: 'any',
     group: null,

@@ -1,5 +1,6 @@
 import { setupManifest } from '@start9labs/start-sdk'
-import { upstream } from './install/versions'
+import { upstream } from '../install/versions'
+import i18n from './i18n'
 
 export const manifest = setupManifest({
   id: 'jellyfin',
@@ -12,16 +13,14 @@ export const manifest = setupManifest({
   donationUrl: 'https://opencollective.com/jellyfin/donate',
   docsUrl:
     'https://github.com/Start9Labs/jellyfin-startos/blob/update/040/docs/README.md',
-  description: {
-    short: 'The Free Software Media System',
-    long: 'Jellyfin is a free and open source media server that enables you to organize, manage, and stream your personal media collection to any device. It serves as a community-driven alternative to proprietary platforms like Emby and Plex, offering full control over your media without tracking or licensing restrictions.',
-  },
+  description: i18n.description,
   volumes: ['startos', 'cache', 'config', 'main'], // @TODO main only needed for migration
   images: {
     jellyfin: {
       source: {
         dockerTag: `jellyfin/jellyfin:${upstream}`,
       },
+      arch: ['x86_64', 'aarch64'],
     },
   },
   dependencies: {

@@ -3,6 +3,7 @@ import { uiPort } from './utils'
 import { store } from './fileModels/store.json'
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
+import { i18n } from './i18n'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   /**
@@ -10,7 +11,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('[i] Starting Jellyfin!')
+  console.info(i18n('Starting Jellyfin!'))
 
   let mounts = sdk.Mounts.of()
     .mountVolume({
@@ -29,7 +30,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
   const mediaSources = await store.read((s) => s.mediaSources).const(effects)
 
   if (!mediaSources) {
-    throw new Error('No media sources')
+    throw new Error(i18n('No media sources'))
   }
 
   if (mediaSources.includes('filebrowser')) {
@@ -88,11 +89,11 @@ export const main = sdk.setupMain(async ({ effects }) => {
     },
     ready: {
       gracePeriod: 42000,
-      display: 'Server and Web UI',
+      display: i18n('Server and Web UI'),
       fn: () =>
         startupComplete
-          ? { result: 'success', message: 'Server and web UI are ready' }
-          : { result: 'failure', message: 'Server or web UI unreachable' },
+          ? { result: 'success', message: i18n('Server and web UI are ready') }
+          : { result: 'failure', message: i18n('Server or web UI unreachable') },
     },
     requires: [],
   })

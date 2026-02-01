@@ -1,18 +1,19 @@
 import { configJson } from '../fileModels/config.json'
 import { sdk } from '../sdk'
+import { i18n } from '../i18n'
 
 const { InputSpec, Value } = sdk
 
 export const inputSpec = InputSpec.of({
   chromecast: Value.toggle({
-    name: 'Chromecast',
+    name: i18n('Chromecast'),
     default: false,
-    description: 'Chromecast plugin to allow casting to other devices.',
+    description: i18n('Chromecast plugin to allow casting to other devices.'),
   }),
   trailers: Value.toggle({
-    name: 'Youtube trailers',
+    name: i18n('Youtube trailers'),
     default: false,
-    description: 'Auto-load movie trailers from YouTube.',
+    description: i18n('Auto-load movie trailers from YouTube.'),
   }),
 })
 
@@ -22,8 +23,8 @@ export const plugins = sdk.Action.withInput(
 
   // metadata
   async ({ effects }) => ({
-    name: 'Plugins',
-    description: 'Select which plugins to enable',
+    name: i18n('Plugins'),
+    description: i18n('Select which plugins to enable'),
     warning: null,
     allowedStatuses: 'any',
     group: null,
