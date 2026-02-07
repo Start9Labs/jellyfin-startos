@@ -10,8 +10,7 @@ export const manifest = setupManifest({
   supportSite: 'https://jellyfin.org/docs/',
   marketingSite: 'https://jellyfin.org',
   donationUrl: 'https://opencollective.com/jellyfin/donate',
-  docsUrl:
-    'https://github.com/Start9Labs/jellyfin-startos/blob/update/040/docs/README.md',
+  docsUrl: 'https://jellyfin.org/docs/',
   description: i18n.description,
   volumes: ['startos', 'cache', 'config', 'main'], // @TODO main only needed for migration
   images: {
