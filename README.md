@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="icon.png" alt="Jellyfin Logo" width="21%">
+  <img src="icon.svg" alt="Jellyfin Logo" width="21%">
 </p>
 
 # Jellyfin on StartOS
@@ -7,8 +7,8 @@
 > **Upstream docs:** <https://jellyfin.org/docs/>
 >
 > Everything not listed in this document should behave the same as upstream
-> Jellyfin 10.11.6. If a feature, setting, or behavior is not mentioned
-> here, the upstream documentation is accurate and fully applicable.
+> Jellyfin. If a feature, setting, or behavior is not mentioned here, the
+> upstream documentation is accurate and fully applicable.
 
 [Jellyfin](https://github.com/jellyfin/jellyfin) is a free software media system that puts you in control of managing and streaming your media. It's an open-source alternative to proprietary media servers with no premium licenses or hidden features.
 
@@ -36,7 +36,7 @@
 
 | Property | Value |
 |----------|-------|
-| Image | `jellyfin/jellyfin:10.11.6` (upstream unmodified) |
+| Image | `jellyfin/jellyfin` (upstream unmodified) |
 | Architectures | x86_64, aarch64 |
 
 ---
@@ -229,8 +229,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and development wo
 
 ```yaml
 package_id: jellyfin
-upstream_version: 10.11.6
-image: jellyfin/jellyfin:10.11.6
+image: jellyfin/jellyfin
 architectures: [x86_64, aarch64]
 volumes:
   config: /config

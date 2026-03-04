@@ -5,12 +5,12 @@ export const manifest = setupManifest({
   id: 'jellyfin',
   title: 'Jellyfin',
   license: 'MIT',
-  wrapperRepo: 'https://github.com/Start9Labs/jellyfin-startos',
+  packageRepo:
+    'https://github.com/Start9Labs/jellyfin-startos/tree/update/040',
   upstreamRepo: 'https://github.com/jellyfin/jellyfin',
-  supportSite: 'https://jellyfin.org/docs/',
-  marketingSite: 'https://jellyfin.org',
+  marketingUrl: 'https://jellyfin.org',
+  docsUrls: ['https://jellyfin.org/docs/'],
   donationUrl: 'https://opencollective.com/jellyfin/donate',
-  docsUrl: 'https://jellyfin.org/docs/',
   description: i18n.description,
   volumes: ['startos', 'cache', 'config', 'main'], // @TODO main only needed for migration
   images: {
@@ -23,19 +23,19 @@ export const manifest = setupManifest({
   },
   dependencies: {
     filebrowser: {
-      description: 'Used to get media from File Browser',
+      description: i18n.filebrowserDescription,
       optional: true,
       metadata: {
         title: 'File Browser',
-        icon: 'https://raw.githubusercontent.com/Start9Labs/filebrowser-startos/refs/heads/master/icon.png',
+        icon: 'https://raw.githubusercontent.com/Start9Labs/filebrowser-startos/refs/heads/master/icon.svg',
       },
     },
     nextcloud: {
-      description: 'Used to get media from Nextcloud',
+      description: i18n.nextcloudDescription,
       optional: true,
       metadata: {
         title: 'Nextcloud',
-        icon: 'https://raw.githubusercontent.com/Start9Labs/nextcloud-startos/refs/heads/master/icon.png',
+        icon: 'https://raw.githubusercontent.com/Start9Labs/nextcloud-startos/refs/heads/master/icon.svg',
       },
     },
   },

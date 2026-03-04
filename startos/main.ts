@@ -1,9 +1,8 @@
-import { sdk } from './sdk'
-import { uiPort } from './utils'
-import { store } from './fileModels/store.json'
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
+import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
+import { sdk } from './sdk'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   /**
@@ -53,13 +52,6 @@ export const main = sdk.setupMain(async ({ effects }) => {
     })
   }
 
-  const subcontainer = await sdk.SubContainer.of(
-    effects,
-    { imageId: 'jellyfin' },
-    mounts,
-    'jellyfin-sub',
-  )
-
   /**
    * ======================== Daemons ========================
    *
@@ -71,7 +63,12 @@ export const main = sdk.setupMain(async ({ effects }) => {
   let startupComplete = false
 
   return sdk.Daemons.of(effects).addDaemon('primary', {
-    subcontainer,
+    subcontainer: await sdk.SubContainer.of(
+      effects,
+      { imageId: 'jellyfin' },
+      mounts,
+      'jellyfin-sub',
+    ),
     exec: {
       command: sdk.useEntrypoint(),
       onStdout: (chunk) => {
@@ -93,7 +90,10 @@ export const main = sdk.setupMain(async ({ effects }) => {
       fn: () =>
         startupComplete
           ? { result: 'success', message: i18n('Server and web UI are ready') }
-          : { result: 'failure', message: i18n('Server or web UI unreachable') },
+          : {
+              result: 'failure',
+              message: i18n('Server or web UI unreachable'),
+            },
     },
     requires: [],
   })

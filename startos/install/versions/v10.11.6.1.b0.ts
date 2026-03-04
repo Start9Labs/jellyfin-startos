@@ -1,13 +1,12 @@
 import { VersionInfo, IMPOSSIBLE, YAML } from '@start9labs/start-sdk'
 import { readFile, rm } from 'fs/promises'
-import { configJson } from '../../fileModels/config.json'
-import { configDefaults } from '../../utils'
-import { store, StoreType } from '../../fileModels/store.json'
+import { configJson, defaultPlugins } from '../../fileModels/config.json'
+import { store, type StoreType } from '../../fileModels/store.json'
 
-const version = '10.11.6:0-beta.0'
+const version = '10.11.6:1-beta.0'
 export const upstream = version.split(':')[0]
 
-export const v_10_11_6_0_b0 = VersionInfo.of({
+export const v_10_11_6_1_b0 = VersionInfo.of({
   version,
   releaseNotes: {
     en_US: 'Revamped for StartOS 0.4.0',
@@ -21,7 +20,7 @@ export const v_10_11_6_0_b0 = VersionInfo.of({
       // get old config.yaml
       const configYaml:
         | {
-            mediasources: typeof StoreType.mediaSources
+            mediasources: StoreType['mediaSources']
             chromecast: boolean
             trailers: boolean
           }
@@ -35,14 +34,11 @@ export const v_10_11_6_0_b0 = VersionInfo.of({
           mediaSources: configYaml.mediasources || [],
         })
 
-        const plugins = configDefaults.plugins
+        const plugins = [...defaultPlugins]
         if (configYaml.chromecast) plugins.push('chromecast')
         if (configYaml.trailers) plugins.push('trailers')
 
-        await configJson.write(effects, {
-          ...configDefaults,
-          plugins,
-        })
+        await configJson.merge(effects, { plugins })
 
         // remove old start9 dir
         await rm('/media/startos/volumes/main/start9', {
