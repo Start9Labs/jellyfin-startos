@@ -3,17 +3,14 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../../fileModels/config.json'
 import { store, type StoreType } from '../../fileModels/store.json'
 
-const version = '10.11.6:1-beta.0'
-export const upstream = version.split(':')[0]
-
-export const v_10_11_6_1_b0 = VersionInfo.of({
-  version,
+export const v_10_11_6_2_b0 = VersionInfo.of({
+  version: '10.11.6:2-beta.0',
   releaseNotes: {
-    en_US: 'Revamped for StartOS 0.4.0',
-    es_ES: 'Renovado para StartOS 0.4.0',
-    de_DE: 'Überarbeitet für StartOS 0.4.0',
-    pl_PL: 'Przebudowano dla StartOS 0.4.0',
-    fr_FR: 'Remanié pour StartOS 0.4.0',
+    en_US: 'Update to StartOS SDK beta.59',
+    es_ES: 'Actualización a StartOS SDK beta.59',
+    de_DE: 'Update auf StartOS SDK beta.59',
+    pl_PL: 'Aktualizacja do StartOS SDK beta.59',
+    fr_FR: 'Mise à jour vers StartOS SDK beta.59',
   },
   migrations: {
     up: async ({ effects }) => {
