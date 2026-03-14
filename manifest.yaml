@@ -1,9 +1,14 @@
 id: jellyfin
 title: "Jellyfin"
-version: 10.11.1
+version: 10.11.6
 release-notes: |
-  - Updated Jellyfin code to the latest version from upstream - full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.10.7...v10.11.1)
-  - **We strongly recommend running a full library scan** to ensure that all data is correctly populated.
+  - Updated Jellyfin from 10.11.1 to 10.11.6 — full changelog available [here](https://github.com/jellyfin/jellyfin/compare/v10.11.1...v10.11.6)
+  - Security fix for password reset vulnerability
+  - Database migration and JOIN optimization fixes
+  - exFAT crash fix, NFO metadata improvements, symlink resolution
+  - Search prioritization and diacritics handling
+  - Watched state, HLS playlist, and Dolby Vision fixes
+  - Trickplay and HDR stream copy fixes
 license: GPL-2.0
 wrapper-repo: "https://github.com/Start9Labs/jellyfin-startos"
 upstream-repo: "https://github.com/jellyfin/jellyfin"
