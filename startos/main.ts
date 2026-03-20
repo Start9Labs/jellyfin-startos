@@ -1,5 +1,6 @@
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
+import { networkXml } from './fileModels/network.xml'
 import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
@@ -11,6 +12,8 @@ export const main = sdk.setupMain(async ({ effects }) => {
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
   console.info(i18n('Starting Jellyfin!'))
+
+  await networkXml.merge(effects, {})
 
   let mounts = sdk.Mounts.of()
     .mountVolume({
