@@ -3,8 +3,8 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../../fileModels/config.json'
 import { store, type StoreType } from '../../fileModels/store.json'
 
-export const v_10_11_6_2_b1 = VersionInfo.of({
-  version: '10.11.6:2-beta.1',
+export const v_10_11_6_2_b2 = VersionInfo.of({
+  version: '10.11.6:2-beta.2',
   releaseNotes: {
     en_US: 'Update to StartOS SDK beta.60',
     es_ES: 'Actualización a StartOS SDK beta.60',
