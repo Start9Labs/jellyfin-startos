@@ -1,2 +1,2 @@
-export { v_10_11_6_2_b2 as current } from './v10.11.6.2.b2'
+export { v_10_11_6_2_b3 as current } from './v10.11.6.2.b3'
 export const other = []
