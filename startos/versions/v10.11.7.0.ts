@@ -3,14 +3,14 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { store, type StoreType } from '../fileModels/store.json'
 
-export const v_10_11_6_2_b4 = VersionInfo.of({
-  version: '10.11.6:2-beta.4',
+export const v_10_11_7_0 = VersionInfo.of({
+  version: '10.11.7:0',
   releaseNotes: {
-    en_US: 'Update to StartOS SDK beta.65',
-    es_ES: 'Actualización a StartOS SDK beta.65',
-    de_DE: 'Update auf StartOS SDK beta.65',
-    pl_PL: 'Aktualizacja do StartOS SDK beta.65',
-    fr_FR: 'Mise à jour vers StartOS SDK beta.65',
+    en_US: 'Update Jellyfin to 10.11.7',
+    es_ES: 'Actualización de Jellyfin a 10.11.7',
+    de_DE: 'Update von Jellyfin auf 10.11.7',
+    pl_PL: 'Aktualizacja Jellyfin do 10.11.7',
+    fr_FR: 'Mise à jour de Jellyfin vers 10.11.7',
   },
   migrations: {
     up: async ({ effects }) => {

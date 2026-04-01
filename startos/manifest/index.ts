@@ -6,7 +6,7 @@ export const manifest = setupManifest({
   title: 'Jellyfin',
   license: 'MIT',
   packageRepo:
-    'https://github.com/Start9Labs/jellyfin-startos/tree/update/040',
+    'https://github.com/Start9Labs/jellyfin-startos',
   upstreamRepo: 'https://github.com/jellyfin/jellyfin',
   marketingUrl: 'https://jellyfin.org',
   docsUrls: ['https://jellyfin.org/docs/'],
@@ -16,7 +16,7 @@ export const manifest = setupManifest({
   images: {
     jellyfin: {
       source: {
-        dockerTag: 'jellyfin/jellyfin:10.11.6',
+        dockerTag: 'jellyfin/jellyfin:10.11.7',
       },
       arch: ['x86_64', 'aarch64'],
     },
