@@ -153,12 +153,27 @@ At least one source must be selected.
 
 ## Dependencies
 
-| Dependency | Required | Purpose |
-|------------|----------|---------|
-| File Browser | Optional | Media source |
-| Nextcloud | Optional | Media source |
-
 At least one dependency must be configured via the "Select Media Sources" action.
+
+### File Browser
+
+| Property | Value |
+|----------|-------|
+| Required | Optional |
+| Version constraint | `>= 2.62.2` |
+| Health checks | None |
+| Mounted volumes | `data` → `/mnt/filebrowser` (read-only) |
+| Purpose | Media source for movies, TV, music, photos |
+
+### Nextcloud
+
+| Property | Value |
+|----------|-------|
+| Required | Optional |
+| Version constraint | `>= 32.0.7` |
+| Health checks | None |
+| Mounted volumes | `nextcloud` → `/mnt/nextcloud` (read-only) |
+| Purpose | Media source for movies, TV, music, photos |
 
 ---
 
@@ -238,8 +253,9 @@ volumes:
 ports:
   ui: 8096
 dependencies:
-  filebrowser: optional (media source)
-  nextcloud: optional (media source)
+  filebrowser: optional (media source, >= 2.62.2)
+  nextcloud: optional (media source, >= 32.0.7)
+startos_managed_env_vars: none
 media_mount_points:
   filebrowser: /mnt/filebrowser (read-only)
   nextcloud: /mnt/nextcloud (read-only)
