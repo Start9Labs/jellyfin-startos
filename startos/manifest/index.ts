@@ -16,7 +16,7 @@ export const manifest = setupManifest({
   images: {
     jellyfin: {
       source: {
-        dockerTag: 'jellyfin/jellyfin:10.11.7',
+        dockerTag: 'jellyfin/jellyfin:10.11.8',
       },
       arch: ['x86_64', 'aarch64'],
     },
