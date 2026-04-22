@@ -3,14 +3,14 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { store, type StoreType } from '../fileModels/store.json'
 
-export const v_10_11_8_0 = VersionInfo.of({
-  version: '10.11.8:0',
+export const v_10_11_8_1 = VersionInfo.of({
+  version: '10.11.8:1',
   releaseNotes: {
-    en_US: 'Update Jellyfin to 10.11.8',
-    es_ES: 'Actualización de Jellyfin a 10.11.8',
-    de_DE: 'Update von Jellyfin auf 10.11.8',
-    pl_PL: 'Aktualizacja Jellyfin do 10.11.8',
-    fr_FR: 'Mise à jour de Jellyfin vers 10.11.8',
+    en_US: 'Internal updates (start-sdk 1.2.0)',
+    es_ES: 'Actualizaciones internas (start-sdk 1.2.0)',
+    de_DE: 'Interne Aktualisierungen (start-sdk 1.2.0)',
+    pl_PL: 'Aktualizacje wewnętrzne (start-sdk 1.2.0)',
+    fr_FR: 'Mises à jour internes (start-sdk 1.2.0)',
   },
   migrations: {
     up: async ({ effects }) => {

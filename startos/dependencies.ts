@@ -11,14 +11,14 @@ export const setDependencies = sdk.setupDependencies(async ({ effects }) => {
   if (mediaSources.includes('filebrowser')) {
     deps['filebrowser'] = {
       kind: 'exists',
-      versionRange: '>=2.62.2:0',
+      versionRange: '>=2.63.2:0',
     }
   }
 
   if (mediaSources.includes('nextcloud')) {
     deps['nextcloud'] = {
       kind: 'exists',
-      versionRange: '>=32.0.7:0',
+      versionRange: '>=32.0.8:0',
     }
   }
 
