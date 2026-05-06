@@ -36,7 +36,7 @@
 
 | Property | Value |
 |----------|-------|
-| Image | `jellyfin/jellyfin` (upstream unmodified) |
+| Image | `jellyfin/jellyfin` with `libe_sqlite3.so` swapped to the 10.10.7 build (workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): 10.11.x's SQLite uses SSE4.1 and crashes on pre-2008 CPUs) |
 | Architectures | x86_64, aarch64 |
 
 ---

@@ -1,2 +1,2 @@
 ## How the upstream version is pulled
-- dockerTag in `startos/manifest/index.ts`: `jellyfin/jellyfin:<version>`
+- `dockerBuild` in `startos/manifest/index.ts` reads `./Dockerfile`, which `FROM`s `jellyfin/jellyfin:<version>` and overlays a workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): the bundled `libe_sqlite3.so` in 10.11.x uses SSE4.1 and SIGILLs on pre-2008 CPUs, so we copy the library from `jellyfin/jellyfin:10.10.7` over the top. When bumping the upstream version, update both `FROM` lines in the Dockerfile (the base — usually — and re-evaluate whether the 10.10.7 swap is still needed once upstream ships a fix).
