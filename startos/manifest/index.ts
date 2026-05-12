@@ -9,7 +9,6 @@ export const manifest = setupManifest({
     'https://github.com/Start9Labs/jellyfin-startos',
   upstreamRepo: 'https://github.com/jellyfin/jellyfin',
   marketingUrl: 'https://jellyfin.org',
-  docsUrls: ['https://jellyfin.org/docs/'],
   donationUrl: 'https://opencollective.com/jellyfin/donate',
   description: i18n.description,
   volumes: ['startos', 'cache', 'config', 'main'], // @TODO main only needed for migration
