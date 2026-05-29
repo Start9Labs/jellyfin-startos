@@ -3,14 +3,18 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { store, type StoreType } from '../fileModels/store.json'
 
-export const v_10_11_8_4 = VersionInfo.of({
-  version: '10.11.8:4',
+export const v_10_11_10_0 = VersionInfo.of({
+  version: '10.11.10:0',
   releaseNotes: {
-    en_US: '**Internal**\n\n- Bump @start9labs/start-sdk to 1.5.0.',
-    es_ES: '**Interno**\n\n- Actualiza @start9labs/start-sdk a 1.5.0.',
-    de_DE: '**Intern**\n\n- @start9labs/start-sdk auf 1.5.0 aktualisiert.',
-    pl_PL: '**Wewnętrzne**\n\n- Aktualizacja @start9labs/start-sdk do 1.5.0.',
-    fr_FR: '**Interne**\n\n- Mise à jour de @start9labs/start-sdk vers 1.5.0.',
+    en_US: 'Updates Jellyfin to 10.11.10 (bugfixes and security patches).',
+    es_ES:
+      'Actualiza Jellyfin a 10.11.10 (correcciones de errores y parches de seguridad).',
+    de_DE:
+      'Aktualisiert Jellyfin auf 10.11.10 (Fehlerbehebungen und Sicherheitspatches).',
+    pl_PL:
+      'Aktualizuje Jellyfin do 10.11.10 (poprawki błędów i łatki bezpieczeństwa).',
+    fr_FR:
+      'Met à jour Jellyfin vers 10.11.10 (corrections de bugs et correctifs de sécurité).',
   },
   migrations: {
     up: async ({ effects }) => {
