@@ -3,7 +3,7 @@ import { readFile, rm } from 'fs/promises'
 import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { store, type StoreType } from '../fileModels/store.json'
 
-export const v_10_11_10_0 = VersionInfo.of({
+export const current = VersionInfo.of({
   version: '10.11.10:0',
   releaseNotes: {
     en_US: 'Updates Jellyfin to 10.11.10 (bugfixes and security patches).',
