@@ -4,17 +4,17 @@ import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { store, type StoreType } from '../fileModels/store.json'
 
 export const current = VersionInfo.of({
-  version: '10.11.10:0',
+  version: '10.11.11:0',
   releaseNotes: {
-    en_US: 'Updates Jellyfin to 10.11.10 (bugfixes and security patches).',
+    en_US: 'Updates Jellyfin to 10.11.11 (bugfixes and security patches).',
     es_ES:
-      'Actualiza Jellyfin a 10.11.10 (correcciones de errores y parches de seguridad).',
+      'Actualiza Jellyfin a 10.11.11 (correcciones de errores y parches de seguridad).',
     de_DE:
-      'Aktualisiert Jellyfin auf 10.11.10 (Fehlerbehebungen und Sicherheitspatches).',
+      'Aktualisiert Jellyfin auf 10.11.11 (Fehlerbehebungen und Sicherheitspatches).',
     pl_PL:
-      'Aktualizuje Jellyfin do 10.11.10 (poprawki błędów i łatki bezpieczeństwa).',
+      'Aktualizuje Jellyfin do 10.11.11 (poprawki błędów i łatki bezpieczeństwa).',
     fr_FR:
-      'Met à jour Jellyfin vers 10.11.10 (corrections de bugs et correctifs de sécurité).',
+      'Met à jour Jellyfin vers 10.11.11 (corrections de bugs et correctifs de sécurité).',
   },
   migrations: {
     up: async ({ effects }) => {
