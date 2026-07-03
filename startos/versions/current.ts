@@ -6,15 +6,16 @@ import { store, type StoreType } from '../fileModels/store.json'
 export const current = VersionInfo.of({
   version: '10.11.11:0',
   releaseNotes: {
-    en_US: 'Updates Jellyfin to 10.11.11 (bugfixes and security patches).',
+    en_US:
+      'Updates Jellyfin to 10.11.11 (bugfixes and security patches). Internal updates (start-sdk 2.0.x).',
     es_ES:
-      'Actualiza Jellyfin a 10.11.11 (correcciones de errores y parches de seguridad).',
+      'Actualiza Jellyfin a 10.11.11 (correcciones de errores y parches de seguridad). Actualizaciones internas (start-sdk 2.0.x).',
     de_DE:
-      'Aktualisiert Jellyfin auf 10.11.11 (Fehlerbehebungen und Sicherheitspatches).',
+      'Aktualisiert Jellyfin auf 10.11.11 (Fehlerbehebungen und Sicherheitspatches). Interne Aktualisierungen (start-sdk 2.0.x).',
     pl_PL:
-      'Aktualizuje Jellyfin do 10.11.11 (poprawki błędów i łatki bezpieczeństwa).',
+      'Aktualizuje Jellyfin do 10.11.11 (poprawki błędów i łatki bezpieczeństwa). Aktualizacje wewnętrzne (start-sdk 2.0.x).',
     fr_FR:
-      'Met à jour Jellyfin vers 10.11.11 (corrections de bugs et correctifs de sécurité).',
+      'Met à jour Jellyfin vers 10.11.11 (corrections de bugs et correctifs de sécurité). Mises à jour internes (start-sdk 2.0.x).',
   },
   migrations: {
     up: async ({ effects }) => {
