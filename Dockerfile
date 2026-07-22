@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:10.11.10
+FROM jellyfin/jellyfin:10.11.11
 
 # TODO: revert this workaround once jellyfin/jellyfin#15148 is fixed upstream
 # and the bundled libe_sqlite3.so no longer uses SSE4.1. At that point,
