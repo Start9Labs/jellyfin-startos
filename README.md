@@ -34,20 +34,20 @@
 
 ## Image and Container Runtime
 
-| Property | Value |
-|----------|-------|
-| Image | `jellyfin/jellyfin` with `libe_sqlite3.so` swapped to the 10.10.7 build (workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): 10.11.x's SQLite uses SSE4.1 and crashes on pre-2008 CPUs) |
-| Architectures | x86_64, aarch64 |
+| Property      | Value                                                                                                                                                                                                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Image         | `jellyfin/jellyfin` with `libe_sqlite3.so` swapped to the 10.10.7 build (workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): 10.11.x's SQLite uses SSE4.1 and crashes on pre-2008 CPUs) |
+| Architectures | x86_64, aarch64                                                                                                                                                                                                                  |
 
 ---
 
 ## Volume and Data Layout
 
-| Volume | Mount Point | Purpose |
-|--------|-------------|---------|
-| `config` | `/config` | Jellyfin configuration and metadata |
-| `cache` | `/cache` | Transcoding cache and temporary files |
-| `startos` | — | StartOS-managed state |
+| Volume    | Mount Point | Purpose                               |
+| --------- | ----------- | ------------------------------------- |
+| `config`  | `/config`   | Jellyfin configuration and metadata   |
+| `cache`   | `/cache`    | Transcoding cache and temporary files |
+| `startos` | —           | StartOS-managed state                 |
 
 **Media access:**
 
@@ -58,12 +58,12 @@
 
 ## Installation and First-Run Flow
 
-| Step | Upstream | StartOS |
-|------|----------|---------|
-| Installation | Docker setup | Install from marketplace |
-| Media paths | Configure any filesystem path | Select File Browser and/or Nextcloud |
-| Initial setup | Create admin via web UI | Same as upstream |
-| Library setup | Add media folders | Add `/mnt/filebrowser` or `/mnt/nextcloud` paths |
+| Step          | Upstream                      | StartOS                                          |
+| ------------- | ----------------------------- | ------------------------------------------------ |
+| Installation  | Docker setup                  | Install from marketplace                         |
+| Media paths   | Configure any filesystem path | Select File Browser and/or Nextcloud             |
+| Initial setup | Create admin via web UI       | Same as upstream                                 |
+| Library setup | Add media folders             | Add `/mnt/filebrowser` or `/mnt/nextcloud` paths |
 
 **First-run steps:**
 
@@ -80,10 +80,10 @@
 
 ### Settings Managed via StartOS Actions
 
-| Setting | Action | Description |
-|---------|--------|-------------|
-| Media Sources | Select Media Sources | Choose File Browser and/or Nextcloud |
-| Plugins | Plugins | Enable Chromecast or YouTube trailers |
+| Setting       | Action               | Description                           |
+| ------------- | -------------------- | ------------------------------------- |
+| Media Sources | Select Media Sources | Choose File Browser and/or Nextcloud  |
+| Plugins       | Plugins              | Enable Chromecast or YouTube trailers |
 
 ### Settings Managed via Jellyfin Web UI
 
@@ -100,9 +100,9 @@ All other Jellyfin settings are configured through the web interface:
 
 ## Network Access and Interfaces
 
-| Interface | Port | Protocol | Purpose |
-|-----------|------|----------|---------|
-| Web UI | 8096 | HTTP | Jellyfin web interface |
+| Interface | Port | Protocol | Purpose                |
+| --------- | ---- | -------- | ---------------------- |
+| Web UI    | 8096 | HTTP     | Jellyfin web interface |
 
 **Access methods (StartOS 0.4.0):**
 
@@ -119,13 +119,13 @@ All other Jellyfin settings are configured through the web interface:
 
 ### Select Media Sources
 
-| Property | Value |
-|----------|-------|
-| ID | `media-sources` |
-| Name | Select Media Sources |
-| Visibility | Enabled |
-| Availability | Any status |
-| Purpose | Choose which services provide media files |
+| Property     | Value                                     |
+| ------------ | ----------------------------------------- |
+| ID           | `media-sources`                           |
+| Name         | Select Media Sources                      |
+| Visibility   | Enabled                                   |
+| Availability | Any status                                |
+| Purpose      | Choose which services provide media files |
 
 **Options:**
 
@@ -136,13 +136,13 @@ At least one source must be selected.
 
 ### Plugins
 
-| Property | Value |
-|----------|-------|
-| ID | `plugins` |
-| Name | Plugins |
-| Visibility | Enabled |
-| Availability | Any status |
-| Purpose | Toggle optional plugins |
+| Property     | Value                   |
+| ------------ | ----------------------- |
+| ID           | `plugins`               |
+| Name         | Plugins                 |
+| Visibility   | Enabled                 |
+| Availability | Any status              |
+| Purpose      | Toggle optional plugins |
 
 **Available plugins:**
 
@@ -157,23 +157,23 @@ At least one dependency must be configured via the "Select Media Sources" action
 
 ### File Browser
 
-| Property | Value |
-|----------|-------|
-| Required | Optional |
-| Version constraint | `>= 2.62.2` |
-| Health checks | None |
-| Mounted volumes | `data` → `/mnt/filebrowser` (read-only) |
-| Purpose | Media source for movies, TV, music, photos |
+| Property           | Value                                      |
+| ------------------ | ------------------------------------------ |
+| Required           | Optional                                   |
+| Version constraint | `>= 2.62.2`                                |
+| Health checks      | None                                       |
+| Mounted volumes    | `data` → `/mnt/filebrowser` (read-only)    |
+| Purpose            | Media source for movies, TV, music, photos |
 
 ### Nextcloud
 
-| Property | Value |
-|----------|-------|
-| Required | Optional |
-| Version constraint | `>= 32.0.7` |
-| Health checks | None |
-| Mounted volumes | `nextcloud` → `/mnt/nextcloud` (read-only) |
-| Purpose | Media source for movies, TV, music, photos |
+| Property           | Value                                      |
+| ------------------ | ------------------------------------------ |
+| Required           | Optional                                   |
+| Version constraint | `>= 32.0.7`                                |
+| Health checks      | None                                       |
+| Mounted volumes    | `nextcloud` → `/mnt/nextcloud` (read-only) |
+| Purpose            | Media source for movies, TV, music, photos |
 
 ---
 
@@ -198,9 +198,9 @@ At least one dependency must be configured via the "Select Media Sources" action
 
 ## Health Checks
 
-| Check | Display Name | Method | Grace Period |
-|-------|--------------|--------|--------------|
-| Server | Server and Web UI | Log monitoring for "Startup complete" | 42 seconds |
+| Check  | Display Name      | Method                                | Grace Period |
+| ------ | ----------------- | ------------------------------------- | ------------ |
+| Server | Server and Web UI | Log monitoring for "Startup complete" | 42 seconds   |
 
 **Messages:**
 
@@ -236,7 +236,7 @@ At least one dependency must be configured via the "Select Media Sources" action
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for build instructions and development workflow.
+Build and development workflow follow the StartOS packaging guide: <https://docs.start9.com/packaging>. Keep `README.md`, `instructions.md`, and `AGENTS.md` in sync with any change to user-visible behavior or package structure.
 
 ---
 
