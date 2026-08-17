@@ -87,6 +87,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
         }
       },
     },
+    // Reads the startup log, not the port: Jellyfin binds long before it serves,
+    // so a port probe reports healthy through a boot that can take most of a
+    // minute. Don't simplify this to checkPortListening.
     ready: {
       gracePeriod: 42000,
       display: i18n('Server and Web UI'),

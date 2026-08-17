@@ -4,13 +4,15 @@
 
 # Jellyfin on StartOS
 
-> **Upstream docs:** <https://jellyfin.org/docs/>
->
 > Everything not listed in this document should behave the same as upstream
 > Jellyfin. If a feature, setting, or behavior is not mentioned here, the
-> upstream documentation is accurate and fully applicable.
+> upstream documentation is accurate and fully applicable — see the
+> Documentation section of `instructions.md` for links.
 
-[Jellyfin](https://github.com/jellyfin/jellyfin) is a free software media system that puts you in control of managing and streaming your media. It's an open-source alternative to proprietary media servers with no premium licenses or hidden features.
+[Jellyfin](https://github.com/jellyfin/jellyfin) is a media server. This package does not store media of its own: it mounts another service's files read-only, so the library lives wherever you already keep it.
+
+- **Upstream repo:** <https://github.com/jellyfin/jellyfin>
+- **Wrapper repo:** <https://github.com/Start9Labs/jellyfin-startos>
 
 ---
 
@@ -18,225 +20,157 @@
 
 - [Image and Container Runtime](#image-and-container-runtime)
 - [Volume and Data Layout](#volume-and-data-layout)
-- [Installation and First-Run Flow](#installation-and-first-run-flow)
-- [Configuration Management](#configuration-management)
-- [Network Access and Interfaces](#network-access-and-interfaces)
-- [Actions (StartOS UI)](#actions-startos-ui)
+- [File Models](#file-models)
 - [Dependencies](#dependencies)
-- [Backups and Restore](#backups-and-restore)
+- [Network Access and Interfaces](#network-access-and-interfaces)
+- [Installation and First-Run Flow](#installation-and-first-run-flow)
+- [Actions](#actions)
+- [Tasks](#tasks)
 - [Health Checks](#health-checks)
+- [Backups and Restore](#backups-and-restore)
 - [Limitations and Differences](#limitations-and-differences)
-- [What Is Unchanged from Upstream](#what-is-unchanged-from-upstream)
-- [Contributing](#contributing)
 - [Quick Reference for AI Consumers](#quick-reference-for-ai-consumers)
 
 ---
 
 ## Image and Container Runtime
 
-| Property      | Value                                                                                                                                                                                                                            |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Image         | `jellyfin/jellyfin` with `libe_sqlite3.so` swapped to the 10.10.7 build (workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): 10.11.x's SQLite uses SSE4.1 and crashes on pre-2008 CPUs) |
-| Architectures | x86_64, aarch64                                                                                                                                                                                                                  |
+The image is upstream's with a single file replaced, and one subcontainer runs the service.
 
----
+| Property      | Value                                                             |
+| ------------- | ----------------------------------------------------------------- |
+| Image         | Built from `Dockerfile`, `FROM jellyfin/jellyfin`                 |
+| Architectures | x86_64, aarch64                                                   |
+| Entrypoint    | Upstream default                                                  |
+| Subcontainer  | `jellyfin-sub` — the `primary` daemon, and the one to `attach` to |
+
+The one modification: the bundled SQLite native library is replaced with the one from an earlier upstream release. The current build uses SSE4.1 instructions and crashes with an illegal-instruction fault on CPUs that lack them — pre-2008 Intel, pre-Bulldozer AMD, the original Atom. The Dockerfile is a workaround for an open upstream issue and is meant to be deleted once that is fixed.
 
 ## Volume and Data Layout
 
-| Volume    | Mount Point | Purpose                               |
-| --------- | ----------- | ------------------------------------- |
-| `config`  | `/config`   | Jellyfin configuration and metadata   |
-| `cache`   | `/cache`    | Transcoding cache and temporary files |
-| `startos` | —           | StartOS-managed state                 |
+Four volumes are declared, three of which are in use — and none of them holds media.
 
-**Media access:**
+| Volume    | Mount Point   | Purpose                                              |
+| --------- | ------------- | ---------------------------------------------------- |
+| `config`  | `/config`     | Jellyfin's configuration, its database, and metadata |
+| `cache`   | `/cache`      | Transcoding and image cache                          |
+| `startos` | — (host side) | `store.json`; never mounted into the container       |
+| `main`    | — (unused)    | Retained only for the migration path                 |
 
-- `/mnt/filebrowser` — File Browser data (read-only)
-- `/mnt/nextcloud` — Nextcloud data (read-only)
+Media arrives from another service as a read-only mount — `/mnt/filebrowser`, `/mnt/nextcloud`, or both — chosen in [Select Media Sources](#actions).
 
----
+## File Models
 
-## Installation and First-Run Flow
+Three models: two of Jellyfin's own files, and the package's state.
 
-| Step          | Upstream                      | StartOS                                          |
-| ------------- | ----------------------------- | ------------------------------------------------ |
-| Installation  | Docker setup                  | Install from marketplace                         |
-| Media paths   | Configure any filesystem path | Select File Browser and/or Nextcloud             |
-| Initial setup | Create admin via web UI       | Same as upstream                                 |
-| Library setup | Add media folders             | Add `/mnt/filebrowser` or `/mnt/nextcloud` paths |
+| File          | Format | Modelled                | Written by                         |
+| ------------- | ------ | ----------------------- | ---------------------------------- |
+| `network.xml` | XML    | Yes — `FileHelper.xml`  | Every start                        |
+| `config.json` | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action |
+| `store.json`  | JSON   | Yes — `FileHelper.json` | The Select Media Sources action    |
 
-**First-run steps:**
+### network.xml
 
-1. Install File Browser and/or Nextcloud (if not already installed)
-2. Upload media to File Browser or Nextcloud
-3. Install Jellyfin from StartOS marketplace
-4. Run "Select Media Sources" action to enable dependencies
-5. Access web UI and complete setup wizard
-6. Add library pointing to `/mnt/filebrowser` or `/mnt/nextcloud/data/{user}/files`
+**Enforced, on every start:** `KnownProxies` is pinned to the StartOS bridge address. Jellyfin sits behind a reverse proxy and needs to trust it to see the real client address; a hand edit is replaced at the next start.
 
----
+Nothing else in the file is modelled, so the rest of Jellyfin's network settings round-trip untouched.
 
-## Configuration Management
+### config.json
 
-### Settings Managed via StartOS Actions
+The web client's configuration. `plugins` is the list the Plugins action toggles entries in — it adds and removes only the two it knows about, leaving the rest of the list alone. Themes, menu links, and the server list are modelled so they survive a rewrite, and are defaulted only if absent.
 
-| Setting       | Action               | Description                           |
-| ------------- | -------------------- | ------------------------------------- |
-| Media Sources | Select Media Sources | Choose File Browser and/or Nextcloud  |
-| Plugins       | Plugins              | Enable Chromecast or YouTube trailers |
+### store.json
 
-### Settings Managed via Jellyfin Web UI
-
-All other Jellyfin settings are configured through the web interface:
-
-- User management
-- Library configuration
-- Playback settings
-- Transcoding options
-- Network settings
-- Plugin management (beyond StartOS-managed ones)
-
----
-
-## Network Access and Interfaces
-
-| Interface | Port | Protocol | Purpose                |
-| --------- | ---- | -------- | ---------------------- |
-| Web UI    | 8096 | HTTP     | Jellyfin web interface |
-
-**Access methods (StartOS 0.4.0):**
-
-- LAN IP with unique port
-- `<hostname>.local` with unique port
-- Tor `.onion` address
-- Custom domains (if configured)
-
-**Client apps:** Use any of the above URLs in Jellyfin mobile/TV apps.
-
----
-
-## Actions (StartOS UI)
-
-### Select Media Sources
-
-| Property     | Value                                     |
-| ------------ | ----------------------------------------- |
-| ID           | `media-sources`                           |
-| Name         | Select Media Sources                      |
-| Visibility   | Enabled                                   |
-| Availability | Any status                                |
-| Purpose      | Choose which services provide media files |
-
-**Options:**
-
-- **File Browser** — Access media from File Browser's data volume
-- **Nextcloud** — Access media from Nextcloud's data volume
-
-At least one source must be selected.
-
-### Plugins
-
-| Property     | Value                   |
-| ------------ | ----------------------- |
-| ID           | `plugins`               |
-| Name         | Plugins                 |
-| Visibility   | Enabled                 |
-| Availability | Any status              |
-| Purpose      | Toggle optional plugins |
-
-**Available plugins:**
-
-- **Chromecast** — Cast to Chromecast devices
-- **YouTube Trailers** — Auto-load movie trailers from YouTube
-
----
+`mediaSources` alone: which services are mounted in. It lives on its own volume, away from Jellyfin's data, and drives both the mount set and the dependency set.
 
 ## Dependencies
 
-At least one dependency must be configured via the "Select Media Sources" action.
+Both are optional, and at least one must be selected for the service to run.
 
-### File Browser
+| Dependency   | Kind     | Health checks | Mount                         | Why                   |
+| ------------ | -------- | ------------- | ----------------------------- | --------------------- |
+| File Browser | `exists` | none          | `/mnt/filebrowser`, read-only | Where the media lives |
+| Nextcloud    | `exists` | none          | `/mnt/nextcloud`, read-only   | Where the media lives |
 
-| Property           | Value                                      |
-| ------------------ | ------------------------------------------ |
-| Required           | Optional                                   |
-| Version constraint | `>= 2.62.2`                                |
-| Health checks      | None                                       |
-| Mounted volumes    | `data` → `/mnt/filebrowser` (read-only)    |
-| Purpose            | Media source for movies, TV, music, photos |
+Only the volume is needed, so neither service has to be running for Jellyfin to start and read it.
 
-### Nextcloud
+The mounts are `readonly: true`, so Jellyfin cannot modify or delete anything in your library — it reads, transcodes into its own cache, and writes metadata to its own volume.
 
-| Property           | Value                                      |
-| ------------------ | ------------------------------------------ |
-| Required           | Optional                                   |
-| Version constraint | `>= 32.0.7`                                |
-| Health checks      | None                                       |
-| Mounted volumes    | `nextcloud` → `/mnt/nextcloud` (read-only) |
-| Purpose            | Media source for movies, TV, music, photos |
+## Network Access and Interfaces
 
----
+One interface, serving the web client and Jellyfin's API. Nothing is exported for dependent services.
 
-## Backups and Restore
+| Interface | Id   | Type | Port | Description                |
+| --------- | ---- | ---- | ---- | -------------------------- |
+| Web UI    | `ui` | ui   | 8096 | The Jellyfin web interface |
 
-**Included in backup:**
+The port is bound on the `main` MultiHost and is not masked.
 
-- `startos` volume — StartOS configuration
-- `config` volume — Jellyfin settings, metadata, user data
-- `cache` volume — Transcoding cache
+## Installation and First-Run Flow
 
-**NOT included in backup:**
+Install raises a `critical` task straight away: **Jellyfin will not start until a media source is selected**, because there would be nothing for it to serve. `main` refuses to run with none.
 
-- Media files (stored in File Browser or Nextcloud)
+Once a source is chosen and the mount appears, the rest is Jellyfin's own first-run wizard — create the administrator, then add libraries pointing at paths under `/mnt/filebrowser` or `/mnt/nextcloud`.
 
-**Restore behavior:**
+## Actions
 
-- All settings, libraries, and user accounts restored
-- Media libraries will scan to verify content
+Two actions, both user-facing.
 
----
+### Select Media Sources
+
+Chooses which services are mounted in as media libraries. At least one must be selected.
+
+- **What it changes:** `mediaSources` in `store.json`, and through it the package's mount set and dependency set.
+- **Cost:** seconds, then a restart — mounts can only change when the container is recreated.
+- **Repeat safety:** safe to re-run; the form is pre-filled and replaces the selection wholesale.
+- **What happens next:** the storage appears at a fixed path. Nothing becomes a library until you point one at a folder under it in Jellyfin's own settings.
+
+### Plugins
+
+Toggles the two client plugins the package manages.
+
+- **What it changes:** adds or removes those two entries in `config.json`'s plugin list, leaving every other entry untouched.
+- **Cost:** seconds, then a restart.
+- **Repeat safety:** idempotent in both directions.
+
+## Tasks
+
+One task, raised at install, and it blocks the service until you clear it.
+
+| Task                 | Severity   | Raised when                                | Cleared when    |
+| -------------------- | ---------- | ------------------------------------------ | --------------- |
+| Select Media Sources | `critical` | At init, while no media source is selected | The action runs |
+
+`critical` because a Jellyfin with no library mounted has nothing to do, and `main` will not start without one.
 
 ## Health Checks
 
-| Check  | Display Name      | Method                                | Grace Period |
-| ------ | ----------------- | ------------------------------------- | ------------ |
-| Server | Server and Web UI | Log monitoring for "Startup complete" | 42 seconds   |
+One check, and it reads Jellyfin's own startup log rather than probing the port.
 
-**Messages:**
+| Check                         | Method                                                           | Grace Period |
+| ----------------------------- | ---------------------------------------------------------------- | ------------ |
+| `primary` "Server and Web UI" | Watches the daemon's output for Jellyfin's startup-complete line | 42 seconds   |
 
-- Success: "Server and web UI are ready"
-- Error: "Server or web UI unreachable"
+Jellyfin binds its port well before it is ready to serve, so a port check would report healthy during a startup that can take most of a minute. Watching for the line it prints when it is genuinely up avoids that.
 
----
+One consequence worth knowing: the check tracks that line **within the current run**, so it reports a failure until the line appears, not a "starting" state — the grace period is what keeps a normal boot from looking like a fault.
+
+## Backups and Restore
+
+Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache', 'config')`. No dump step and nothing excluded.
+
+- **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the media-source selection.
+- **Not included:** the media itself, which belongs to File Browser or Nextcloud and is covered by that service's backup.
+- **Restore:** complete. The selected source must be installed for the service to start with its mount, and library paths resolve as before because the mount points are fixed.
 
 ## Limitations and Differences
 
-1. **Media sources limited to StartOS services** — Can only access media from File Browser or Nextcloud (not arbitrary filesystem paths)
-2. **No hardware transcoding** — GPU acceleration not available
-3. **Selected plugins via action** — Chromecast and YouTube trailers managed via StartOS action
-4. **Read-only media access** — Media files mounted read-only from source services
-
----
-
-## What Is Unchanged from Upstream
-
-- Full media server functionality
-- All client app compatibility (web, mobile, TV, desktop)
-- User management and permissions
-- Library management (movies, TV, music, photos, books)
-- Metadata fetching and organization
-- Software transcoding
-- Live TV and DVR (with tuner hardware)
-- SyncPlay for watch parties
-- All web UI features
-- Plugin system (Jellyfin plugin repository)
-- Remote access and streaming
-
----
-
-## Contributing
-
-Build and development workflow follow the StartOS packaging guide: <https://docs.start9.com/packaging>. Keep `README.md`, `instructions.md`, and `AGENTS.md` in sync with any change to user-visible behavior or package structure.
+1. **Jellyfin stores no media of its own.** A media source must be selected, and the service will not start without one.
+2. **Media mounts are read-only.** Jellyfin cannot rename, move, or delete anything in your library.
+3. **Changing the media source restarts the service**, because a container's mounts are fixed for its lifetime.
+4. **Only two plugins are managed here.** Anything else is installed and configured inside Jellyfin.
+5. **The bundled SQLite library is replaced** with an older upstream build, so the server runs on CPUs without SSE4.1. This is a temporary workaround for an upstream issue.
+6. **No riscv64 build.** x86_64 and aarch64 only.
 
 ---
 
@@ -244,48 +178,32 @@ Build and development workflow follow the StartOS packaging guide: <https://docs
 
 ```yaml
 package_id: jellyfin
-image: jellyfin/jellyfin
-architectures: [x86_64, aarch64]
+image: ./Dockerfile # FROM jellyfin/jellyfin, with the SQLite native library swapped
+architectures:
+  - x86_64
+  - aarch64
+subcontainers:
+  - jellyfin-sub
 volumes:
   config: /config
   cache: /cache
-  startos: (StartOS state)
-ports:
-  ui: 8096
-dependencies:
-  filebrowser: optional (media source, >= 2.62.2)
-  nextcloud: optional (media source, >= 32.0.7)
-startos_managed_env_vars: none
-media_mount_points:
-  filebrowser: /mnt/filebrowser (read-only)
-  nextcloud: /mnt/nextcloud (read-only)
+  startos: host side (store.json)
+  main: unused (retained for the migration)
+file_models:
+  - /config/network.xml
+  - /config/config.json
+  - store.json
+startos_managed_env_vars: []
+dependencies: # optional, kind "exists"; mounted read-only when selected
+  - filebrowser # /mnt/filebrowser
+  - nextcloud # /mnt/nextcloud
+interfaces:
+  ui: { type: ui, port: 8096 }
 actions:
-  - media-sources (enabled, any)
-  - plugins (enabled, any)
-optional_plugins:
-  - chromecastPlayer/plugin
-  - trailers
-default_plugins:
-  - playAccessValidation/plugin
-  - experimentalWarnings/plugin
-  - htmlAudioPlayer/plugin
-  - htmlVideoPlayer/plugin
-  - photoPlayer/plugin
-  - comicsPlayer/plugin
-  - bookPlayer/plugin
-  - backdropScreensaver/plugin
-  - pdfPlayer/plugin
-  - logoScreensaver/plugin
-  - sessionPlayer/plugin
-  - syncPlay/plugin
+  - media-sources
+  - plugins
+tasks:
+  - { action: media-sources, severity: critical }
 health_checks:
-  - log_monitoring: "Main: Startup complete" (42s grace)
-backup_volumes:
-  - startos
-  - cache
-  - config
-not_available:
-  - Arbitrary media paths
-  - Hardware transcoding (GPU)
-  - Write access to media files
+  - primary # displayed "Server and Web UI"; reads the startup log, not the port
 ```

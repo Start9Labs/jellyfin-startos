@@ -6,12 +6,12 @@ Develop it inside a StartOS packaging workspace created by `start-cli s9pk init-
 which provides the packaging guide and agent context one level up. If you're reading this in a
 bare clone with no workspace, the full guide is at <https://docs.start9.com/packaging>.
 
-Work this package's `TODO.md` from top to bottom. Keep `README.md` (architecture, for developers and LLMs) and `instructions.md` (end-user docs) in sync with your changes.
+Work this package's `TODO.md` from top to bottom. Keep `README.md` (technical reference for an AI support or administering agent) and `instructions.md` (end-user docs) in sync with your changes.
 
 ## This repo
 
-- **Package id is `jellyfin`.** Optional dependencies on `filebrowser` and `nextcloud` (media sources) are mounted read-only when selected via the "Select Media Sources" action; the mounts are wired in `main.ts`.
-
-## Inspecting a running install
-
-To run a command inside the service's container (read its generated config, grep app logs), use `start-cli package attach jellyfin -n jellyfin-sub -- <cmd>`. Select the subcontainer by **name** with `-n` (the name passed to `SubContainer.of` in `main.ts` — here `jellyfin-sub`) or by image with `-i`. Note: `-s/--subcontainer` matches the internal **Guid**, not the name, so passing a name to `-s` fails with "no matching subcontainers".
+- **Keep the media mounts `readonly: true`.** That flag, not a convention, is what guarantees Jellyfin cannot alter a library it does not own.
+- **The Plugins action must add and remove only the entries it manages.** `config.json`'s plugin list also holds Jellyfin's own defaults; rewriting the array wholesale would drop them.
+- **Adding a media source means editing four places in step:** the enum in `startos/fileModels/store.json.ts`, the multiselect values in `startos/actions/mediaSources.ts`, the mount branch in `startos/main.ts`, and the dependency branch in `startos/dependencies.ts` — plus manifest metadata for the new dependency.
+- **`network.xml`'s `KnownProxies` is re-asserted on every start**, because Jellyfin must trust the reverse proxy to see real client addresses. Nothing else in that file is modelled, so the rest round-trips.
+- **The `main` volume is retained solely for the migration path.** Don't reuse it for new data, and don't drop it from the manifest.
