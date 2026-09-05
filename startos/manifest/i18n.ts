@@ -21,11 +21,11 @@ export default {
     },
   },
   filebrowserDescription: {
-    en_US: 'Used to get media from File Browser',
-    es_ES: 'Usado para obtener medios de File Browser',
-    de_DE: 'Wird verwendet, um Medien aus File Browser zu beziehen',
-    pl_PL: 'Używany do pobierania mediów z File Browser',
-    fr_FR: 'Utilisé pour récupérer des médias depuis File Browser',
+    en_US: 'Used to get media from FileBrowser Quantum',
+    es_ES: 'Usado para obtener medios de FileBrowser Quantum',
+    de_DE: 'Wird verwendet, um Medien aus FileBrowser Quantum zu beziehen',
+    pl_PL: 'Używany do pobierania mediów z FileBrowser Quantum',
+    fr_FR: 'Utilisé pour récupérer des médias depuis FileBrowser Quantum',
   },
   nextcloudDescription: {
     en_US: 'Used to get media from Nextcloud',

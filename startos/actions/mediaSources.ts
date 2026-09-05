@@ -8,7 +8,7 @@ export const inputSpec = InputSpec.of({
   mediaSources: Value.multiselect({
     name: i18n('Media Sources'),
     values: {
-      filebrowser: i18n('File Browser'),
+      filebrowser: i18n('FileBrowser Quantum'),
       nextcloud: i18n('Nextcloud'),
     },
     default: ['filebrowser'],
