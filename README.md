@@ -87,10 +87,10 @@ The web client's configuration. `plugins` is the list the Plugins action toggles
 
 Both are optional, and at least one must be selected for the service to run.
 
-| Dependency   | Kind     | Health checks | Mount                         | Why                   |
-| ------------ | -------- | ------------- | ----------------------------- | --------------------- |
-| File Browser | `exists` | none          | `/mnt/filebrowser`, read-only | Where the media lives |
-| Nextcloud    | `exists` | none          | `/mnt/nextcloud`, read-only   | Where the media lives |
+| Dependency          | Kind     | Health checks | Mount                         | Why                   |
+| ------------------- | -------- | ------------- | ----------------------------- | --------------------- |
+| FileBrowser Quantum | `exists` | none          | `/mnt/filebrowser`, read-only | Where the media lives |
+| Nextcloud           | `exists` | none          | `/mnt/nextcloud`, read-only   | Where the media lives |
 
 Only the volume is needed, so neither service has to be running for Jellyfin to start and read it.
 
@@ -160,7 +160,7 @@ One consequence worth knowing: the check tracks that line **within the current r
 Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache', 'config')`. No dump step and nothing excluded.
 
 - **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the media-source selection.
-- **Not included:** the media itself, which belongs to File Browser or Nextcloud and is covered by that service's backup.
+- **Not included:** the media itself, which belongs to FileBrowser Quantum or Nextcloud and is covered by that service's backup.
 - **Restore:** complete. The selected source must be installed for the service to start with its mount, and library paths resolve as before because the mount points are fixed.
 
 ## Limitations and Differences

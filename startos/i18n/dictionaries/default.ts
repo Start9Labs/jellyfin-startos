@@ -9,7 +9,7 @@ const dict = {
   'Web UI': 5,
   'The web interface of Jellyfin': 6,
   'Media Sources': 7,
-  'File Browser': 8,
+  'FileBrowser Quantum': 8,
   Nextcloud: 9,
   'Select Media Sources': 10,
   'Service(s) Jellyfin uses to access media': 11,
