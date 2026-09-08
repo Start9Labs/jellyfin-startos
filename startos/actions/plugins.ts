@@ -1,4 +1,4 @@
-import { configJson } from '../fileModels/config.json'
+import { configJson, defaultPlugins } from '../fileModels/config.json'
 import { sdk } from '../sdk'
 import { i18n } from '../i18n'
 
@@ -18,11 +18,8 @@ export const inputSpec = InputSpec.of({
 })
 
 export const plugins = sdk.Action.withInput(
-  // id
   'plugins',
-
-  // metadata
-  async ({ effects }) => ({
+  async () => ({
     name: i18n('Plugins'),
     description: i18n('Select which plugins to enable'),
     warning: null,
@@ -30,24 +27,17 @@ export const plugins = sdk.Action.withInput(
     group: null,
     visibility: 'enabled',
   }),
-
-  // form input specification
   inputSpec,
-
-  // optionally pre-fill the input form
-  async ({ effects }) => {
-    const plugins =
-      (await configJson.read((c) => c.plugins).const(effects)) || []
+  async () => {
+    const plugins = (await configJson.read((c) => c.plugins).once()) || []
     return {
       chromecast: plugins.includes('chromecastPlayer/plugin'),
       trailers: plugins.includes('youtubePlayer/plugin'),
     }
   },
-
-  // the execution function
   async ({ effects, input }) => {
     const plugins = new Set(
-      (await configJson.read((c) => c.plugins).const(effects)) || [],
+      (await configJson.read((c) => c.plugins).once()) || defaultPlugins,
     )
     input.chromecast
       ? plugins.add('chromecastPlayer/plugin')
