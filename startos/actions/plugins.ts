@@ -11,7 +11,7 @@ export const inputSpec = InputSpec.of({
     description: i18n('Chromecast plugin to allow casting to other devices.'),
   }),
   trailers: Value.toggle({
-    name: i18n('Youtube trailers'),
+    name: i18n('YouTube trailers'),
     default: false,
     description: i18n('Auto-load movie trailers from YouTube.'),
   }),
@@ -40,7 +40,7 @@ export const plugins = sdk.Action.withInput(
       (await configJson.read((c) => c.plugins).const(effects)) || []
     return {
       chromecast: plugins.includes('chromecastPlayer/plugin'),
-      trailers: plugins.includes('trailers'),
+      trailers: plugins.includes('youtubePlayer/plugin'),
     }
   },
 
@@ -52,7 +52,9 @@ export const plugins = sdk.Action.withInput(
     input.chromecast
       ? plugins.add('chromecastPlayer/plugin')
       : plugins.delete('chromecastPlayer/plugin')
-    input.trailers ? plugins.add('trailers') : plugins.delete('trailers')
+    input.trailers
+      ? plugins.add('youtubePlayer/plugin')
+      : plugins.delete('youtubePlayer/plugin')
     await configJson.merge(effects, { plugins: Array.from(plugins) })
   },
 )

@@ -22,6 +22,7 @@ export const defaultPlugins = [
   'pdfPlayer/plugin',
   'logoScreensaver/plugin',
   'sessionPlayer/plugin',
+  'stillWatching/plugin',
   'syncPlay/plugin',
 ]
 

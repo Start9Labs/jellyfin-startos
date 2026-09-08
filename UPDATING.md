@@ -1,6 +1,6 @@
 # Updating the upstream version
 
-Jellyfin is built from `./Dockerfile`, which `FROM`s `jellyfin/jellyfin:<version>` and overlays a workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): 10.11.x's bundled `libe_sqlite3.so` uses SSE4.1 and SIGILLs on pre-2008 CPUs, so we copy the library from `jellyfin/jellyfin:10.10.7` over the top.
+Jellyfin is built from `./Dockerfile`, which `FROM`s `jellyfin/jellyfin:<version>` and overlays a workaround for [jellyfin/jellyfin#15148](https://github.com/jellyfin/jellyfin/issues/15148): Jellyfin's bundled `libe_sqlite3.so` uses SSE4.1 and SIGILLs on pre-2008 CPUs, so we copy the library from `jellyfin/jellyfin:10.10.7` over the top.
 
 ## Determining the upstream version
 
