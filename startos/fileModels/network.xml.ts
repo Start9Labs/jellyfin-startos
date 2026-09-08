@@ -18,12 +18,13 @@ const shape = z.object({
 export const networkXml = FileHelper.xml(
   {
     base: sdk.volumes.config,
-    subpath: 'network.xml',
+    subpath: 'config/network.xml',
   },
   shape,
   {
     parser: {
       isArray: (name) => name === 'string',
+      ignoreDeclaration: true,
     },
   },
 )
