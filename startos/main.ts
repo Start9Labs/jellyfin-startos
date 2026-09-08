@@ -1,5 +1,7 @@
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
+import { existsSync } from 'fs'
+import { rename } from 'fs/promises'
 import { networkXml } from './fileModels/network.xml'
 import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
@@ -9,6 +11,15 @@ export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Jellyfin!'))
 
   await networkXml.merge(effects, {})
+
+  // Past the library.db migration, a leftover migrations.xml crash-loops Jellyfin: jellyfin/jellyfin#15388
+  const migrationsXml = sdk.volumes.config.subpath('config/migrations.xml')
+  if (
+    existsSync(migrationsXml) &&
+    !existsSync(sdk.volumes.config.subpath('data/library.db'))
+  ) {
+    await rename(migrationsXml, `${migrationsXml}.backup`)
+  }
 
   let mounts = sdk.Mounts.of()
     .mountVolume({

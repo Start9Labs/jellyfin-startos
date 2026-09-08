@@ -59,6 +59,8 @@ Four volumes are declared, three of which are in use — and none of them holds 
 
 The web-client configuration is stored at `/config/config.json` and bind-mounted read-only over Jellyfin's bundled `/jellyfin/jellyfin-web/config.json`. StartOS can update the backing file, but Jellyfin cannot overwrite it.
 
+A `config/migrations.xml` left behind on a dataset whose library database has already been migrated (no `data/library.db`) is renamed to `migrations.xml.backup` before each start. Jellyfin refuses to boot with one present, and the rename is what it does itself after a successful conversion.
+
 Media arrives from another service as a read-only mount — `/mnt/filebrowser`, `/mnt/nextcloud`, or both — chosen in [Select Media Sources](#actions).
 
 ## File Models
