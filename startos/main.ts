@@ -6,11 +6,6 @@ import { i18n } from './i18n'
 import { sdk } from './sdk'
 
 export const main = sdk.setupMain(async ({ effects }) => {
-  /**
-   * ======================== Setup (optional) ========================
-   *
-   * In this section, we fetch any resources or run any desired preliminary commands.
-   */
   console.info(i18n('Starting Jellyfin!'))
 
   await networkXml.merge(effects, {})
@@ -27,6 +22,13 @@ export const main = sdk.setupMain(async ({ effects }) => {
       subpath: null,
       mountpoint: '/cache',
       readonly: false,
+    })
+    .mountVolume({
+      volumeId: 'config',
+      subpath: 'config.json',
+      mountpoint: '/jellyfin/jellyfin-web/config.json',
+      readonly: true,
+      type: 'file',
     })
 
   const mediaSources = await store.read((s) => s.mediaSources).const(effects)
@@ -55,14 +57,6 @@ export const main = sdk.setupMain(async ({ effects }) => {
     })
   }
 
-  /**
-   * ======================== Daemons ========================
-   *
-   * In this section, we create one or more daemons that define the service runtime.
-   *
-   * Each daemon defines its own health check, which can optionally be exposed to the user.
-   */
-
   let startupComplete = false
 
   return sdk.Daemons.of(effects).addDaemon('primary', {
@@ -87,9 +81,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
         }
       },
     },
-    // Reads the startup log, not the port: Jellyfin binds long before it serves,
-    // so a port probe reports healthy through a boot that can take most of a
-    // minute. Don't simplify this to checkPortListening.
+    // Jellyfin binds before startup completes; readiness follows the startup log.
     ready: {
       gracePeriod: 42000,
       display: i18n('Server and Web UI'),

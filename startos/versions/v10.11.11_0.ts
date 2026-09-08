@@ -19,7 +19,6 @@ export const v_10_11_11_0 = VersionInfo.of({
   },
   migrations: {
     up: async ({ effects }) => {
-      // get old config.yaml
       const configYaml:
         | {
             mediasources: StoreType['mediaSources']
@@ -37,12 +36,11 @@ export const v_10_11_11_0 = VersionInfo.of({
         })
 
         const plugins = [...defaultPlugins]
-        if (configYaml.chromecast) plugins.push('chromecast')
-        if (configYaml.trailers) plugins.push('trailers')
+        if (configYaml.chromecast) plugins.push('chromecastPlayer/plugin')
+        if (configYaml.trailers) plugins.push('youtubePlayer/plugin')
 
         await configJson.merge(effects, { plugins })
 
-        // remove old start9 dir
         await rm('/media/startos/volumes/main/start9', {
           recursive: true,
         }).catch(console.error)

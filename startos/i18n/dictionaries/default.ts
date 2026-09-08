@@ -15,7 +15,7 @@ const dict = {
   'Service(s) Jellyfin uses to access media': 11,
   Chromecast: 12,
   'Chromecast plugin to allow casting to other devices.': 13,
-  'Youtube trailers': 14,
+  'YouTube trailers': 14,
   'Auto-load movie trailers from YouTube.': 15,
   Plugins: 16,
   'Select which plugins to enable': 17,

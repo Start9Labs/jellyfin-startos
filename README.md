@@ -50,12 +50,14 @@ The one modification: the bundled SQLite native library is replaced with the one
 
 Four volumes are declared, three of which are in use — and none of them holds media.
 
-| Volume    | Mount Point   | Purpose                                              |
-| --------- | ------------- | ---------------------------------------------------- |
-| `config`  | `/config`     | Jellyfin's configuration, its database, and metadata |
-| `cache`   | `/cache`      | Transcoding and image cache                          |
-| `startos` | — (host side) | `store.json`; never mounted into the container       |
-| `main`    | — (unused)    | Retained only for the migration path                 |
+| Volume    | Mount Point                                    | Purpose                                              |
+| --------- | ---------------------------------------------- | ---------------------------------------------------- |
+| `config`  | `/config`; web `config.json` mounted read-only | Jellyfin's configuration, its database, and metadata |
+| `cache`   | `/cache`                                       | Transcoding and image cache                          |
+| `startos` | — (host side)                                  | `store.json`; never mounted into the container       |
+| `main`    | — (unused)                                     | Retained only for the migration path                 |
+
+The web-client configuration is stored at `/config/config.json` and bind-mounted read-only over Jellyfin's bundled `/jellyfin/jellyfin-web/config.json`. StartOS can update the backing file, but Jellyfin cannot overwrite it.
 
 Media arrives from another service as a read-only mount — `/mnt/filebrowser`, `/mnt/nextcloud`, or both — chosen in [Select Media Sources](#actions).
 
@@ -63,13 +65,15 @@ Media arrives from another service as a read-only mount — `/mnt/filebrowser`, 
 
 Three models: two of Jellyfin's own files, and the package's state.
 
-| File          | Format | Modelled                | Written by                         |
-| ------------- | ------ | ----------------------- | ---------------------------------- |
-| `network.xml` | XML    | Yes — `FileHelper.xml`  | Every start                        |
-| `config.json` | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action |
-| `store.json`  | JSON   | Yes — `FileHelper.json` | The Select Media Sources action    |
+| File                         | Format | Modelled                | Written by                         |
+| ---------------------------- | ------ | ----------------------- | ---------------------------------- |
+| `/config/config/network.xml` | XML    | Yes — `FileHelper.xml`  | Every start                        |
+| `/config/config.json`        | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action |
+| `store.json`                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action    |
 
 ### network.xml
+
+Jellyfin reads this file at `/config/config/network.xml`.
 
 **Enforced, on every start:** `KnownProxies` is pinned to the StartOS bridge address. Jellyfin sits behind a reverse proxy and needs to trust it to see the real client address; a hand edit is replaced at the next start.
 
@@ -77,7 +81,7 @@ Nothing else in the file is modelled, so the rest of Jellyfin's network settings
 
 ### config.json
 
-The web client's configuration. `plugins` is the list the Plugins action toggles entries in — it adds and removes only the two it knows about, leaving the rest of the list alone. Themes, menu links, and the server list are modelled so they survive a rewrite, and are defaulted only if absent.
+The web client's configuration is stored at `/config/config.json` and mounted read-only over `/jellyfin/jellyfin-web/config.json`. The Plugins action updates the backing file, and an open web client picks up the change when reloaded. `plugins` adds and removes only the two managed entries, leaving the rest of the list alone. Themes, menu links, and the server list are defaulted only if absent.
 
 ### store.json
 
@@ -130,7 +134,7 @@ Chooses which services are mounted in as media libraries. At least one must be s
 Toggles the two client plugins the package manages.
 
 - **What it changes:** adds or removes those two entries in `config.json`'s plugin list, leaving every other entry untouched.
-- **Cost:** seconds, then a restart.
+- **Cost:** seconds, then reload the web client; Jellyfin does not restart.
 - **Repeat safety:** idempotent in both directions.
 
 ## Tasks
@@ -190,8 +194,8 @@ volumes:
   startos: host side (store.json)
   main: unused (retained for the migration)
 file_models:
-  - /config/network.xml
-  - /config/config.json
+  - /config/config/network.xml
+  - /config/config.json # mounted read-only at /jellyfin/jellyfin-web/config.json
   - store.json
 startos_managed_env_vars: []
 dependencies: # optional, kind "exists"; mounted read-only when selected
