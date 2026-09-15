@@ -1,82 +1,53 @@
-import { IMPOSSIBLE, VersionInfo } from '@start9labs/start-sdk'
-import { rm } from 'fs/promises'
-import { configJson } from '../fileModels/config.json'
+import { VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '12.0:0',
+  version: '12.1:0',
   releaseNotes: {
-    en_US: `Updated Jellyfin to 12.0.
+    en_US: `Updated Jellyfin to 12.1.
 
-- Adds alternate episode versions, a still-watching prompt, extensible search and similarity providers, faster database queries, Live TV and subtitle fixes, expanded book support, FFmpeg 8.1, and security hardening.
-- Removes the \`/emby/*\` and \`/mediabrowser/*\` API prefixes, so older third-party clients that use them no longer work. Legacy authorization is also disabled.
-- Removes global subtitle settings, which are now configured per library, and makes the Modern web layout the default.
-- The Plugins action now controls the Chromecast and YouTube trailers web plugins; changes take effect after reloading the web client.
-- Before updating, correct duplicate usernames that differ only by letter case; otherwise, the database migration can fail.
-- Before updating, create a full backup and remove repository-installed plugins. Database changes prevent downgrade without a full restore.
-- After updating, reinstall only compatible plugins and run the required full library scan. The first scan may take substantially longer than usual.
+- Improves database migration backup integrity and memory use, and cleans invalid data before upgrades.
+- Preserves library items, active scans, and TV guide data when filesystem or download operations fail.
+- Fixes playback, transcoding, subtitles, Vulkan tone mapping, trickplay, SyncPlay, collections, and alternate episode versions.
+- Revoking a device's access now logs out its existing sessions.
+- Create a full backup before updating.
 
-[Full release notes](https://github.com/jellyfin/jellyfin/releases/tag/v12.0)`,
-    es_ES: `Jellyfin actualizado a 12.0.
+[Full release notes](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
+    es_ES: `Jellyfin actualizado a 12.1.
 
-- Añade versiones alternativas de episodios, un aviso para confirmar que sigues viendo, proveedores ampliables de búsqueda y similitud, consultas de base de datos más rápidas, correcciones de TV en directo y subtítulos, compatibilidad ampliada con libros, FFmpeg 8.1 y mejoras de seguridad.
-- Elimina los prefijos de API \`/emby/*\` y \`/mediabrowser/*\`, por lo que los clientes de terceros antiguos que los utilicen dejarán de funcionar. También se deshabilita la autorización heredada.
-- Elimina la configuración global de subtítulos, que ahora se configura por biblioteca, y establece el diseño web «Modern» como predeterminado.
-- La acción Plugins ahora controla los plugins web Chromecast y Tráilers de YouTube; los cambios se aplican al recargar el cliente web.
-- Antes de actualizar, corrige los nombres de usuario duplicados que solo se diferencien por mayúsculas y minúsculas; de lo contrario, la migración de la base de datos puede fallar.
-- Antes de actualizar, crea una copia de seguridad completa y elimina los plugins instalados desde repositorios. Los cambios en la base de datos impiden volver a una versión anterior sin una restauración completa.
-- Después de actualizar, reinstala únicamente plugins compatibles y ejecuta el análisis completo obligatorio de la biblioteca. El primer análisis puede tardar bastante más de lo habitual.
+- Mejora la integridad de las copias de seguridad y el uso de memoria durante la migración de la base de datos, y limpia los datos no válidos antes de las actualizaciones.
+- Conserva los elementos de la biblioteca, los análisis activos y los datos de la guía de TV cuando fallan las operaciones del sistema de archivos o las descargas.
+- Corrige la reproducción, la transcodificación, los subtítulos, el mapeo de tonos Vulkan, Trickplay, SyncPlay, las colecciones y las versiones alternativas de episodios.
+- Revocar el acceso de un dispositivo ahora cierra sus sesiones existentes.
+- Crea una copia de seguridad completa antes de actualizar.
 
-[Notas de la versión completas](https://github.com/jellyfin/jellyfin/releases/tag/v12.0)`,
-    de_DE: `Jellyfin auf 12.0 aktualisiert.
+[Notas de la versión completas](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
+    de_DE: `Jellyfin auf 12.1 aktualisiert.
 
-- Fügt alternative Episodenversionen, eine „Noch dabei?“-Abfrage, erweiterbare Such- und Ähnlichkeitsanbieter, schnellere Datenbankabfragen, Korrekturen für Live-TV und Untertitel, erweiterte Buchunterstützung, FFmpeg 8.1 und Sicherheitsverbesserungen hinzu.
-- Entfernt die API-Präfixe \`/emby/*\` und \`/mediabrowser/*\`, sodass ältere Drittanbieter-Clients, die sie verwenden, nicht mehr funktionieren. Die Legacy-Autorisierung ist ebenfalls deaktiviert.
-- Entfernt die globalen Untertiteleinstellungen, die jetzt pro Bibliothek konfiguriert werden, und legt das Weblayout „Modern“ als Standard fest.
-- Die Aktion „Plugins“ steuert jetzt die Web-Plugins für Chromecast und YouTube-Trailer; Änderungen werden nach dem Neuladen des Webclients wirksam.
-- Korrigiere vor dem Update doppelte Benutzernamen, die sich nur durch Groß- und Kleinschreibung unterscheiden; andernfalls kann die Datenbankmigration fehlschlagen.
-- Erstelle vor dem Update eine vollständige Sicherung und entferne aus Repositorys installierte Plugins. Die Datenbankänderungen verhindern ein Downgrade ohne vollständige Wiederherstellung.
-- Installiere nach dem Update nur kompatible Plugins neu und führe den erforderlichen vollständigen Bibliotheksscan aus. Der erste Scan kann deutlich länger als üblich dauern.
+- Verbessert die Integrität von Sicherungen und den Speicherbedarf bei Datenbankmigrationen und bereinigt ungültige Daten vor Aktualisierungen.
+- Bewahrt Bibliothekseinträge, aktive Scans und TV-Programmdaten, wenn Dateisystem- oder Downloadvorgänge fehlschlagen.
+- Behebt Fehler bei Wiedergabe, Transkodierung, Untertiteln, Vulkan-Tonemapping, Trickplay, SyncPlay, Sammlungen und alternativen Episodenversionen.
+- Das Entziehen des Gerätezugriffs meldet jetzt bestehende Sitzungen des Geräts ab.
+- Erstelle vor der Aktualisierung eine vollständige Sicherung.
 
-[Vollständige Versionshinweise](https://github.com/jellyfin/jellyfin/releases/tag/v12.0)`,
-    pl_PL: `Zaktualizowano Jellyfin do wersji 12.0.
+[Vollständige Versionshinweise](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
+    pl_PL: `Zaktualizowano Jellyfin do wersji 12.1.
 
-- Dodano alternatywne wersje odcinków, monit „Nadal oglądasz?”, rozszerzalnych dostawców wyszukiwania i podobieństwa, szybsze zapytania do bazy danych, poprawki telewizji na żywo i napisów, rozszerzoną obsługę książek, FFmpeg 8.1 oraz zabezpieczenia.
-- Usunięto prefiksy API \`/emby/*\` i \`/mediabrowser/*\`, dlatego starsze aplikacje klienckie innych firm, które z nich korzystają, przestaną działać. Wyłączono również starszy mechanizm autoryzacji.
-- Usunięto globalne ustawienia napisów, które są teraz konfigurowane osobno dla każdej biblioteki, i ustawiono układ interfejsu „Modern” jako domyślny.
-- Akcja Wtyczki steruje teraz wtyczkami internetowymi Chromecast i zwiastunów YouTube; zmiany zaczynają obowiązywać po ponownym załadowaniu klienta internetowego.
-- Przed aktualizacją popraw powielone nazwy użytkowników różniące się wyłącznie wielkością liter; w przeciwnym razie migracja bazy danych może się nie powieść.
-- Przed aktualizacją utwórz pełną kopię zapasową i usuń wtyczki zainstalowane z repozytoriów. Zmiany w bazie danych uniemożliwiają powrót do starszej wersji bez pełnego przywrócenia.
-- Po aktualizacji zainstaluj ponownie tylko zgodne wtyczki i wykonaj wymagane pełne skanowanie biblioteki. Pierwsze skanowanie może potrwać znacznie dłużej niż zwykle.
+- Poprawiono integralność kopii zapasowych i zużycie pamięci podczas migracji bazy danych oraz czyszczenie nieprawidłowych danych przed aktualizacjami.
+- Elementy biblioteki, aktywne skanowania i dane przewodnika telewizyjnego są zachowywane po nieudanych operacjach systemu plików lub pobierania.
+- Naprawiono odtwarzanie, transkodowanie, napisy, mapowanie tonów Vulkan, Trickplay, SyncPlay, kolekcje i alternatywne wersje odcinków.
+- Cofnięcie dostępu urządzenia wylogowuje teraz jego istniejące sesje.
+- Przed aktualizacją utwórz pełną kopię zapasową.
 
-[Pełne informacje o wydaniu](https://github.com/jellyfin/jellyfin/releases/tag/v12.0)`,
-    fr_FR: `Jellyfin mis à jour vers la version 12.0.
+[Pełne informacje o wydaniu](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
+    fr_FR: `Jellyfin mis à jour vers la version 12.1.
 
-- Ajoute les versions alternatives d'épisodes, une invite « Toujours en train de regarder ? », des fournisseurs extensibles de recherche et de similarité, des requêtes de base de données plus rapides, des correctifs pour la TV en direct et les sous-titres, une meilleure prise en charge des livres, FFmpeg 8.1 et des améliorations de sécurité.
-- Supprime les préfixes d’API \`/emby/*\` et \`/mediabrowser/*\` ; les anciens clients tiers qui les utilisent ne fonctionneront donc plus. L’autorisation héritée est également désactivée.
-- Supprime les paramètres globaux des sous-titres, désormais configurés pour chaque bibliothèque, et définit la mise en page web « Modern » par défaut.
-- L'action Plugins contrôle désormais les plugins web Chromecast et bandes-annonces YouTube ; les changements prennent effet après le rechargement du client web.
-- Avant la mise à jour, corrigez les doublons de noms d’utilisateur qui ne diffèrent que par la casse ; sinon, la migration de la base de données peut échouer.
-- Avant la mise à jour, créez une sauvegarde complète et supprimez les plugins installés depuis des dépôts. Les modifications de la base de données empêchent tout retour à une version antérieure sans restauration complète.
-- Après la mise à jour, réinstallez uniquement les plugins compatibles et lancez l'analyse complète obligatoire de la bibliothèque. La première analyse peut prendre beaucoup plus de temps que d'habitude.
+- Améliore l'intégrité des sauvegardes et l'utilisation de la mémoire lors des migrations de base de données, et nettoie les données non valides avant les mises à jour.
+- Préserve les éléments de la médiathèque, les analyses actives et les données du guide TV lorsque des opérations sur le système de fichiers ou des téléchargements échouent.
+- Corrige la lecture, le transcodage, les sous-titres, le mappage des tons Vulkan, Trickplay, SyncPlay, les collections et les versions alternatives d'épisodes.
+- La révocation de l'accès d'un appareil déconnecte désormais ses sessions existantes.
+- Créez une sauvegarde complète avant la mise à jour.
 
-[Notes de version complètes](https://github.com/jellyfin/jellyfin/releases/tag/v12.0)`,
+[Notes de version complètes](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
   },
-  migrations: {
-    up: async ({ effects }) => {
-      const plugins = await configJson.read((config) => config.plugins).once()
-
-      if (plugins !== null) {
-        const nextPlugins = new Set(plugins)
-        nextPlugins.delete('chromecast')
-        nextPlugins.delete('trailers')
-        nextPlugins.add('chromecastPlayer/plugin')
-        nextPlugins.add('youtubePlayer/plugin')
-        nextPlugins.add('stillWatching/plugin')
-        await configJson.merge(effects, { plugins: Array.from(nextPlugins) })
-      }
-
-      await rm('/media/startos/volumes/config/network.xml', { force: true })
-    },
-    down: IMPOSSIBLE,
-  },
+  migrations: {},
 })
