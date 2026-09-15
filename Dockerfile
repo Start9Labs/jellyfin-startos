@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:12.0.20260908-012347
+FROM jellyfin/jellyfin:12.1.20260915-010956
 
 # Retain 10.10.7 until jellyfin/jellyfin#15148 ships an SSE4.1-free library.
 # COPY --from selects the matching architecture.

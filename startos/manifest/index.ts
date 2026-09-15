@@ -10,7 +10,7 @@ export const manifest = setupManifest({
   marketingUrl: 'https://jellyfin.org',
   donationUrl: 'https://opencollective.com/jellyfin/donate',
   description: i18n.description,
-  volumes: ['startos', 'cache', 'config', 'main'], // @TODO main only needed for migration
+  volumes: ['startos', 'cache', 'config', 'main'],
   images: {
     jellyfin: {
       source: {
