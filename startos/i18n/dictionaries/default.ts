@@ -20,6 +20,7 @@ const dict = {
   Plugins: 16,
   'Select which plugins to enable': 17,
   'Select where Jellyfin media are stored': 18,
+  NextExplorer: 19,
 } as const
 
 export type I18nKey = keyof typeof dict

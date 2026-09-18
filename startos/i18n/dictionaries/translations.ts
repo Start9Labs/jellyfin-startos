@@ -21,6 +21,7 @@ export default {
     16: 'Plugins',
     17: 'Seleccionar qué plugins habilitar',
     18: 'Seleccionar dónde se almacenan los medios de Jellyfin',
+    19: 'NextExplorer',
   },
   de_DE: {
     0: 'Jellyfin wird gestartet!',
@@ -42,6 +43,7 @@ export default {
     16: 'Plugins',
     17: 'Auswählen, welche Plugins aktiviert werden sollen',
     18: 'Auswählen, wo Jellyfin-Medien gespeichert sind',
+    19: 'NextExplorer',
   },
   pl_PL: {
     0: 'Uruchamianie Jellyfin!',
@@ -63,6 +65,7 @@ export default {
     16: 'Pluginy',
     17: 'Wybierz, które pluginy włączyć',
     18: 'Wybierz, gdzie przechowywane są media Jellyfin',
+    19: 'NextExplorer',
   },
   fr_FR: {
     0: 'Démarrage de Jellyfin !',
@@ -84,5 +87,6 @@ export default {
     16: 'Plugins',
     17: 'Sélectionner les plugins à activer',
     18: 'Sélectionner où les médias Jellyfin sont stockés',
+    19: 'NextExplorer',
   },
 } satisfies Record<string, LangDict>
