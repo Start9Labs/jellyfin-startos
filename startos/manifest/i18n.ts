@@ -20,6 +20,13 @@ export default {
         "Jellyfin est un serveur multimédia gratuit et open source qui vous permet d'organiser, gérer et diffuser votre collection multimédia personnelle sur n'importe quel appareil. Il constitue une alternative communautaire aux plateformes propriétaires comme Emby et Plex, offrant un contrôle total sur vos médias sans restrictions de suivi ni de licence.",
     },
   },
+  nextexplorerDescription: {
+    en_US: 'Used to get media from NextExplorer',
+    es_ES: 'Usado para obtener medios de NextExplorer',
+    de_DE: 'Wird verwendet, um Medien aus NextExplorer zu beziehen',
+    pl_PL: 'Używany do pobierania mediów z NextExplorer',
+    fr_FR: 'Utilisé pour récupérer des médias depuis NextExplorer',
+  },
   filebrowserDescription: {
     en_US: 'Used to get media from FileBrowser Quantum',
     es_ES: 'Usado para obtener medios de FileBrowser Quantum',

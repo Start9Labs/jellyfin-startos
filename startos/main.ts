@@ -1,5 +1,6 @@
 import { manifest as filebrowserManifest } from 'filebrowser-startos/startos/manifest'
 import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifest'
+import { manifest as nextexplorerManifest } from 'nextexplorer-startos/startos/manifest'
 import { existsSync } from 'fs'
 import { rename } from 'fs/promises'
 import { networkXml } from './fileModels/network.xml'
@@ -46,6 +47,16 @@ export const main = sdk.setupMain(async ({ effects }) => {
 
   if (!mediaSources) {
     throw new Error(i18n('No media sources'))
+  }
+
+  if (mediaSources.includes('nextexplorer')) {
+    mounts = mounts.mountDependency<typeof nextexplorerManifest>({
+      dependencyId: 'nextexplorer',
+      volumeId: 'data',
+      subpath: null,
+      mountpoint: '/mnt/nextexplorer',
+      readonly: true,
+    })
   }
 
   if (mediaSources.includes('filebrowser')) {

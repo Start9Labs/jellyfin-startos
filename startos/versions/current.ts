@@ -1,9 +1,11 @@
 import { VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '12.1:0',
+  version: '12.1:1',
   releaseNotes: {
-    en_US: `Updated Jellyfin to 12.1.
+    en_US: `Jellyfin can now read media from **NextExplorer**, the recommended file server, mounted at \`/mnt/nextexplorer\`. Select it under **Select Media Sources**; FileBrowser Quantum and Nextcloud remain available.
+
+Updated Jellyfin to 12.1.
 
 - Improves database migration backup integrity and memory use, and cleans invalid data before upgrades.
 - Preserves library items, active scans, and TV guide data when filesystem or download operations fail.
@@ -12,7 +14,9 @@ export const current = VersionInfo.of({
 - Create a full backup before updating.
 
 [Full release notes](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
-    es_ES: `Jellyfin actualizado a 12.1.
+    es_ES: `Jellyfin ahora puede leer medios desde **NextExplorer**, el servidor de archivos recomendado, montado en \`/mnt/nextexplorer\`. Selecciónalo en **Seleccionar fuentes de medios**; FileBrowser Quantum y Nextcloud siguen disponibles.
+
+Jellyfin actualizado a 12.1.
 
 - Mejora la integridad de las copias de seguridad y el uso de memoria durante la migración de la base de datos, y limpia los datos no válidos antes de las actualizaciones.
 - Conserva los elementos de la biblioteca, los análisis activos y los datos de la guía de TV cuando fallan las operaciones del sistema de archivos o las descargas.
@@ -21,7 +25,9 @@ export const current = VersionInfo.of({
 - Crea una copia de seguridad completa antes de actualizar.
 
 [Notas de la versión completas](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
-    de_DE: `Jellyfin auf 12.1 aktualisiert.
+    de_DE: `Jellyfin kann Medien jetzt aus **NextExplorer** lesen, dem empfohlenen Dateiserver, eingebunden unter \`/mnt/nextexplorer\`. Wählen Sie ihn unter **Medienquellen auswählen**; FileBrowser Quantum und Nextcloud bleiben verfügbar.
+
+Jellyfin auf 12.1 aktualisiert.
 
 - Verbessert die Integrität von Sicherungen und den Speicherbedarf bei Datenbankmigrationen und bereinigt ungültige Daten vor Aktualisierungen.
 - Bewahrt Bibliothekseinträge, aktive Scans und TV-Programmdaten, wenn Dateisystem- oder Downloadvorgänge fehlschlagen.
@@ -30,7 +36,9 @@ export const current = VersionInfo.of({
 - Erstelle vor der Aktualisierung eine vollständige Sicherung.
 
 [Vollständige Versionshinweise](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
-    pl_PL: `Zaktualizowano Jellyfin do wersji 12.1.
+    pl_PL: `Jellyfin może teraz odczytywać multimedia z **NextExplorer**, zalecanego serwera plików, zamontowanego w \`/mnt/nextexplorer\`. Wybierz go w **Wybierz źródła mediów**; FileBrowser Quantum i Nextcloud pozostają dostępne.
+
+Zaktualizowano Jellyfin do wersji 12.1.
 
 - Poprawiono integralność kopii zapasowych i zużycie pamięci podczas migracji bazy danych oraz czyszczenie nieprawidłowych danych przed aktualizacjami.
 - Elementy biblioteki, aktywne skanowania i dane przewodnika telewizyjnego są zachowywane po nieudanych operacjach systemu plików lub pobierania.
@@ -39,7 +47,9 @@ export const current = VersionInfo.of({
 - Przed aktualizacją utwórz pełną kopię zapasową.
 
 [Pełne informacje o wydaniu](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)`,
-    fr_FR: `Jellyfin mis à jour vers la version 12.1.
+    fr_FR: `Jellyfin peut désormais lire les médias depuis **NextExplorer**, le serveur de fichiers recommandé, monté sur \`/mnt/nextexplorer\`. Sélectionnez-le dans **Sélectionner les sources de médias** ; FileBrowser Quantum et Nextcloud restent disponibles.
+
+Jellyfin mis à jour vers la version 12.1.
 
 - Améliore l'intégrité des sauvegardes et l'utilisation de la mémoire lors des migrations de base de données, et nettoie les données non valides avant les mises à jour.
 - Préserve les éléments de la médiathèque, les analyses actives et les données du guide TV lorsque des opérations sur le système de fichiers ou des téléchargements échouent.
