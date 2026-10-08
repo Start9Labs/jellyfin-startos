@@ -7,6 +7,9 @@ const { InputSpec, Value } = sdk
 export const inputSpec = InputSpec.of({
   mediaSources: Value.multiselect({
     name: i18n('Media Sources'),
+    description: i18n(
+      "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: mounted at /mnt/nextcloud; each user's files are in /mnt/nextcloud/data/{username}/files",
+    ),
     values: {
       nextexplorer: i18n('NextExplorer'),
       filebrowser: i18n('FileBrowser Quantum'),
@@ -24,7 +27,9 @@ export const mediaSources = sdk.Action.withInput(
   // metadata
   async ({ effects }) => ({
     name: i18n('Select Media Sources'),
-    description: i18n('Service(s) Jellyfin uses to access media'),
+    description: i18n(
+      'Choose which services Jellyfin reads media from. Each one is mounted read-only, and changing the selection restarts Jellyfin.',
+    ),
     warning: null,
     allowedStatuses: 'any',
     group: null,

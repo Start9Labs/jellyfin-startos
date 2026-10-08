@@ -26,12 +26,12 @@ export const defaultPlugins = [
   'syncPlay/plugin',
 ]
 
-const shape = z.object({
+const shape = z.looseObject({
   includeCorsCredentials: z.boolean().catch(false),
   multiserver: z.boolean().catch(false),
   themes: z
     .array(
-      z.object({
+      z.looseObject({
         name: z.string(),
         id: z.string(),
         color: z.string(),

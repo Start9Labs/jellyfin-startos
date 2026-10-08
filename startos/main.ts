@@ -45,7 +45,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
 
   const mediaSources = await store.read((s) => s.mediaSources).const(effects)
 
-  if (!mediaSources) {
+  if (!mediaSources?.length) {
     throw new Error(i18n('No media sources'))
   }
 

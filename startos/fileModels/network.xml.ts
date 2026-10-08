@@ -1,15 +1,15 @@
 import { FileHelper, z } from '@start9labs/start-sdk'
 import { sdk } from '../sdk'
 
-const knownProxiesSchema = z.object({
+const knownProxiesSchema = z.looseObject({
   string: z.literal('10.0.3.1').array().catch(['10.0.3.1']),
 })
 
-const networkConfigSchema = z.object({
+const networkConfigSchema = z.looseObject({
   KnownProxies: knownProxiesSchema.catch(() => knownProxiesSchema.parse({})),
 })
 
-const shape = z.object({
+const shape = z.looseObject({
   NetworkConfiguration: networkConfigSchema.catch(() =>
     networkConfigSchema.parse({}),
   ),

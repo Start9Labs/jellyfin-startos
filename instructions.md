@@ -27,7 +27,7 @@ The **Web UI** interface is the Jellyfin web client. After the first-run wizard 
 ### Actions
 
 - **Select Media Sources** — change which of NextExplorer, FileBrowser Quantum and Nextcloud Jellyfin reads from. Changing sources updates Jellyfin's dependencies; if you remove a source, also remove or repoint any Jellyfin libraries that referenced its mount point.
-- **Plugins** — toggle the bundled **Chromecast** (cast to Chromecast devices) and **YouTube Trailers** (auto-load movie trailers) plugins. All other plugins are managed inside the Jellyfin Web UI's plugin catalog.
+- **Plugins** — toggle the bundled **Chromecast** (cast to a Chromecast from Chromium-based browsers) and **YouTube Trailers** (play trailers hosted on YouTube in an embedded player, which connects your browser to YouTube) plugins. Reload the web client for a change to take effect. All other plugins are managed inside the Jellyfin Web UI's plugin catalog.
 
 ## Limitations
 
