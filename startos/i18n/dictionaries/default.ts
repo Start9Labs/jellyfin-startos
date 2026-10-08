@@ -12,15 +12,16 @@ const dict = {
   'FileBrowser Quantum': 8,
   Nextcloud: 9,
   'Select Media Sources': 10,
-  'Service(s) Jellyfin uses to access media': 11,
+  'Choose which services Jellyfin reads media from. Each one is mounted read-only, and changing the selection restarts Jellyfin.': 11,
   Chromecast: 12,
-  'Chromecast plugin to allow casting to other devices.': 13,
+  'Lets the web client cast to a Chromecast. Casting is offered only in Chromium-based browsers, such as Chrome.': 13,
   'YouTube trailers': 14,
-  'Auto-load movie trailers from YouTube.': 15,
+  'Lets the web client play trailers hosted on YouTube, in an embedded YouTube player. Playing one connects your browser to YouTube.': 15,
   Plugins: 16,
-  'Select which plugins to enable': 17,
+  "Turn the web client's Chromecast and YouTube trailer plugins on or off. A change takes effect when the web client is reloaded.": 17,
   'Select where Jellyfin media are stored': 18,
   NextExplorer: 19,
+  "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: mounted at /mnt/nextcloud; each user's files are in /mnt/nextcloud/data/{username}/files": 20,
 } as const
 
 export type I18nKey = keyof typeof dict

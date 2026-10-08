@@ -8,12 +8,16 @@ export const inputSpec = InputSpec.of({
   chromecast: Value.toggle({
     name: i18n('Chromecast'),
     default: false,
-    description: i18n('Chromecast plugin to allow casting to other devices.'),
+    description: i18n(
+      'Lets the web client cast to a Chromecast. Casting is offered only in Chromium-based browsers, such as Chrome.',
+    ),
   }),
   trailers: Value.toggle({
     name: i18n('YouTube trailers'),
     default: false,
-    description: i18n('Auto-load movie trailers from YouTube.'),
+    description: i18n(
+      'Lets the web client play trailers hosted on YouTube, in an embedded YouTube player. Playing one connects your browser to YouTube.',
+    ),
   }),
 })
 
@@ -21,7 +25,9 @@ export const plugins = sdk.Action.withInput(
   'plugins',
   async () => ({
     name: i18n('Plugins'),
-    description: i18n('Select which plugins to enable'),
+    description: i18n(
+      "Turn the web client's Chromecast and YouTube trailer plugins on or off. A change takes effect when the web client is reloaded.",
+    ),
     warning: null,
     allowedStatuses: 'any',
     group: null,

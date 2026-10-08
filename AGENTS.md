@@ -18,16 +18,23 @@ Freshly scaffolded? Work the
 guide page, not a file in this repo — read it, don't copy it in.
 
 Keep `README.md` (technical reference for an AI support or administering agent) and
-`instructions.md` (end-user docs) in sync with your changes.
+`instructions.md` (end-user docs) in sync with your changes. This file restates neither:
+whoever changes the package has both, so it carries only what they don't — repo mechanics,
+a change that looks right and is not, where the next thing gets added, a naming trap, a
+build or test invocation particular to this repo.
 
-**Bugs and feature requests are GitHub issues on this repo** — file them as you find them.
+**Fix a defect you spot rather than reporting it** — you have the package open and the
+context to be sure. File **a GitHub issue on this repo** only when the call isn't yours to
+make: you can't pin the cause down, two defensible fixes exist, or it's too large to ride on
+the work in hand. An open issue is a report, not a queue — implement one when you're asked
+to or when it's labelled `Approved`, then close it with `Closes #<n>`.
+
 Don't record work in the repo instead: no `TODO.md`, no `NOTES.md`, no `PLAN.md`. What you
 verified, tried, and decided belongs in the commit message and the PR body.
 
 ## This repo
 
 - **Keep the media mounts `readonly: true`.** That flag, not a convention, is what guarantees Jellyfin cannot alter a library it does not own.
-- **The Plugins action must add and remove only the entries it manages.** `config.json`'s plugin list also holds Jellyfin's own defaults; rewriting the array wholesale would drop them.
-- **Adding a media source means editing four places in step:** the enum in `startos/fileModels/store.json.ts`, the multiselect values in `startos/actions/mediaSources.ts`, the mount branch in `startos/main.ts`, and the dependency branch in `startos/dependencies.ts` — plus manifest metadata for the new dependency.
-- **`network.xml`'s `KnownProxies` is re-asserted on every start**, because Jellyfin must trust the reverse proxy to see real client addresses. Nothing else in that file is modelled, so the rest round-trips.
-- **The `main` volume is retained solely for the migration path.** Don't reuse it for new data, and don't drop it from the manifest.
+- **The Plugins action must add and remove only the entries it manages**, or the rest of `config.json`'s plugin list — Jellyfin's own defaults — is dropped.
+- **Adding a media source means editing four places in step:** the enum in `startos/fileModels/store.json.ts`, the multiselect values and description in `startos/actions/mediaSources.ts`, the mount branch in `startos/main.ts`, and a `sdk.Dependency.optional` entry in `startos/dependencies.ts`.
+- **Don't reuse the `main` volume or drop it from the manifest**; the 0.3.5.1 migration reads from it.

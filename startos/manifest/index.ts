@@ -19,30 +19,4 @@ export const manifest = setupManifest({
       arch: ['x86_64', 'aarch64'],
     },
   },
-  dependencies: {
-    nextexplorer: {
-      description: i18n.nextexplorerDescription,
-      optional: true,
-      metadata: {
-        title: 'NextExplorer',
-        icon: 'https://raw.githubusercontent.com/Start9Labs/nextexplorer-startos/04f7ecbfc31ad2205e0222dd7568fb881aa06c79/icon.svg',
-      },
-    },
-    filebrowser: {
-      description: i18n.filebrowserDescription,
-      optional: true,
-      metadata: {
-        title: 'FileBrowser Quantum',
-        icon: 'https://raw.githubusercontent.com/Start9Labs/filebrowser-quantum-startos/e936a6c85a97b930b43cad5e9c0dd4898a2df567/icon.svg',
-      },
-    },
-    nextcloud: {
-      description: i18n.nextcloudDescription,
-      optional: true,
-      metadata: {
-        title: 'Nextcloud',
-        icon: 'https://raw.githubusercontent.com/Start9Labs/nextcloud-startos/f5025c524301aebe62d9a79ad720223b053e1bf2/icon.svg',
-      },
-    },
-  },
 })
