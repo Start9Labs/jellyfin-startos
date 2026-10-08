@@ -3,15 +3,65 @@ import { VersionInfo } from '@start9labs/start-sdk'
 export const current = VersionInfo.of({
   version: '12.1:2',
   releaseNotes: {
-    en_US: `- **Select Media Sources** lists each source with the path where its files appear inside Jellyfin.
+    en_US: `Updated Jellyfin to 12.1.
+
+- Improves database migration backup integrity and memory use, and cleans invalid data before upgrades.
+- Preserves library items, active scans, and TV guide data when filesystem or download operations fail.
+- Fixes playback, transcoding, subtitles, Vulkan tone mapping, trickplay, SyncPlay, collections, and alternate episode versions.
+- Revoking a device's access now logs out its existing sessions.
+- Create a full backup before updating.
+
+[Full release notes](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)
+
+- **Select Media Sources** lists each source with the path where its files appear inside Jellyfin.
 - **Plugins** explains what the Chromecast and YouTube trailers plugins do, and that playing a YouTube trailer connects your browser to YouTube.`,
-    es_ES: `- **Seleccionar fuentes de medios** muestra cada fuente con la ruta en la que aparecen sus archivos dentro de Jellyfin.
+    es_ES: `Jellyfin actualizado a 12.1.
+
+- Mejora la integridad de las copias de seguridad y el uso de memoria durante la migración de la base de datos, y limpia los datos no válidos antes de las actualizaciones.
+- Conserva los elementos de la biblioteca, los análisis activos y los datos de la guía de TV cuando fallan las operaciones del sistema de archivos o las descargas.
+- Corrige la reproducción, la transcodificación, los subtítulos, el mapeo de tonos Vulkan, Trickplay, SyncPlay, las colecciones y las versiones alternativas de episodios.
+- Revocar el acceso de un dispositivo ahora cierra sus sesiones existentes.
+- Crea una copia de seguridad completa antes de actualizar.
+
+[Notas de la versión completas](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)
+
+- **Seleccionar fuentes de medios** muestra cada fuente con la ruta en la que aparecen sus archivos dentro de Jellyfin.
 - **Plugins** explica qué hacen los plugins Chromecast y Tráilers de YouTube, y que reproducir un tráiler de YouTube conecta tu navegador con YouTube.`,
-    de_DE: `- **Medienquellen auswählen** zeigt jede Quelle mit dem Pfad, unter dem ihre Dateien in Jellyfin erscheinen.
+    de_DE: `Jellyfin auf 12.1 aktualisiert.
+
+- Verbessert die Integrität von Sicherungen und den Speicherbedarf bei Datenbankmigrationen und bereinigt ungültige Daten vor Aktualisierungen.
+- Bewahrt Bibliothekseinträge, aktive Scans und TV-Programmdaten, wenn Dateisystem- oder Downloadvorgänge fehlschlagen.
+- Behebt Fehler bei Wiedergabe, Transkodierung, Untertiteln, Vulkan-Tonemapping, Trickplay, SyncPlay, Sammlungen und alternativen Episodenversionen.
+- Das Entziehen des Gerätezugriffs meldet jetzt bestehende Sitzungen des Geräts ab.
+- Erstelle vor der Aktualisierung eine vollständige Sicherung.
+
+[Vollständige Versionshinweise](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)
+
+- **Medienquellen auswählen** zeigt jede Quelle mit dem Pfad, unter dem ihre Dateien in Jellyfin erscheinen.
 - **Plugins** erklärt, was die Plugins für Chromecast und YouTube-Trailer tun und dass sich Ihr Browser beim Abspielen eines YouTube-Trailers mit YouTube verbindet.`,
-    pl_PL: `- **Wybierz źródła mediów** pokazuje każde źródło wraz ze ścieżką, pod którą jego pliki są widoczne w Jellyfin.
+    pl_PL: `Zaktualizowano Jellyfin do wersji 12.1.
+
+- Poprawiono integralność kopii zapasowych i zużycie pamięci podczas migracji bazy danych oraz czyszczenie nieprawidłowych danych przed aktualizacjami.
+- Elementy biblioteki, aktywne skanowania i dane przewodnika telewizyjnego są zachowywane po nieudanych operacjach systemu plików lub pobierania.
+- Naprawiono odtwarzanie, transkodowanie, napisy, mapowanie tonów Vulkan, Trickplay, SyncPlay, kolekcje i alternatywne wersje odcinków.
+- Cofnięcie dostępu urządzenia wylogowuje teraz jego istniejące sesje.
+- Przed aktualizacją utwórz pełną kopię zapasową.
+
+[Pełne informacje o wydaniu](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)
+
+- **Wybierz źródła mediów** pokazuje każde źródło wraz ze ścieżką, pod którą jego pliki są widoczne w Jellyfin.
 - **Pluginy** wyjaśnia, do czego służą wtyczki Chromecast i zwiastunów YouTube oraz że odtworzenie zwiastuna z YouTube łączy przeglądarkę z YouTube.`,
-    fr_FR: `- **Sélectionner les sources de médias** indique pour chaque source le chemin où ses fichiers apparaissent dans Jellyfin.
+    fr_FR: `Jellyfin mis à jour vers la version 12.1.
+
+- Améliore l'intégrité des sauvegardes et l'utilisation de la mémoire lors des migrations de base de données, et nettoie les données non valides avant les mises à jour.
+- Préserve les éléments de la médiathèque, les analyses actives et les données du guide TV lorsque des opérations sur le système de fichiers ou des téléchargements échouent.
+- Corrige la lecture, le transcodage, les sous-titres, le mappage des tons Vulkan, Trickplay, SyncPlay, les collections et les versions alternatives d'épisodes.
+- La révocation de l'accès d'un appareil déconnecte désormais ses sessions existantes.
+- Créez une sauvegarde complète avant la mise à jour.
+
+[Notes de version complètes](https://github.com/jellyfin/jellyfin/releases/tag/v12.1)
+
+- **Sélectionner les sources de médias** indique pour chaque source le chemin où ses fichiers apparaissent dans Jellyfin.
 - **Plugins** explique le rôle des plugins Chromecast et bandes-annonces YouTube, et que lire une bande-annonce YouTube connecte votre navigateur à YouTube.`,
   },
   migrations: {},
