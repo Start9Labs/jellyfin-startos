@@ -6,11 +6,13 @@ Jellyfin is built from `./Dockerfile`, which `FROM`s `jellyfin/jellyfin:<version
 
 - **Jellyfin** — [`jellyfin/jellyfin`](https://github.com/jellyfin/jellyfin)
 
-Fetch the latest released tag:
+List upstream tags rather than relying on GitHub's Latest badge:
 
 ```sh
-gh release view -R jellyfin/jellyfin --json tagName -q .tagName
+gh api repos/jellyfin/jellyfin/tags --paginate --jq '.[].name'
 ```
+
+Skip prereleases and confirm that the selected tag has a published, non-prerelease release. Jellyfin 12 and later use `X.Y`: `X` is the major release and `Y` is the hotfix counter. Preserve both components in the StartOS version; the timestamp in a Docker tag identifies the artifact, not a separate application release.
 
 The Dockerfile pins the timestamped image tag corresponding to the release rather than the mutable `X.Y` alias. Before updating it, verify that the timestamped tag and release alias resolve to the same multi-architecture manifest digest.
 
