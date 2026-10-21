@@ -35,7 +35,7 @@
 
 ## Image and Container Runtime
 
-The image is upstream's with a single file replaced, and one subcontainer runs the service.
+The image is upstream's with an updated system CA store and a replaced SQLite library. One subcontainer runs the service.
 
 | Property      | Value                                                             |
 | ------------- | ----------------------------------------------------------------- |
@@ -44,7 +44,9 @@ The image is upstream's with a single file replaced, and one subcontainer runs t
 | Entrypoint    | Upstream default                                                  |
 | Subcontainer  | `jellyfin-sub` — the `primary` daemon, and the one to `attach` to |
 
-The one modification: the bundled SQLite native library is replaced with the one from an earlier upstream release. The current build uses SSE4.1 instructions and crashes with an illegal-instruction fault on CPUs that lack them — pre-2008 Intel, pre-Bulldozer AMD, the original Atom. The Dockerfile is a workaround for an open upstream issue and is meant to be deleted once that is fixed.
+The build upgrades Debian's `ca-certificates` package to pick up trust-store security updates, including distrust of the compromised eMudhra certificate chains.
+
+The bundled SQLite native library is replaced with the one from an earlier upstream release. The current build uses SSE4.1 instructions and crashes with an illegal-instruction fault on CPUs that lack them — pre-2008 Intel, pre-Bulldozer AMD, the original Atom. The SQLite replacement is a workaround for an open upstream issue and is meant to be removed once that is fixed.
 
 ## Volume and Data Layout
 
@@ -185,7 +187,7 @@ Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache'
 
 ```yaml
 package_id: jellyfin
-image: ./Dockerfile # FROM jellyfin/jellyfin, with the SQLite native library swapped
+image: ./Dockerfile # FROM jellyfin/jellyfin, with CA updates and the SQLite native library swapped
 architectures:
   - x86_64
   - aarch64
