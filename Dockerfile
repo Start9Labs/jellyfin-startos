@@ -1,4 +1,4 @@
-FROM jellyfin/jellyfin:12.3.20261023-013714
+FROM jellyfin/jellyfin:12.4.20261026-211555
 
 # The base image's CA store is only as current as its last release.
 RUN apt-get update \
