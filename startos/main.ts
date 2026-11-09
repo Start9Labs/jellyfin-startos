@@ -90,6 +90,7 @@ export const main = sdk.setupMain(async ({ effects }) => {
     ),
     exec: {
       command: sdk.useEntrypoint(),
+      onStderr: (chunk) => console.error(String(chunk)),
       onStdout: (chunk) => {
         const text = Buffer.isBuffer(chunk)
           ? chunk.toString('utf8')

@@ -6,6 +6,8 @@
 
 ## What you get on StartOS
 
+Requires StartOS 0.4.1 or later.
+
 - A **Web UI** interface that serves the Jellyfin web client and acts as the endpoint your Jellyfin mobile, TV, and desktop apps connect to.
 - Read-only access to media stored on **NextExplorer**, **FileBrowser Quantum** and/or **Nextcloud**, mounted at `/mnt/nextexplorer`, `/mnt/filebrowser` and `/mnt/nextcloud` inside Jellyfin. Jellyfin does not read arbitrary filesystem paths on StartOS — your media lives in one of those services. NextExplorer is the recommended one.
 
@@ -23,6 +25,10 @@ Jellyfin posts a critical **Select Media Sources** task after install. You can't
 ### Web UI
 
 The **Web UI** interface is the Jellyfin web client. After the first-run wizard it becomes your day-to-day server admin and playback surface — users, libraries, playback settings, transcoding, plugin management, and remote access all live there. Point your Jellyfin client apps at the same address.
+
+### Logs
+
+Jellyfin's console output and media-probe diagnostics are available in its StartOS service logs, even when no log viewer is open.
 
 ### Actions
 

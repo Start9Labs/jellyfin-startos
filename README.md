@@ -35,7 +35,9 @@
 
 ## Image and Container Runtime
 
-The image is upstream's with an updated system CA store and a replaced SQLite library. One subcontainer runs the service.
+The image is upstream's with an updated system CA store and a replaced SQLite library. One subcontainer runs the service. The package requires StartOS 0.4.1 or later.
+
+The daemon consumes both stdout and stderr continuously and forwards them to the StartOS service logs. Stdout also drives startup readiness; stderr includes inherited ffprobe diagnostics. Capturing stdout alone with older SDKs leaves stderr unread and can block library scans.
 
 | Property      | Value                                                             |
 | ------------- | ----------------------------------------------------------------- |
