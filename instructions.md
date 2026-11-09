@@ -7,7 +7,7 @@
 ## What you get on StartOS
 
 - A **Web UI** interface that serves the Jellyfin web client and acts as the endpoint your Jellyfin mobile, TV, and desktop apps connect to.
-- Read-only access to media stored on **NextExplorer**, **FileBrowser Quantum** and/or **Nextcloud**, mounted at `/mnt/nextexplorer`, `/mnt/filebrowser` and `/mnt/nextcloud` inside Jellyfin. Jellyfin does not read arbitrary filesystem paths on StartOS — your media lives in one of those services. NextExplorer is the recommended one.
+- Read-only access to media stored on **NextExplorer**, **FileBrowser Quantum** and/or **Nextcloud**, mounted at `/mnt/nextexplorer`, `/mnt/filebrowser` and `/mnt/nextcloud/data` (Nextcloud's user files only) inside Jellyfin. Jellyfin does not read arbitrary filesystem paths on StartOS — your media lives in one of those services. NextExplorer is the recommended one.
 
 ## Getting set up
 
@@ -32,5 +32,5 @@ The **Web UI** interface is the Jellyfin web client. After the first-run wizard 
 ## Limitations
 
 - **No arbitrary media paths.** Jellyfin can only read media from NextExplorer, FileBrowser Quantum and/or Nextcloud on StartOS — not from arbitrary host directories.
-- **Media is read-only.** Jellyfin cannot modify or delete files in `/mnt/nextexplorer`, `/mnt/filebrowser` or `/mnt/nextcloud`; manage your media in the source service.
+- **Media is read-only.** Jellyfin cannot modify or delete files in `/mnt/nextexplorer`, `/mnt/filebrowser` or `/mnt/nextcloud/data`; manage your media in the source service.
 - **No hardware transcoding.** GPU acceleration is not available; transcoding is CPU-only.
