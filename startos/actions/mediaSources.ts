@@ -8,7 +8,7 @@ export const inputSpec = InputSpec.of({
   mediaSources: Value.multiselect({
     name: i18n('Media Sources'),
     description: i18n(
-      "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: mounted at /mnt/nextcloud; each user's files are in /mnt/nextcloud/data/{username}/files",
+      "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: each user's files are in /mnt/nextcloud/data/{username}/files",
     ),
     values: {
       nextexplorer: i18n('NextExplorer'),

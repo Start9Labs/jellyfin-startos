@@ -21,7 +21,7 @@ const dict = {
   "Turn the web client's Chromecast and YouTube trailer plugins on or off. A change takes effect when the web client is reloaded.": 17,
   'Select where Jellyfin media are stored': 18,
   NextExplorer: 19,
-  "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: mounted at /mnt/nextcloud; each user's files are in /mnt/nextcloud/data/{username}/files": 20,
+  "- NextExplorer: mounted at /mnt/nextexplorer, one folder per drive, such as /mnt/nextexplorer/Files\n- FileBrowser Quantum: mounted at /mnt/filebrowser\n- Nextcloud: each user's files are in /mnt/nextcloud/data/{username}/files": 20,
 } as const
 
 export type I18nKey = keyof typeof dict

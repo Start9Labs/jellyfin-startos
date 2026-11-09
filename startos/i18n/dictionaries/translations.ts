@@ -22,7 +22,7 @@ export default {
     17: 'Activa o desactiva los plugins Chromecast y Tráilers de YouTube del cliente web. Los cambios se aplican al recargar el cliente web.',
     18: 'Seleccionar dónde se almacenan los medios de Jellyfin',
     19: 'NextExplorer',
-    20: '- NextExplorer: montado en /mnt/nextexplorer, con una carpeta por unidad, como /mnt/nextexplorer/Files\n- FileBrowser Quantum: montado en /mnt/filebrowser\n- Nextcloud: montado en /mnt/nextcloud; los archivos de cada usuario están en /mnt/nextcloud/data/{username}/files',
+    20: '- NextExplorer: montado en /mnt/nextexplorer, con una carpeta por unidad, como /mnt/nextexplorer/Files\n- FileBrowser Quantum: montado en /mnt/filebrowser\n- Nextcloud: los archivos de cada usuario están en /mnt/nextcloud/data/{username}/files',
   },
   de_DE: {
     0: 'Jellyfin wird gestartet!',
@@ -45,7 +45,7 @@ export default {
     17: 'Schaltet die Webclient-Plugins für Chromecast und YouTube-Trailer ein oder aus. Eine Änderung wird nach dem Neuladen des Webclients wirksam.',
     18: 'Auswählen, wo Jellyfin-Medien gespeichert sind',
     19: 'NextExplorer',
-    20: '- NextExplorer: eingebunden unter /mnt/nextexplorer, ein Ordner pro Laufwerk, etwa /mnt/nextexplorer/Files\n- FileBrowser Quantum: eingebunden unter /mnt/filebrowser\n- Nextcloud: eingebunden unter /mnt/nextcloud; die Dateien jedes Benutzers liegen in /mnt/nextcloud/data/{username}/files',
+    20: '- NextExplorer: eingebunden unter /mnt/nextexplorer, ein Ordner pro Laufwerk, etwa /mnt/nextexplorer/Files\n- FileBrowser Quantum: eingebunden unter /mnt/filebrowser\n- Nextcloud: die Dateien jedes Benutzers liegen in /mnt/nextcloud/data/{username}/files',
   },
   pl_PL: {
     0: 'Uruchamianie Jellyfin!',
@@ -68,7 +68,7 @@ export default {
     17: 'Włącza lub wyłącza wtyczki klienta internetowego Chromecast i zwiastunów YouTube. Zmiana zaczyna obowiązywać po ponownym załadowaniu klienta internetowego.',
     18: 'Wybierz, gdzie przechowywane są media Jellyfin',
     19: 'NextExplorer',
-    20: '- NextExplorer: zamontowany w /mnt/nextexplorer, jeden folder na dysk, np. /mnt/nextexplorer/Files\n- FileBrowser Quantum: zamontowany w /mnt/filebrowser\n- Nextcloud: zamontowany w /mnt/nextcloud; pliki każdego użytkownika znajdują się w /mnt/nextcloud/data/{username}/files',
+    20: '- NextExplorer: zamontowany w /mnt/nextexplorer, jeden folder na dysk, np. /mnt/nextexplorer/Files\n- FileBrowser Quantum: zamontowany w /mnt/filebrowser\n- Nextcloud: pliki każdego użytkownika znajdują się w /mnt/nextcloud/data/{username}/files',
   },
   fr_FR: {
     0: 'Démarrage de Jellyfin !',
@@ -91,6 +91,6 @@ export default {
     17: 'Active ou désactive les plugins Chromecast et bandes-annonces YouTube du client web. Un changement prend effet au rechargement du client web.',
     18: 'Sélectionner où les médias Jellyfin sont stockés',
     19: 'NextExplorer',
-    20: '- NextExplorer : monté sur /mnt/nextexplorer, un dossier par lecteur, par exemple /mnt/nextexplorer/Files\n- FileBrowser Quantum : monté sur /mnt/filebrowser\n- Nextcloud : monté sur /mnt/nextcloud ; les fichiers de chaque utilisateur se trouvent dans /mnt/nextcloud/data/{username}/files',
+    20: '- NextExplorer : monté sur /mnt/nextexplorer, un dossier par lecteur, par exemple /mnt/nextexplorer/Files\n- FileBrowser Quantum : monté sur /mnt/filebrowser\n- Nextcloud : les fichiers de chaque utilisateur se trouvent dans /mnt/nextcloud/data/{username}/files',
   },
 } satisfies Record<string, LangDict>

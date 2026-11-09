@@ -63,7 +63,7 @@ The web-client configuration is stored at `/config/config.json` and bind-mounted
 
 A `config/migrations.xml` left behind on a dataset whose library database has already been migrated (no `data/library.db`) is renamed to `migrations.xml.backup` before each start. Jellyfin refuses to boot with one present, and the rename is what it does itself after a successful conversion.
 
-Media arrives from another service as a read-only mount — `/mnt/nextexplorer`, `/mnt/filebrowser`, `/mnt/nextcloud`, or any combination — chosen in [Select Media Sources](#actions).
+Media arrives from another service as a read-only mount — `/mnt/nextexplorer`, `/mnt/filebrowser`, `/mnt/nextcloud/data` (Nextcloud's user files, not its configuration), or any combination — chosen in [Select Media Sources](#actions).
 
 ## File Models
 
@@ -95,11 +95,11 @@ The web client's configuration is stored at `/config/config.json` and mounted re
 
 All three are optional, and at least one must be selected for the service to run. NextExplorer is the default.
 
-| Dependency          | Kind     | Health checks | Mount                          | Why                   |
-| ------------------- | -------- | ------------- | ------------------------------ | --------------------- |
-| NextExplorer        | `exists` | none          | `/mnt/nextexplorer`, read-only | Where the media lives |
-| FileBrowser Quantum | `exists` | none          | `/mnt/filebrowser`, read-only  | Where the media lives |
-| Nextcloud           | `exists` | none          | `/mnt/nextcloud`, read-only    | Where the media lives |
+| Dependency          | Kind     | Health checks | Mount                                              | Why                   |
+| ------------------- | -------- | ------------- | -------------------------------------------------- | --------------------- |
+| NextExplorer        | `exists` | none          | `/mnt/nextexplorer`, read-only                     | Where the media lives |
+| FileBrowser Quantum | `exists` | none          | `/mnt/filebrowser`, read-only                      | Where the media lives |
+| Nextcloud           | `exists` | none          | `data` subpath at `/mnt/nextcloud/data`, read-only | Where the media lives |
 
 Only the volume is needed, so none of them has to be running for Jellyfin to start and read it. NextExplorer's volume root holds one directory per drive, so a library path there starts with the drive name — `/mnt/nextexplorer/Files/Movies` for the default drive.
 
@@ -119,7 +119,7 @@ The port is bound on the `main` MultiHost and is not masked.
 
 Install raises a `critical` task straight away: **Jellyfin will not start until a media source is selected**, because there would be nothing for it to serve. `main` refuses to run with none.
 
-Once a source is chosen and the mount appears, the rest is Jellyfin's own first-run wizard — create the administrator, then add libraries pointing at paths under `/mnt/nextexplorer/<drive>`, `/mnt/filebrowser` or `/mnt/nextcloud`.
+Once a source is chosen and the mount appears, the rest is Jellyfin's own first-run wizard — create the administrator, then add libraries pointing at paths under `/mnt/nextexplorer/<drive>`, `/mnt/filebrowser` or `/mnt/nextcloud/data/<user>/files`.
 
 ## Actions
 
@@ -206,7 +206,7 @@ startos_managed_env_vars: []
 dependencies: # optional, kind "exists"; mounted read-only when selected
   - nextexplorer # /mnt/nextexplorer, the default
   - filebrowser # /mnt/filebrowser
-  - nextcloud # /mnt/nextcloud
+  - nextcloud # data subpath at /mnt/nextcloud/data
 interfaces:
   ui: { type: ui, port: 8096 }
 actions:
