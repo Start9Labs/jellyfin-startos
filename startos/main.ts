@@ -7,6 +7,7 @@ import { networkXml } from './fileModels/network.xml'
 import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
+import { stdoutLines } from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Jellyfin!'))
@@ -89,17 +90,14 @@ export const main = sdk.setupMain(async ({ effects }) => {
       'jellyfin-sub',
     ),
     exec: {
-      command: sdk.useEntrypoint(),
-      onStdout: (chunk) => {
-        const text = Buffer.isBuffer(chunk)
-          ? chunk.toString('utf8')
-          : String(chunk)
-
-        console.log(text)
-
-        const search = 'Main: Startup complete'
-        if (text.includes(search)) {
-          startupComplete = true
+      // The SDK calls fn on every respawn, so a restarted Jellyfin is not ready until it logs startup again.
+      fn: async () => {
+        startupComplete = false
+        return {
+          command: sdk.useEntrypoint(),
+          onStdout: stdoutLines((line) => {
+            if (line.includes('Main: Startup complete')) startupComplete = true
+          }),
         }
       },
     },
