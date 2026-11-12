@@ -1,18 +1,18 @@
 import { VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '12.4:3',
+  version: '12.4:4',
   releaseNotes: {
     en_US:
-      'Requires StartOS 0.4.2 or later. Fixes library scans that could stop near the end and never finish.',
+      'Requires StartOS 0.4.2 or later. Fixes Jellyfin occasionally staying in Starting after it had finished starting up.',
     es_ES:
-      'Requiere StartOS 0.4.2 o posterior. Corrige los escaneos de la biblioteca que podían detenerse cerca del final y no terminar nunca.',
+      'Requiere StartOS 0.4.2 o posterior. Corrige que Jellyfin a veces se quedara en Iniciando después de haber terminado de arrancar.',
     de_DE:
-      'Erfordert StartOS 0.4.2 oder neuer. Behebt Bibliotheksscans, die kurz vor dem Ende stehen bleiben und nie fertig werden konnten.',
+      'Erfordert StartOS 0.4.2 oder neuer. Behebt, dass Jellyfin gelegentlich auf Wird gestartet blieb, obwohl der Start abgeschlossen war.',
     pl_PL:
-      'Wymaga StartOS 0.4.2 lub nowszego. Naprawia skanowanie biblioteki, które mogło zatrzymać się pod koniec i nigdy nie zakończyć.',
+      'Wymaga StartOS 0.4.2 lub nowszego. Naprawia sytuację, w której Jellyfin czasem pozostawał w stanie Uruchamianie mimo zakończonego startu.',
     fr_FR:
-      'Nécessite StartOS 0.4.2 ou une version ultérieure. Corrige les analyses de la bibliothèque qui pouvaient s’arrêter vers la fin et ne jamais se terminer.',
+      'Nécessite StartOS 0.4.2 ou une version ultérieure. Corrige Jellyfin qui restait parfois en Démarrage alors que son démarrage était terminé.',
   },
   migrations: {},
 })
