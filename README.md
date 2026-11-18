@@ -67,13 +67,14 @@ Media arrives from another service as a read-only mount — `/mnt/nextexplorer`,
 
 ## File Models
 
-Three models: two of Jellyfin's own files, and the package's state.
+Four models: three of Jellyfin's own files, and the package's state.
 
-| File                         | Format | Modelled                | Written by                         |
-| ---------------------------- | ------ | ----------------------- | ---------------------------------- |
-| `/config/config/network.xml` | XML    | Yes — `FileHelper.xml`  | Every start                        |
-| `/config/config.json`        | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action |
-| `store.json`                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action    |
+| File                                         | Format | Modelled                | Written by                             |
+| -------------------------------------------- | ------ | ----------------------- | -------------------------------------- |
+| `/config/config/network.xml`                 | XML    | Yes — `FileHelper.xml`  | Every start                            |
+| `/config/root/default/<library>/options.xml` | XML    | Yes — `FileHelper.xml`  | Every start, for each existing library |
+| `/config/config.json`                        | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action     |
+| `store.json`                                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action        |
 
 ### network.xml
 
@@ -82,6 +83,14 @@ Jellyfin reads this file at `/config/config/network.xml`.
 **Enforced, on every start:** `KnownProxies` is pinned to the StartOS bridge address. Jellyfin sits behind a reverse proxy and needs to trust it to see the real client address; a hand edit is replaced at the next start.
 
 Nothing else in the file is modelled, so the rest of Jellyfin's network settings round-trip untouched.
+
+### options.xml
+
+Jellyfin keeps each library's settings in `/config/root/default/<library>/options.xml`.
+
+**Enforced, on every start:** `SaveSubtitlesWithMedia` is set to `false`. With it on, Jellyfin saves an uploaded or downloaded subtitle only beside the video, and the read-only media mount turns that into an HTTP 500. With it off, subtitles go to Jellyfin's metadata under `/config/metadata`. A library added or switched back to "Save subtitles into media folders" while Jellyfin runs fails the same way until the next start.
+
+Nothing else in the file is modelled.
 
 ### config.json
 
@@ -175,7 +184,7 @@ Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache'
 ## Limitations and Differences
 
 1. **Jellyfin stores no media of its own.** A media source must be selected, and the service will not start without one.
-2. **Media mounts are read-only.** Jellyfin cannot rename, move, or delete anything in your library.
+2. **Media mounts are read-only.** Jellyfin cannot rename, move, or delete anything in your library, and subtitles it saves are kept in its own metadata rather than beside the media.
 3. **Changing the media source restarts the service**, because a container's mounts are fixed for its lifetime.
 4. **Only two plugins are managed here.** Anything else is installed and configured inside Jellyfin.
 5. **The bundled SQLite library is replaced** with an older upstream build, so the server runs on CPUs without SSE4.1. This is a temporary workaround for an upstream issue.
@@ -200,6 +209,7 @@ volumes:
   main: unused (retained for the migration)
 file_models:
   - /config/config/network.xml
+  - /config/root/default/<library>/options.xml # SaveSubtitlesWithMedia forced false
   - /config/config.json # mounted read-only at /jellyfin/jellyfin-web/config.json
   - store.json
 startos_managed_env_vars: []
