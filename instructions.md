@@ -32,5 +32,5 @@ The **Web UI** interface is the Jellyfin web client. After the first-run wizard 
 ## Limitations
 
 - **No arbitrary media paths.** Jellyfin can only read media from NextExplorer, FileBrowser Quantum and/or Nextcloud on StartOS — not from arbitrary host directories.
-- **Media is read-only.** Jellyfin cannot modify or delete files in `/mnt/nextexplorer`, `/mnt/filebrowser` or `/mnt/nextcloud/data`; manage your media in the source service.
+- **Media is read-only.** Jellyfin cannot modify or delete files in `/mnt/nextexplorer`, `/mnt/filebrowser` or `/mnt/nextcloud/data`; manage your media in the source service. Subtitles you upload or download in Jellyfin are kept in Jellyfin's own data instead of beside the video, so StartOS turns off each library's **Save subtitles into media folders** option when Jellyfin starts. If you add a library or turn that option back on, restart Jellyfin before adding subtitles to it.
 - **No hardware transcoding.** GPU acceleration is not available; transcoding is CPU-only.

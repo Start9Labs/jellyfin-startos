@@ -3,6 +3,10 @@ import { manifest as nextcloudManifest } from 'nextcloud-startos/startos/manifes
 import { manifest as nextexplorerManifest } from 'nextexplorer-startos/startos/manifest'
 import { existsSync } from 'fs'
 import { rename } from 'fs/promises'
+import {
+  libraryNames,
+  libraryOptionsXml,
+} from './fileModels/libraryOptions.xml'
 import { networkXml } from './fileModels/network.xml'
 import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
@@ -13,6 +17,9 @@ export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Jellyfin!'))
 
   await networkXml.merge(effects, {})
+  for (const library of await libraryNames()) {
+    await libraryOptionsXml(library).merge(effects, {})
+  }
 
   // Past the library.db migration, a leftover migrations.xml crash-loops Jellyfin: jellyfin/jellyfin#15388
   const migrationsXml = sdk.volumes.config.subpath('config/migrations.xml')
