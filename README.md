@@ -70,14 +70,15 @@ Media arrives from another service as a read-only mount — `/mnt/nextexplorer`,
 
 ## File Models
 
-Four models: three of Jellyfin's own files, and the package's state.
+Five models: three of Jellyfin's own files, the package's state, and the shared API key.
 
 | File                                         | Format | Modelled                | Written by                             |
 | -------------------------------------------- | ------ | ----------------------- | -------------------------------------- |
 | `/config/config/network.xml`                 | XML    | Yes — `FileHelper.xml`  | Every start                            |
 | `/config/root/default/<library>/options.xml` | XML    | Yes — `FileHelper.xml`  | Every start, for each existing library |
 | `/config/config.json`                        | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action     |
-| `store.json`                                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action        |
+| `store.json`                                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action and API-key init |
+| `public/api-key`                             | Text   | Yes — `FileHelper.string` | Every init, from `store.json`         |
 
 ### network.xml
 
@@ -186,7 +187,7 @@ One consequence worth knowing: the check tracks that line **within the current r
 
 Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache', 'config')`. No dump step and nothing excluded.
 
-- **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the media-source selection.
+- **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the package state, including the media-source selection and shared API key.
 - **Not included:** the `public` volume, which init rewrites from `store.json`; and the media itself, which belongs to NextExplorer, FileBrowser Quantum or Nextcloud and is covered by that service's backup.
 - **Restore:** complete. The selected source must be installed for the service to start with its mount, and library paths resolve as before because the mount points are fixed.
 
@@ -223,6 +224,7 @@ file_models:
   - /config/root/default/<library>/options.xml # SaveSubtitlesWithMedia forced false
   - /config/config.json # mounted read-only at /jellyfin/jellyfin-web/config.json
   - store.json
+  - public/api-key
 startos_managed_env_vars: []
 dependencies: # optional, kind "exists"; mounted read-only when selected
   - nextexplorer # /mnt/nextexplorer, the default
