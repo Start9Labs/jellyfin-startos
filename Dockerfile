@@ -3,6 +3,7 @@ FROM jellyfin/jellyfin:12.4.20261026-211555
 # The base image's CA store is only as current as its last release.
 RUN apt-get update \
  && apt-get install -y --no-install-recommends --only-upgrade ca-certificates \
+ && apt-get install -y --no-install-recommends sqlite3 \
  && rm -rf /var/lib/apt/lists/*
 
 # Retain 10.10.7 until jellyfin/jellyfin#15148 ships an SSE4.1-free library.
