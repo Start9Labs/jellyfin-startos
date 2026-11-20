@@ -5,6 +5,7 @@ import { versionGraph } from '../versions'
 import { actions } from '../actions'
 import { restoreInit } from '../backups'
 import { initConfig } from './initConfig'
+import { shareApiKey } from './shareApiKey'
 import { taskSelectMediaSources } from './taskSelectMediaSources'
 
 export const init = sdk.setupInit(
@@ -14,6 +15,7 @@ export const init = sdk.setupInit(
   actions,
   dependencies,
   initConfig,
+  shareApiKey,
   taskSelectMediaSources,
 )
 

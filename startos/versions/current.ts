@@ -1,18 +1,18 @@
 import { VersionInfo } from '@start9labs/start-sdk'
 
 export const current = VersionInfo.of({
-  version: '12.4:5',
+  version: '12.4:6',
   releaseNotes: {
     en_US:
-      'Requires StartOS 0.4.2 or later. Fixes the server error when uploading or downloading subtitles: they are now saved in Jellyfin’s own data, because the media folders are read-only.',
+      'Publishes an API key that other services on this server, such as Unmanic, use to ask Jellyfin to rescan its libraries. It appears in Jellyfin’s API Keys list as “StartOS”.',
     es_ES:
-      'Requiere StartOS 0.4.2 o posterior. Corrige el error del servidor al subir o descargar subtítulos: ahora se guardan en los datos propios de Jellyfin, porque las carpetas de medios son de solo lectura.',
+      'Publica una clave de API que otros servicios de este servidor, como Unmanic, usan para pedir a Jellyfin que vuelva a escanear sus bibliotecas. Aparece en la lista de claves de API de Jellyfin como «StartOS».',
     de_DE:
-      'Erfordert StartOS 0.4.2 oder neuer. Behebt den Serverfehler beim Hochladen oder Herunterladen von Untertiteln: Sie werden jetzt in Jellyfins eigenen Daten gespeichert, da die Medienordner schreibgeschützt sind.',
+      'Veröffentlicht einen API-Schlüssel, mit dem andere Dienste auf diesem Server, etwa Unmanic, Jellyfin zum erneuten Scannen seiner Bibliotheken auffordern. Er erscheint in Jellyfins Liste der API-Schlüssel als „StartOS“.',
     pl_PL:
-      'Wymaga StartOS 0.4.2 lub nowszego. Naprawia błąd serwera przy przesyłaniu lub pobieraniu napisów: są teraz zapisywane we własnych danych Jellyfin, ponieważ foldery multimediów są tylko do odczytu.',
+      'Udostępnia klucz API, którego inne usługi na tym serwerze, takie jak Unmanic, używają, aby poprosić Jellyfin o ponowne przeskanowanie bibliotek. Pojawia się na liście kluczy API Jellyfin jako „StartOS”.',
     fr_FR:
-      'Nécessite StartOS 0.4.2 ou une version ultérieure. Corrige l’erreur serveur lors de l’envoi ou du téléchargement de sous-titres : ils sont désormais enregistrés dans les données propres de Jellyfin, car les dossiers multimédias sont en lecture seule.',
+      'Publie une clé d’API que d’autres services de ce serveur, comme Unmanic, utilisent pour demander à Jellyfin de réanalyser ses bibliothèques. Elle apparaît dans la liste des clés d’API de Jellyfin sous le nom « StartOS ».',
   },
   migrations: {},
 })

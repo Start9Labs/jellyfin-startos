@@ -29,6 +29,10 @@ The **Web UI** interface is the Jellyfin web client. After the first-run wizard 
 - **Select Media Sources** — change which of NextExplorer, FileBrowser Quantum and Nextcloud Jellyfin reads from. Changing sources updates Jellyfin's dependencies; if you remove a source, also remove or repoint any Jellyfin libraries that referenced its mount point.
 - **Plugins** — toggle the bundled **Chromecast** (cast to a Chromecast from Chromium-based browsers) and **YouTube Trailers** (play trailers hosted on YouTube in an embedded player, which connects your browser to YouTube) plugins. Reload the web client for a change to take effect. All other plugins are managed inside the Jellyfin Web UI's plugin catalog.
 
+### Connecting other services
+
+Jellyfin creates an API key named **StartOS** and shares it with services on this server that integrate with Jellyfin, such as Unmanic, which uses it to rescan your libraries after it changes a file. It appears under **Dashboard → API Keys**. If you revoke it, Jellyfin restores it when it next starts.
+
 ## Limitations
 
 - **No arbitrary media paths.** Jellyfin can only read media from NextExplorer, FileBrowser Quantum and/or Nextcloud on StartOS — not from arbitrary host directories.

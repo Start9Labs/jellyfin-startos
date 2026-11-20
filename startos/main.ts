@@ -11,7 +11,7 @@ import { networkXml } from './fileModels/network.xml'
 import { store } from './fileModels/store.json'
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { stdoutLines } from './utils'
+import { apiKeyName, stdoutLines } from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Jellyfin!'))
@@ -51,7 +51,11 @@ export const main = sdk.setupMain(async ({ effects }) => {
       type: 'file',
     })
 
-  const mediaSources = await store.read((s) => s.mediaSources).const(effects)
+  const stored = await store
+    .read((s) => ({ mediaSources: s.mediaSources, apiKey: s.apiKey }))
+    .const(effects)
+  const mediaSources = stored?.mediaSources
+  const apiKey = stored?.apiKey
 
   if (!mediaSources?.length) {
     throw new Error(i18n('No media sources'))
@@ -87,15 +91,17 @@ export const main = sdk.setupMain(async ({ effects }) => {
     })
   }
 
+  const subcontainer = sdk.SubContainer.of(
+    effects,
+    { imageId: 'jellyfin' },
+    mounts,
+    'jellyfin-sub',
+  )
+
   let startupComplete = false
 
-  return sdk.Daemons.of(effects).addDaemon('primary', {
-    subcontainer: sdk.SubContainer.of(
-      effects,
-      { imageId: 'jellyfin' },
-      mounts,
-      'jellyfin-sub',
-    ),
+  const daemons = sdk.Daemons.of(effects).addDaemon('primary', {
+    subcontainer,
     exec: {
       // The SDK calls fn on every respawn, so a restarted Jellyfin is not ready until it logs startup again.
       fn: async () => {
@@ -121,5 +127,22 @@ export const main = sdk.setupMain(async ({ effects }) => {
             },
     },
     requires: [],
+  })
+
+  if (!apiKey) return daemons
+
+  // Jellyfin accepts a key added while it runs.
+  return daemons.addOneshot('register-api-key', {
+    subcontainer,
+    exec: {
+      command: [
+        'sqlite3',
+        '-cmd',
+        '.timeout 30000',
+        '/config/data/jellyfin.db',
+        `INSERT INTO ApiKeys (DateCreated, DateLastActivity, Name, AccessToken) SELECT strftime('%Y-%m-%d %H:%M:%f', 'now'), strftime('%Y-%m-%d %H:%M:%f', 'now'), '${apiKeyName}', '${apiKey}' WHERE NOT EXISTS (SELECT 1 FROM ApiKeys WHERE AccessToken = '${apiKey}')`,
+      ],
+    },
+    requires: ['primary'],
   })
 })
