@@ -35,7 +35,7 @@
 
 ## Image and Container Runtime
 
-The image is upstream's with an updated system CA store and a replaced SQLite library. One subcontainer runs the service.
+The image is upstream's with an updated system CA store, a replaced SQLite library, and the `sqlite3` command-line tool. One subcontainer runs the service.
 
 | Property      | Value                                                             |
 | ------------- | ----------------------------------------------------------------- |
@@ -46,17 +46,20 @@ The image is upstream's with an updated system CA store and a replaced SQLite li
 
 The build upgrades Debian's `ca-certificates` package to pick up trust-store security updates, including distrust of the compromised eMudhra certificate chains.
 
+The `sqlite3` tool registers the [shared API key](#shared-api-key) in Jellyfin's database.
+
 The bundled SQLite native library is replaced with the one from an earlier upstream release. The current build uses SSE4.1 instructions and crashes with an illegal-instruction fault on CPUs that lack them — pre-2008 Intel, pre-Bulldozer AMD, the original Atom. The SQLite replacement is a workaround for an open upstream issue and is meant to be removed once that is fixed.
 
 ## Volume and Data Layout
 
-Four volumes are declared, three of which are in use — and none of them holds media.
+Five volumes are declared, four of which are in use — and none of them holds media.
 
 | Volume    | Mount Point                                    | Purpose                                              |
 | --------- | ---------------------------------------------- | ---------------------------------------------------- |
 | `config`  | `/config`; web `config.json` mounted read-only | Jellyfin's configuration, its database, and metadata |
 | `cache`   | `/cache`                                       | Transcoding and image cache                          |
 | `startos` | — (host side)                                  | `store.json`; never mounted into the container       |
+| `public`  | — (read by dependent services)                 | `api-key`, the [shared API key](#shared-api-key)     |
 | `main`    | — (unused)                                     | Retained only for the migration path                 |
 
 The web-client configuration is stored at `/config/config.json` and bind-mounted read-only over Jellyfin's bundled `/jellyfin/jellyfin-web/config.json`. StartOS can update the backing file, but Jellyfin cannot overwrite it.
@@ -67,14 +70,15 @@ Media arrives from another service as a read-only mount — `/mnt/nextexplorer`,
 
 ## File Models
 
-Four models: three of Jellyfin's own files, and the package's state.
+Five models: three of Jellyfin's own files, the package's state, and the shared API key.
 
 | File                                         | Format | Modelled                | Written by                             |
 | -------------------------------------------- | ------ | ----------------------- | -------------------------------------- |
 | `/config/config/network.xml`                 | XML    | Yes — `FileHelper.xml`  | Every start                            |
 | `/config/root/default/<library>/options.xml` | XML    | Yes — `FileHelper.xml`  | Every start, for each existing library |
 | `/config/config.json`                        | JSON   | Yes — `FileHelper.json` | Every init, and the Plugins action     |
-| `store.json`                                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action        |
+| `store.json`                                 | JSON   | Yes — `FileHelper.json` | The Select Media Sources action and API-key init |
+| `public/api-key`                             | Text   | Yes — `FileHelper.string` | Every init, from `store.json`         |
 
 ### network.xml
 
@@ -98,7 +102,7 @@ The web client's configuration is stored at `/config/config.json` and mounted re
 
 ### store.json
 
-`mediaSources` alone: which services are mounted in. It lives on its own volume, away from Jellyfin's data, and drives both the mount set and the dependency set.
+`mediaSources`, which services are mounted in, and `apiKey`, the [shared API key](#shared-api-key). It lives on its own volume, away from Jellyfin's data. `mediaSources` drives both the mount set and the dependency set.
 
 ## Dependencies
 
@@ -116,13 +120,19 @@ The mounts are `readonly: true`, so Jellyfin cannot modify or delete anything in
 
 ## Network Access and Interfaces
 
-One interface, serving the web client and Jellyfin's API. Nothing is exported for dependent services.
+One interface, serving the web client and Jellyfin's API. Dependent services reach it on the bridge at host `main`, port 8096, exported from `startos/utils.ts` as `uiHostId` and `uiPort`.
 
 | Interface | Id   | Type | Port | Description                |
 | --------- | ---- | ---- | ---- | -------------------------- |
 | Web UI    | `ui` | ui   | 8096 | The Jellyfin web interface |
 
 The port is bound on the `main` MultiHost and is not masked.
+
+### Shared API key
+
+Init generates a 32-character hex key into `store.json` when there is none, and writes it to `api-key` on the `public` volume. Other packages mount that volume read-only and send the key to Jellyfin's API — Unmanic uses it to request a library rescan after it rewrites a file.
+
+After each start, once Jellyfin is ready, the `register-api-key` oneshot inserts the key into the `ApiKeys` table of `/config/data/jellyfin.db`, named `StartOS`, unless a row with that token already exists. Jellyfin looks keys up on every request, so it is accepted without a restart. The key appears under **Dashboard → API Keys**; revoking it there lasts only until the next start.
 
 ## Installation and First-Run Flow
 
@@ -177,8 +187,8 @@ One consequence worth knowing: the check tracks that line **within the current r
 
 Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache', 'config')`. No dump step and nothing excluded.
 
-- **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the media-source selection.
-- **Not included:** the media itself, which belongs to NextExplorer, FileBrowser Quantum or Nextcloud and is covered by that service's backup.
+- **Included:** Jellyfin's database with accounts, libraries, watch state and metadata; the transcode cache; and the package state, including the media-source selection and shared API key.
+- **Not included:** the `public` volume, which init rewrites from `store.json`; and the media itself, which belongs to NextExplorer, FileBrowser Quantum or Nextcloud and is covered by that service's backup.
 - **Restore:** complete. The selected source must be installed for the service to start with its mount, and library paths resolve as before because the mount points are fixed.
 
 ## Limitations and Differences
@@ -187,8 +197,9 @@ Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache'
 2. **Media mounts are read-only.** Jellyfin cannot rename, move, or delete anything in your library, and subtitles it saves are kept in its own metadata rather than beside the media.
 3. **Changing the media source restarts the service**, because a container's mounts are fixed for its lifetime.
 4. **Only two plugins are managed here.** Anything else is installed and configured inside Jellyfin.
-5. **The bundled SQLite library is replaced** with an older upstream build, so the server runs on CPUs without SSE4.1. This is a temporary workaround for an upstream issue.
-6. **No riscv64 build.** x86_64 and aarch64 only.
+5. **A `StartOS` API key always exists** in Jellyfin, and a revoked one is restored at the next start.
+6. **The bundled SQLite library is replaced** with an older upstream build, so the server runs on CPUs without SSE4.1. This is a temporary workaround for an upstream issue.
+7. **No riscv64 build.** x86_64 and aarch64 only.
 
 ---
 
@@ -196,7 +207,7 @@ Three volumes are copied wholesale — `sdk.Backups.ofVolumes('startos', 'cache'
 
 ```yaml
 package_id: jellyfin
-image: ./Dockerfile # FROM jellyfin/jellyfin, with CA updates and the SQLite native library swapped
+image: ./Dockerfile # FROM jellyfin/jellyfin, with CA updates, the SQLite native library swapped, and sqlite3 added
 architectures:
   - x86_64
   - aarch64
@@ -206,19 +217,23 @@ volumes:
   config: /config
   cache: /cache
   startos: host side (store.json)
+  public: api-key, read by dependents
   main: unused (retained for the migration)
 file_models:
   - /config/config/network.xml
   - /config/root/default/<library>/options.xml # SaveSubtitlesWithMedia forced false
   - /config/config.json # mounted read-only at /jellyfin/jellyfin-web/config.json
   - store.json
+  - public/api-key
 startos_managed_env_vars: []
 dependencies: # optional, kind "exists"; mounted read-only when selected
   - nextexplorer # /mnt/nextexplorer, the default
   - filebrowser # /mnt/filebrowser
   - nextcloud # data subpath at /mnt/nextcloud/data
 interfaces:
-  ui: { type: ui, port: 8096 }
+  ui: { type: ui, port: 8096, host_id: main }
+shared_with_dependents:
+  - public/api-key # registered as the "StartOS" key by the register-api-key oneshot
 actions:
   - media-sources
   - plugins

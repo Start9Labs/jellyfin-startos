@@ -1,5 +1,7 @@
 import { StringDecoder } from 'string_decoder'
 export const uiPort = 8096
+export const uiHostId = 'main'
+export const apiKeyName = 'StartOS'
 
 const ANSI_SGR = /\x1b\[[0-9;]*m/g
 const MAX_PARTIAL_LINE = 64 * 1024
